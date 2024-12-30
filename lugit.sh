@@ -522,11 +522,9 @@ if [ $# -gt 0 ]; then
             git push -f origin $USB_BNAME
         done
     elif [ $1 == "-pull" -o $1 == "--pull" -o $1 == "-PULL" -o $1 == "--PULL" ]; then
-        i=0
-        while [[ $i -lt ${#USB_SYNC_MAP_ALL[*]} ]]; do
+        for ((i = 0; i < ${#USB_SYNC_MAP_ALL[*]}; i++)); do
             cd ${USB_SYNC_MAP_ALL[$i]}
             git pull &> /dev/null
-            let i+=1
             printf "[%0${USB_SYNC_WNUM}d] \U0001F4BE \u2b62 \U0001F4BB %s \n" \
                 "$i" "${USB_SYNC_MAP_ALL[$i-1]}"
         done
