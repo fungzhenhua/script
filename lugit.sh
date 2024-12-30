@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : ugit.sh
-# Date     : 2024-12-14 18:44
-# Weather  : 2024年12月14日星期六晴北京市
+# Date     : 2024-12-30 11:27
+# Weather  : 2024年12月30日星期一晴北京市
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2024 FengZhenhua(冯振华)
@@ -516,7 +516,7 @@ if [ $# -gt 0 ]; then
             git checkout --orphan latest
             git add .
             git commit -m "重置仓库"
-            git branch | grep -v "main" | xargs git branch -D
+            git branch | grep -v "latest" | xargs git branch -D
             git branch -m $USB_BNAME 
             git branch --set-upstream-to=origin/$USB_BNAME $USB_BNAME
             git push -f origin $USB_BNAME
