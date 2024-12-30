@@ -1,0 +1,235 @@
+% !TeX root = ../bnuthesis-example.tex
+
+\chapter{啁啾电场中不对称脉冲对产生的影响}
+我们利用实时的Dirac-Heisenberg-Wigner形式主义，研究了不对称脉冲形状对电子-正电子对产生的影响，该脉冲在具有三种不同啁啾情况的场中。我们的研究揭示了随着下降脉冲长度的减小，干涉效应的消失，并且动量谱中的峰值集中在左侧。随着下降脉冲长度的增加，动量谱中出现了不完整的多环结构。粒子数密度对脉冲的不对称性非常敏感，特别是在脉冲持续时间较长时，当利用特定频率啁啾时，粒子数密度可以显著增强超过四个数量级。这些结果强调了动力学辅助机制和频率啁啾对对产生的影响。
+
+\section{引言}
+
+ 正负电子对$(e^{-}e^{+})$在强电磁场下在真空中的产生是相对论量子物理中最引人注目的现象之一\cite{1928s,1931s,1933s,1936s,1951s,2017xie}。然而，实验室中对这种效应的直接观察仍然是困难的。原因是临界场强$E_{\mathrm{cr}}=m^2c^{3} / e \hbar \approx 1.3 \times 10^{16}\rm {\mathrm{V}/\mathrm{cm}}$太高，对应于大约$4.3\times10^{29}\mathrm{W/cm^{2}}$的激光强度（其中$m$和$-e$分别表示电子的质量和电荷）。目前实验中还无法达到这种强度水平。然而，X射线自由电子激光器系统接近临界场强$E/E_{\mathrm{cr}}\approx 0.01-0.1$\cite{2001x}。最近高强度激光技术的进步\cite{2009jiguang,2014jiguang}为未来可能的实验验证提供了前景。
+
+ 对不同脉冲形状对正负电子对产生的影响的一直是被广泛研究的。Hebenstreit等人观察到在使用短脉冲激光时动量谱对外部场参数极为敏感\cite{2009h}。此外，在空间不均匀的脉冲场中，对产生伴随着粒子自聚焦效应\cite{2011h}。Schützhold等人引入了一种动态辅助的Schwinger机制\cite{2008d}，有效地将低频强场与高频弱场相结合，从而显著增强了粒子产生率。最近，对频率啁啾效应对时变电场中粒子动量和谱数密度的影响\cite{2010c,2019c,2022x,2023cw}越来越受到关注。具体来说，研究工作集中在增强在受到频率啁啾影响的时间相关单色和双色激光场中的粒子产生\cite{2017c,2020cm,2021cw,2020cg,2021cMM,2021cL}，以及探索单色场中的不对称脉冲形状\cite{2014as,2020as}。许多研究致力于通过不同的场组合来增强对产生。
+ 
+ 在这项研究中，我们探讨了真空对产生，考虑了一系列的啁啾参数和电场中的非对称脉冲形状。我们的方法基于Dirac-Heisenberg-Wigner(DHW)形式主义，该方法能够处理各种啁啾和非对称包络场。我们观察到动量谱对啁啾表现出很高的敏感性，揭示了在不同脉冲形状和啁啾参数下的干涉效应。通常情况下，随着啁啾的增加，粒子数密度会增强。特别地，在延长的衰减脉冲情况下，啁啾效应会导致粒子数密度增加高达四个数量级。在我们的研究中，我们采用自然单位 ($\hbar = c = 1$) 并将所有的量都用电子质量 $m$表示。
+ 
+文章结构如下：在\ref{Dirac-Heisenberg-Wigner formalism}节中，我们简要介绍了本研究中应用的DHW形式。在\ref{field}节中，我们介绍了背景场的模型。在\ref{momentum}节中，我们展示了关于动量谱的数值结果，并分析了其中的物理原理。在\ref{density}节中，我们着重介绍了与粒子数密度相关的数值发现。最后，在\ref{conclusion}节中，我们提供了总结并进行了讨论。
+
+ \section{DHW形式}\label{Dirac-Heisenberg-Wigner formalism}
+ DHW形式是一种描述系统内量子现象的方法，利用Wigner函数来表示相对论相空间分布。研究者们广泛采用的DHW形式主义来研究强背景场中的真空对产生 \cite{2020cm,1991B,2010h,2011h,2020ck,2021l,2023cMM,2023O,2023hu}。鉴于先前文献已对DHW的具体推导进行了详细阐述 \cite{2015ck,1987v}，本文旨在呈现这一方法的基本概念和关键方面。
+ 
+ 为方便起见，我们从系统的规范不变密度算符开始，
+
+\begin{equation}\label{DensityOperator}
+ \hat {\mathcal C}_{\alpha \beta} \left(r , s \right) = \mathcal U \left(A,r,s
+\right) \ \left[ \bar \psi_\beta \left( r - s/2 \right), \psi_\alpha \left( r +
+s/2 \right) \right],
+\end{equation}
+其中，电子的旋量值Dirac场由 ${\psi }_{\beta }\left ( {x}\right )$ 表示，其中 $r$ 表示质心，$s$ 表示相对坐标。引入Wilson线因子 $\mathcal{U}(A,r,s) $ 的目的是为了保持密度算符的规范不变性。这个因子的性质由基本电荷 $e$ 和背景规范场 $A$ 决定。
+
+DHW形式的一个关键组成部分是协变Wigner算符，通过对密度算符表达式.\eqref{DensityOperator}进行傅里叶变换获得，
+
+\begin{equation}\label{WignerOperator}
+\hat{\mathcal W}_{\alpha \beta} \left( r , p \right) = \frac{1}{2} \int d^4 s \
+\mathrm{e}^{\mathrm{i} ps} \  \hat{\mathcal C}_{\alpha \beta} \left( r , s
+\right).
+\end{equation}
+计算Wigner算符的真空期望值后，我们得到Wigner函数，
+
+\begin{equation}\label{Wigner function}
+ \mathbb{W} \left( r,p \right) = \langle \Phi \vert \hat{\mathcal W} \left( r,p
+\right) \vert \Phi \rangle.
+\end{equation}
+为了推导时间演化方程，我们依赖于等时Wigner函数
+
+\begin{equation}
+\mathbb{w} (\mathbf{x}, \mathbf{p}, t) = \int \frac{d p_{0}}{2 \pi} \mathbb{W}(r, p).
+\end{equation}
+
+Wigner函数可以分解为Dirac矩阵的完备基，从而得到16个协变实Wigner分量，
+\begin{equation}\label{decomposed}
+\mathbb{w} = \frac{1}{4} \left( \mathbb{1} \mathbb{s} + \textrm{i} \gamma_5
+\mathbb{p} + \gamma^{\mu} \mathbb{v}_{\mu} + \gamma^{\mu} \gamma_5
+\mathbb{a}_{\mu} + \sigma^{\mu \nu} \mathbb{t}_{\mu \nu} \right),\
+\end{equation}
+其中 $\mathbb{s}$, $\mathbb{p}$, $\mathbb{v}_{\mu}$, $\mathbb{a}_{\mu}$ and $\mathbb{t}_{\mu \nu}$ 分别代表标量、赝标量、矢量、轴矢量和张量。根据参考文献\cite{2010h,2011h,2015ck}，Wigner函数的运动方程如下：
+
+\begin{equation}
+D_{t}\mathbb{w} = -\frac{1}{2}\mathbf{D}_{\mathbf{x}}[\gamma^{0}\bm{\gamma},\mathbb{w}]
+-\mathrm{i}m[\gamma^{0},\mathbb{w}]-\mathrm{i}\mathbf{P}\{\gamma^{0}\bm{\gamma},\mathbb{w}\},
+\label{motion}
+\end{equation}
+其中 $D_{t}$, $\mathbf{D}_{\mathbf{x}}$ and $\mathbf{P}$ 分别表示伪微分算子。
+
+通过将方程\eqref{decomposed}代入方程\eqref{motion}，我们得到了控制16个Wigner分量行为的偏微分方程组。此外，在空间均匀的时间相关电场情况下，特征方法 \cite{2016b}允许我们通过 ${\mathbf q} - e {\mathbf A} (t)$ 将动量 ${\mathbf p}$ 替换为规范动量 ${\mathbf q}$。因此，控制16个Wigner分量行为的复杂偏微分方程组可以简化为一组10个常微分方程。
+
+\begin{equation}
+{\mathbb w} = ( {\mathbb s},{\mathbb v}_i,{\mathbb a}_i,{\mathbb t}_i)
+\, , \quad  {\mathbb t}_i := {\mathbb t}_{0i} - {\mathbb t}_{i0}  \, .
+\end{equation}
+鉴于Wigner函数的运动方程的复杂性，我们在这里不提供详细的推导，但可以在引用的文献 \cite{2011h,2015ck}中找到详细推导和参考本文第二章。相关的非零真空初始值如下：
+
+\begin{equation}
+{\mathbb s}_{vac} = \frac{-2m}{\sqrt{{\mathbf p}^2+m^2}} \, ,
+\quad  {\mathbb v}_{i,vac} = \frac{-2{ p_i} }{\sqrt{{\mathbf p}^2+m^2}} \, .
+\end{equation}
+此后，我们用单粒子动量分布函数$f(q,t)$表示标量维格纳函数，
+
+\begin{equation}
+f({\mathbf q},t) = \frac 1 {2 \Omega(\mathbf{q},t)} (\varepsilon - \varepsilon_{vac} ),
+\end{equation}
+这里，$\Omega=\sqrt{m^2+{\mathbf p}^2}=\sqrt{m^{2}+(\mathbf{q}-e\mathbf{A}(t))^{2}}$ 代表粒子的总能量，而$\varepsilon = m {\mathbb s} + p_i {\mathbb v}_i$ 表示相空间能量密度，其中 $m$ 代表电子质量。
+
+为了精确计算单粒子动量分布 $f({\mathbf q},t)$，我们参考文献 \cite{2016b}。为了简化计算过程，我们引入了一个辅助的三维向量 $\mathbf{v} (\mathbf{q},t)$：
+\begin{equation}
+\mathbf{v} (\mathbf{q},t) : = {\mathbb v}_i (\mathbf{p}(t),t) -
+(1-f({\mathbf q},t))  {\mathbb v}_{i,vac} (\mathbf{p}(t),t) \, .
+\end{equation}
+因此，通过解下面的一组常微分方程，我们可以得到单粒子动量分布函数 $f(q, t)$：
+
+\begin{equation}
+\begin{array}{l}
+\dot{f}=\frac{e\mathbf{E}\cdot \mathbf{v}}{2\Omega},\\
+\dot{\mathbf{v}}=\frac{2}{\Omega^{3}}[(e\mathbf{E}\cdot \mathbf{p})\mathbf{p}-e\mathbf{E}\Omega^{2}](f-1)-\frac{(e\mathbf{E}\cdot \mathbf{v})\mathbf{p}}{\Omega^{2}}-2\mathbf{p}\times \mathbb{a}-2m\mathbb{t},\\
+\dot{\mathbb{a}}=-2\mathbf{p}\times \mathbf{v},\\
+\dot{\mathbb{t}}=\frac{2}{m}[m^{2}\mathbf{v}+(\mathbf{p}\cdot \mathbf{v})\mathbf{p}],
+\end{array}\label{eq3}
+\end{equation}
+这里，$f(\mathbf{q},-\infty)=0$，$\mathbf{v}(\mathbf{q},-\infty)=\mathbb{a}(\mathbf{q},-\infty)=\mathbb{t}(\mathbf{q},-\infty)=0$ 作为初始条件。点表示总的时间导数，其中 $\mathbf{v}$ 表示电流密度，$\mathbb{a}$ 表示自旋密度，$\mathbf{E}$ 表示电场。此外，${\mathbf p}$ 表示动量，$\mathbf{q}$ 表示规范动量，$e$ 表示粒子的电荷，即正电子和电子的电荷分别为 $|e|$ 和 $-|e|$，$\mathbf{A}(t)$ 表示外场的矢势。
+
+最终，通过对分布函数 $f(\mathbf{q},t)$ 进行积分，可以确定在渐近极限 $t\rightarrow+\infty$ 下产生的对的数密度：
+\begin{equation}\label{14}
+  n = \lim_{t\to +\infty}\int\frac{d^{3}q}{(2\pi)^ 3}f(\mathbf{q},t) \, .
+\end{equation}
+
+\section{电场模型}\label{field}
+
+我们研究了在不对称频率啁啾的电场中的电子对产生。我们考虑的外部电场如下所示：
+\begin{equation}\label{model2}
+\mathbf{E}(t)=E_{0}\left[\exp\left(-\frac{t^2}{2{\tau_1}^2}\right)H(-t)+\exp\left(-\frac{t^2}{2{\tau_2}^2}\right)H(t)\right]\cos\left(bt^2+\omega t\right){\mathbf{e}_x},
+\end{equation}
+这里，$ E_0$ 表示电场振幅，$\tau_{1}$ 和 $\tau_{2}$ 表示上升和下降脉冲持续时间，H($t$) 表示 Heaviside 阶跃函数，$\omega$ 对应于电场的振荡频率，$b$ 是啁啾参数。我们引入了一个时间相关的有效频率：$\omega_{\text{eff}} = \omega+2bt$。
+
+值得注意的是，由方程 \eqref{model2} 描述的电场仅与时间有关，可以看作是由具有不同脉冲宽度和相反传播方向的两束激光形成的驻波。在我们对 ${e^{-}e^{+}}$ 对产生的研究中，我们定义了以下电场参数：
+\begin{equation}\label{eq:foobar}
+E_{0}=0.1 E_{\mathrm{cr}}, \, \omega=0.6 \mathrm{~m}, \, \tau_{1}=10 / \mathrm{m},  \, \tau_{2}=k \tau_{1},
+\end{equation}
+其中，$E_{\mathrm{cr}}=m^2c^3/e\hbar\approx1.3\times10^{16}\mathrm{V/cm}$ 表示Schwinger临界场强，$k$ 表示下降脉冲持续时间与上升脉冲持续时间的比值，调整场的不对称性。电子对产生主要发生在时间间隔 $ -\tau < t< \tau $ 内，啁啾参数 $b$ 可以表示为 $b= \alpha \omega /2\tau$ （$0\le \alpha \le 1$）。我们选择将啁啾参数 $b$ 设定在标准范围内，最大啁啾值设为 $ b = 0.012m^2 $。在图\ref{1} 中，我们描述了不同啁啾脉冲参数 $b$和脉冲比率$k$ 下，随时间变化的电场情况，比率参数分别为 $k = 0.5$、$k = 1$、$k = 2$ 和 $k = 3$。红色虚线、紫色虚线和实线蓝色分别对应于啁啾参数 $ b = 0 m^2$、$ b = 0.001m^2$ 和 $ b = 0.012m^2$ 的场。选择的参数为 $E_{0}=0.1 E_{\mathrm{cr}}$、$\omega=0.6m$、$\tau_{1}=10/m$ 和 $\tau_{2}=k \tau_{1}$。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig/f1.pdf}
+  \caption{时域脉冲不对称的电场}
+  \label{1}
+\end{figure}
+
+在研究真空对产生时，Keldysh 参数具有重要意义，其定义如下：
+\begin{equation}\label{gamma}
+\gamma = m\omega /eE,
+\end{equation}
+这里，$E$ 表示背景场的场强。当 $\gamma \ll 1$时，我们认为对产生是隧穿过程占主导，当$\gamma \gg 1$时，我们认为多光子吸收占主导。在我们的研究中，Keldysh 参数并不远大于$1$，表明粒子的产生涉及隧穿过程和多光子吸收两个过程。
+
+\section{动量谱}\label{momentum}
+本节探讨了不对称脉冲形状对动量谱的影响，涵盖了无啁啾、小频率啁啾和大频率啁啾参数的不同情况。
+
+\subsection{无啁啾\texorpdfstring{$b = 0$}{b=0}}
+
+在无啁啾场中，不对称脉冲对粒子动量谱的影响如图 \ref{2} 所示，下降脉冲持续时间 $\tau_2 = k\tau_1$ 被压缩，其中 $k$ 在 $0$ 到 $1$ 之间变化。所选的电场参数为 $E_0 = 0.1E_{\mathrm{cr}}$，$\omega = 0.6m$，$\tau_1 = 10/m$。动量谱对电场的不对称性非常敏感。在 $k = 1$ 时，动量谱呈对称形式，在原点达到峰值，并呈现出轻微的振荡，如图 \ref{2}(a) 所示。这些振荡是由于不同的复共轭转折点之间的干涉引起的，可参见文献\cite{2010c}。
+当 $k = 0.7$ 时，峰值略有增加，动量集中在 $-0.4m$ 附近，如图 \ref{2}(b) 所示。对称性的破坏直接来自于脉冲的不对称性。将 $k$ 设置为 $0.5$ 会导致动量谱在正 $q_x$ 和负 $q_x$ 方向上分裂，导致动量谱中出现两个明显的峰值，如图 \ref{2}(c) 所示。动量谱中的这种明显不对称性类似于载波相位引入的效应，如文献 \cite{2010h} 所研究的。对于 $k = 0.3$，负 $q_x$ 区域中的小峰值演变为主要峰值，如图 \ref{2}(d) 所示。这种效应类似于文献 \cite{2019c} 中研究的频率啁啾效应。最后，动量谱的最大值从 $4.92\times 10^{-6}$（$k = 1$）上升到 $6.82\times 10^{-6}$（$k = 0.3$）。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig/f2.pdf}
+  \caption{在无啁啾的情况下（$b = 0$），在 $(q_x, q_y)$ 平面上描绘$k \le 1$的粒子的动量谱。}
+  \label{2}
+\end{figure}
+
+对于较小的 $k$ 值，脉冲不对称性的作用类似于载波相位的作用。在 $E(t)$ 存在的情况下，产生的粒子将持续加速，粒子的动量主要由它们的产生时间决定 \cite{2011h,2018ck}。粒子在较早的时间 $t_0$ 以零纵向动量被创建。在 $t_0$ 之后，它们经历了持续的加速，导致纵向动量增加。通常，大多数对在对应于场的局部极大值的时刻产生。随后，这些产生的对由于电场而加速，所获得的动量是 \cite{2019c}
+\begin{equation}
+{\mathbf{q}} = \int_{t_{0}}^{t} e \mathbf{E}(t') \mathrm{d} t' = e \mathbf{A}\left(t_{0}\right)-e \mathbf{A}(t).
+\end{equation}
+粒子的最终动量完全由其产生时的矢势确定，因为随着时间趋于无穷大，矢势渐近地趋近于零。例如，图\ref{2}(a)中观察到的峰值，当$k=1$时，$\mathbf{q}\left(t_{0}\right)=0$可以归因于$t=0$时电场的主要峰值。随着时间的推移，电场$\mathbf{E}(t)$减小，导致产生的粒子数量减少。然而，与此同时，矢势$\mathbf{A}(t)$增加，使得这些粒子加速更强。因此，动量谱中峰值的位置和分布形状受脉冲形状的影响。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig/f3.pdf}
+   \caption{在无啁啾的情况下（$b = 0$），在 $(q_x, q_y)$ 平面上描绘$k \ge 1$的粒子的动量谱。}
+  \label{3}
+\end{figure}
+
+此外，随着脉冲比率$(k \geq 1)$的增加，如图\ref{3}所示，在$(q_x, q_y)$平面上的粒子动量谱表现出中心分布的逐渐减少和峰值的助教降低。这些趋势是由背景电场的不断加剧的不对称性造成的。值得注意的是，在动量谱中出现了类似环状的结构，表明了多光子对产生。因为预测的粒子正则动量是：
+\begin{equation}
+\left|\mathbf{q}^{*}\right|=\sqrt{\left(\frac{n \omega}{2}\right)^{2}-m_{*}^{2}},
+\end{equation}
+其中，$m_*$和$n$分别表示有效质量和吸收光子数\cite{2014ck}。内环对应于吸收四个光子，而不完整的外环结构对应于吸收五个光子。
+
+\subsection{小啁啾参数\texorpdfstring{$b = 0.002$}{b=0.002}}
+
+考虑到小的频率啁啾参数$(b = 0.002)$，图\ref{4}展示了对应于较小脉冲比率$(k \le 1)$的动量谱。具体来说，如图\ref{4}(a)所示，动量谱的峰值集中在中心，达到$5.82 \times 10^{-6}$。与没有频率啁啾效应的情况相比，这个峰值略有增加。值得注意的是，动量谱的畸变和关于$q_x$轴的对称性破坏可以归因于频率啁啾。随着$k$进一步减小，出现了两个明显的动量峰，左峰继续增加，而右峰逐渐减小。当$k$设定为0.7时，在负$q_x$区域观察到动量分布的轻微增加，如图\ref{4}(b)所示。这种现象与脉冲不对称有关。这可以归因于较短的下降脉冲持续时间$k \tau_1$，导致更多的粒子向负$q_x$方向加速。当$k = 0.5$时，动量谱明显分裂成两个峰，向正负$q_x$方向延伸。负$q_x$区域的峰值较小，如图\ref{4}(c)所示。当$k$减小到$0.3$时，负$q_x$区域的峰值超过了正$q_x$区域的峰值，如图\ref{4}(d)所示。此外，对于较短的脉冲$\tau$，振荡周期较少，使得动量谱中的多光子对产生信号不太清晰。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig/f4.pdf}
+  \caption{在小啁啾的情况下（$b = 0.002$），在 $(q_x, q_y)$ 平面上描绘$k \le 1$的粒子的动量谱。}
+  \label{4}
+\end{figure}
+
+我们考虑下降脉冲的延伸$(k\ge 1)$，如图\ref{5}所示。对于延长的下降脉冲，动量谱的峰值位于$(0,0)$处，并随着$k$的增加而增加。当$k = 5$时，由于啁啾效应，出现了额外的不完整环结构。这可以归因于在脉冲长度$k \tau_1$增加时，在成对产生期间电场具有足够的持续时间和方向变化。因此，粒子可能会以不同的方式加速，导致光谱环结构的出现。随着$k$的增加，高斯包络内的振荡周期增加，导致更多的光子参与到成对产生中。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig/f5.pdf}
+   \caption{在小啁啾的情况下（$b = 0.002$），在 $(q_x, q_y)$  平面上描绘$k \ge 1$的粒子的动量谱。}
+  \label{5}
+\end{figure}
+
+\subsection{大啁啾参数\texorpdfstring{$b = 0.01$}{b=0.01}}
+
+考虑到大的频率啁啾参数，$b = 0.01$，我们在图\ref{6}中绘制了短脉冲范围内$0< k\le 1$的动量谱。在对称情况下$(k = 1)$，动量谱同时朝着正负$q_x$方向移动，导致动量谱的分裂，出现了三个峰值，并伴随着不对称分布，如图\ref{6}(a)所示。对于$k = 0.7$，动量谱变得更加集中，峰值减少。当$k$设为$0.5$时，动量谱呈现出水母状的形状。大量的粒子集中在水母状动量谱的头部，而尾部的粒子分布较低。在$k = 0.3$时，水母状动量分布的尾部方向与$k = 0.5$时有所不同。随着脉冲长度比$k$的减小，包络内的振荡次数变得极为有限，从而限制了有效频率$\omega_{\text{eff}}$的增加。因此，图\ref{6}(d)类似于图\ref{2}和图\ref{4}(d)。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig/f6.pdf}
+  \caption{在大啁啾的情况下（$b = 0.01$），在 $(q_x, q_y)$ 平面上描绘$k \le 1$的粒子的动量谱。}
+  \label{6}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig/f7.pdf}
+  \caption{在大啁啾的情况下（$b = 0.01$），在 $(q_x, q_y)$ 平面上描绘$k \ge 1$的粒子的动量谱。}
+  \label{7}
+\end{figure}
+  
+对于大的频率啁啾参数，$b = 0.01$，我们在图\ref{7}中展示了一个扩展的脉冲长度比$(1\le k\le 5)$的动量谱。随着下降脉冲持续时间$k \tau_{1}$的增加，啁啾频率的影响被放大。当$k = 2$时，在图\ref{7}(b)中观察到有趣的干涉图案。下降脉冲的延长持续时间引起了广泛的干涉，归因于包络内的大量振荡周期。当$k = 3$时，在图\ref{7}(c)中观察到了部分圆形干涉图案。随着脉冲长度$k \tau_1$的增加，电场持续时间足够长，以至于在产生电子对的过程中改变其方向。这导致了谱的环结构。脉冲持续时间的不对称性导致了这些部分圆形图案的出现。最后，当$k = 5$时，这些圆形结构逐层累积，如图\ref{7}(d)所示。粒子主要位于动量谱的圆环中心。随着环的半径扩大，动量分布减弱。
+
+\section{数密度}\label{density}
+
+在本节中，我们呈现了在脉冲比率$k$变化的啁啾电场中的粒子数密度，如图\ref{8}所示，单位为$\lambda_{c} ^{-3}$，研究考虑的啁啾参数$b$为$0, 0.002, 0.005, 0.007, 0.01$和$0.12$。所选的电场参数为$E_0 = 0.1E_{\mathrm{cr}}$，$\omega= 0.6m$，$\tau_1$= $10/m$。对于无啁啾的电场（$b = 0$），我们观察到随着脉冲长度比率$k$的增加，粒子数密度减少。 具体来说，当$k = 0.3$时，密度从$8.31 \times 10^{-8}$下降到$k = 5$时的$9.50 \times 10^{-9}$。 随着$k$的减小，场在$t < 0$时由强脉冲组成，在$t > 0$时由频率更宽的但更弱的脉冲组成（从傅里叶分解角度来看）。这两个半脉冲在不同时间尺度上起作用，作为有效的动态辅助机制，导致粒子数密度增加。
+在参考文献\cite{2020as}中，我们观察到类似的现象在图\ref{7}和\ref{8}中的非对称线偏振脉冲中。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig/f8.pdf}
+  \caption{在不同脉冲比率$k$的电场产生粒子数密度变化图}
+  \label{8}
+\end{figure}
+
+对于小的啁啾参数$(b = 0.002)$，随着脉冲比率$k$的增加，我们观察到产生粒子数量密度的开始下降。这种下降在$k = 1$时达到最小值，为$1.96 \times 10^{-8}$。当$k> 1$时，粒子密度开始上升。脉冲持续时间的延长伴随着振荡周期数的增加，从而增强了多光子机制。因此，对于较大的脉冲比率$k$，粒子数量密度迅速增加。有趣的是，当$b$较小时，啁啾并不一定会增加数量密度。数量密度与啁啾$b$之间的这种非单调关系主要归因于外部场的时间结构。
+
+对于较大的啁啾参数，产生的粒子数量密度一开始会随着脉冲比率$k$的增加而下降，然后再上升。随着$k$值的减小，动力学辅助机制变得越来越有效，从而增强了数量密度。相反，对于较大的$k$值，脉冲持续时间延长，导致高斯包络内的振荡周期增加。同时，有效频率$\omega_{\text{eff}}$增加。因此，更多的光子通过多光子吸收机制参与了对产生。例如，在具有啁啾参数$b = 0.012$的电场中，当$k$为$0.5$时，两种增强对产生机制不够强,此时数量密度达到最小值。
+
+对于可能的优化方案，我们展示了在脉冲能量保持恒定的情况下，当参数$b$和$k$变化时所产生的粒子数量密度，典型结果如图~\ref{9}所示。需要注意的是，与图 \ref{8} 中的固定场强相比，固定场能量几乎可以看到类似的结果。然而，它们之间存在微妙的差异。对于图 \ref{9} 中的小啁啾，例如，$b=0.002$，粒子数量密度随着$k$的增加而减少，与图 \ref{8} 不同。这可以归因于两个事实：一方面，对于小的啁啾，多光子机制并不显著，另一方面，对于较大的$k$，动力学辅助机制被强烈抑制。对于大的啁啾，粒子数量密度的变化趋势在图 \ref{8} 和图 \ref{9} 中是相似的，除了在场能量固定时，对产生略有减少。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig/f9.pdf}
+  \caption{在不同脉冲比率$k$的电场（恒定脉冲能量）产生粒子数密度变化图}
+  \label{9}
+\end{figure}
+
+\section{总结和讨论}\label{conclusion}
+
+在本研究中，我们探讨了不对称脉冲形状对在强背景电场中产生的$e^{-}e^{+}$对的动量谱的影响。我们考虑了三种不同的啁啾，即无啁啾、小频率啁啾和大频率啁啾。利用DHW形式，我们分析了产生的粒子的动量谱。保持上升脉冲$\tau_1$恒定，然后修改下降脉冲$\tau_2 = k \tau_1$，导致两种不对称情景：脉冲压缩（$0< k< 1$）和脉冲延长（$k>1$）。随着下降脉冲$k \tau_1$的压缩，干涉效应随着脉冲长度比$k$的减小而逐渐减弱。缩短脉冲长度会导致峰值的移动和分裂。相反，当下降脉冲$\tau_2$延长时，对于不同的啁啾场，会出现不完整的多环结构。在无啁啾场中，多光子对产生的信号变得明显，而在啁啾电场中，干涉效应变得显著。
+
+我们还探讨了不对称下降脉冲对粒子数密度的影响。粒子数密度对脉冲的不对称性和啁啾参数都非常敏感。随着下降脉冲长度的压缩，当场强和能量分别保持恒定时，粒子数密度可以增加多达五倍和九倍。重要的是，延长的下降脉冲会显著增强产生对的数量密度，增加了四个数量级以上。粒子数密度受有效动力学辅助机制和频率啁啾的影响。对于较短的脉冲（$k<1$），我们观察到由于脉冲持续时间的时间尺度$\tau$修改了由标准多光子机制引起的Keldysh参数$\gamma = m\omega /eE$，导致传统的标准多光子对产生减弱。对于很小的$\tau$，这意味着场的振荡次数包含的周期和亚周期较少，因此不严格地是一个完整的多光子过程。然而，在这种情况下，由于动力学辅助机制，对的数量密度可以显著增加。另一方面，对于延长的脉冲（$k>1$），随着$k$的增加，对产生主要由具有啁啾的多光子机制主导。
+
+在脉冲压缩期间，啁啾频率对动量谱和数密度的影响相对较小。在脉冲延长情况下，随着啁啾参数的增加，数密度迅速增加。这些发现有助于理解关键外部参数，即脉冲长度和啁啾参数的影响，并提供了对外部脉冲结构的洞察。这些结果揭示了有关各种啁啾场中正负电子对产生的有用信息，但本研究局限于多光子对产生。进一步的研究对于研究不对称脉冲形状对施温格机制的影响至关重要。
