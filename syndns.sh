@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v2.3
-# Date     : 2024-12-28 13:12
+# Version  : v2.4
+# Date     : 2024-12-31 12:09
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -25,8 +25,8 @@ SYN_HOS="/etc/hosts"
 SYN_REC=$(grep "addn-hosts" /etc/dnsmasq.conf |grep "/dev/shm/")
 SYN_REC=${SYN_REC#*=}
 SYN_ADD="$HOME/.host_dns_autoadd.txt"
-SYN_DNSIP=(8.8.8.8 119.29.29.29)  # 默认DNS服务器
-# Github 网站涉及的所有域名
+SYN_DNSIP=(1.0.0.1 101.101.101.101 101.102.103.104 8.8.8.8 119.29.29.29)  # 默认DNS服务器, 前4个可以正确返回github.com
+# Github 网站涉及的所有域名, 暂时保留，只是1.0.0.1可以正确解析
 SYN_GITHUB=(github.githubassets.com central.github.com desktop.githubusercontent.com \
 assets-cdn.github.com camo.githubusercontent.com github.map.fastly.net github.global.ssl.fastly.net \
 gist.github.com github.io github.com api.github.com raw.githubusercontent.com user-images.githubusercontent.com \
@@ -64,11 +64,16 @@ SYN_DN2IP(){
 }
 # 主程序
 SYNDNS_PROCESS(){
+    # 清理/etc/hosts 中的github有关域名
+    sudo sed -i "/github/d" $SYN_HOS
     # 从gitlab更新github的IP
     curl -o $SYN_REC https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts\?inline\=false
+    # 由于DNS的不稳定性，暂时禁用自动探测，而前2个DNS可以正确探测github.com
+    # SYN_DN2IP "${SYN_GITHUB[*]}" "$SYN_REC"
     # 调入本地hosts
     cat $SYN_HOS |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g' >> $SYN_REC
-    # SYN_DN2IP "${SYN_GITHUB[*]}" "$SYN_REC"
+    # 将整理好的 $SYN_REC 保存到 $SYN_HOS, 以供其他系统调用
+    sudo sh -c "cat $SYN_REC > $SYN_HOS"
     # 探测sci 期刊
     SYN_DN2IP "${SYN_SCI[*]}" "$SYN_REC"
     if [ -e $SYN_ADD ]; then
