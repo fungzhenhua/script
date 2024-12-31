@@ -183,7 +183,7 @@ ThemeUpdate(){
 #=========================定义函数=========================
 DY_PUSHX(){
     cd $DY_PATH
-    rm -rf .deploy_git
+    # rm -rf .deploy_git
     hexo g
     hexo d
     git add .  &> /dev/null
