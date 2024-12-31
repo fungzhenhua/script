@@ -756,7 +756,7 @@ else
             else
                 exit
             fi
-        else 
+        else
             hexo n $1  &> /dev/null
             NEO_LIST "${DY_TAGS[*]}" 1
             sed -i "s/^tags:$/tags: $EDFILE/g" $DY_DEF

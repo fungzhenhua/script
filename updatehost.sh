@@ -8,260 +8,259 @@
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
-OutHost="/etc/hosts"
+OutHost="$HOME/gitlab_hosts"
 sudo curl -o $OutHost https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts\?inline\=false
-sudo sh -c "cat >> $OutHost" <<EOF
-
-172.67.9.71     journals.aps.org
-44.219.200.219  link.aps.org
-13.225.78.87    cdn.journals.aps.org
-13.33.21.18     cdn.aps.org
-3.168.149.142   cdn.segment.com
-35.166.226.67   api.segment.io
-35.186.235.23   cdn.mxpnl.com
-220.181.174.33  www.google-analytics.com
-180.163.151.41  www.googletagmanager.com
-220.181.174.38  googleads.g.doubleclick.net
-172.64.131.63   www.google.com
-13.225.141.142  d1bxh8uas1mnw7.cloudfront.net
-13.226.251.10   d1uo4w7k31k5mn.cloudfront.net
-13.226.228.14   badge.dimensions.ai
-172.67.23.100   api.altmetric.com
-3.163.125.81    metrics-api.dimensions.ai
-104.26.5.132    doi.org
-66.22.61.221    iopscience.iop.org
-172.64.146.247  www.researchgate.net
-151.101.3.42    arxiv.org
-54.230.21.3     static.arxiv.org
-162.159.136.70  www.sciencedirect.com
-65.202.222.45   opg.optica.org
-199.59.243.227  picx.zhiming.com
-42.81.178.46    graph.qq.com
-104.17.248.203  unpkg.com
-218.92.216.56   s4.zstatic.net
-104.17.24.14    cdnjs.cloudflare.com
-119.167.224.134 cdn.onmicrosoft.cn
-49.7.253.26     game.qzone.qq.com
-123.151.49.171  user.qzone.qq.com
-220.194.111.195 huatuo.qq.com
-123.151.56.60   rc.qzone.qq.com
-123.151.49.171  h5.qzone.qq.com
-81.71.56.224    waf.tencent.com
-42.81.194.105   galileotelemetry.tencent.com
-221.204.209.136 aegis.cdn-go.cn
-61.162.8.218    qzonestyle.gtimg.cn
-157.255.219.222 v.gdt.qq.com
-119.147.104.148 a1.qpic.cn
-42.81.178.208   tsdk.qq.com
-93.46.8.90      cdn.jsdelivr.net
-104.26.8.84     theme-next.js.org
-202.89.233.101  cn.bing.com
-47.104.29.85    www.tboxn.com
-35.185.44.232   fengzhenhua.gitlab.io
-172.65.251.78   gitlab.com
-40.99.69.146    outlook.live.com
-110.242.68.186  fanyi.baidu.com
-117.135.207.132 fanyi.youdao.com
-111.124.200.101 dict.youdao.com
-171.220.246.249 shared.ydstatic.com
-172.64.148.47   www.deepl.com
-172.65.212.243  www2.deepl.com
-172.65.180.1    experimentation.deepl.com
-104.18.36.122   static.deepl.com
-52.130.17.203   login.partner.microsoftonline.cn
-218.58.101.49   www.microsoft.com
-124.156.154.242 ac.scmor.com
-47.56.147.214   search.essclick.com
-45.150.165.138  ffsou.com
-59.110.251.11   tongyi.aliyun.com
-140.205.135.3   account.aliyun.com
-49.79.227.198   g.aplus.aliyun.com
-182.140.130.201 g.alicdn.com
-171.214.25.232  at.alicdn.com
-182.131.10.120  img.alicdn.com
-59.110.251.9    qianwen.biz.aliyun.com
-182.140.130.200 cloud-assets.alicdn.com
-59.82.121.73    tongyi-passport.aliyun.com
-49.7.149.106    www.aliyundrive.com
-203.119.144.59  passport.aliyundrive.com
-110.242.68.3    www.baidu.com
-107.148.237.98  scholar.lanfanshu.cn
-43.138.188.21   xmsoushu.com
-159.226.241.44  book.sciencereading.cn
-203.176.95.151  iam.sciencereading.cn
-104.26.4.225    plainproxies.com
-121.228.183.215 xlab.baidu.com
-101.89.47.179   wx.qq.com
-104.21.19.38    tools.liumingye.cn
-139.196.36.248  www.duolingo.cn
-106.14.177.239  englishtest.duolingo.cn
-58.215.175.53   www.jianguoyun.com
-202.89.233.96   www.msn.cn
-182.40.24.204   www.zhihu.com
-220.185.184.63  www.csdn.net
-123.249.12.207  devpress-api.csdn.net
-123.249.99.208  bizapi.csdn.net
-124.71.234.74   silkroad.csdn.net
-121.36.47.3     eva2.csdn.net
-171.214.31.138  csdnimg.cn
-124.71.234.74   silkroad.csdn.net
-125.64.6.4      i-blog.csdnimg.cn
-180.76.198.77   gitee.com
-185.199.111.153 fengzhenhua-vip.github.io
-184.26.127.154  img-s-msn-com.akamaized.net
-104.26.15.72    www.linux.org
-124.223.124.125 www.xitongzhijia.net
-58.218.215.175  www.uzzf.com
-58.220.52.240   www.downcc.com
-175.178.178.156 www.homefont.cn
-47.93.162.43    www.foundertype.com
-3.229.115.31    www.zotero.org
-60.247.18.7     www.bnu.edu.cn
-114.255.219.19  cas.bnu.edu.cn
-104.21.80.27    shields.io
-172.67.173.89   img.shields.io
-150.139.252.35  www.runoob.com
-47.93.2.78      www.latexlive.com
-172.67.209.92   p2t.breezedeus.com
-111.173.89.132  simpletex.cn
-186.2.163.201   www.sci-hub.st
-185.53.178.52   search.esslink.com
-146.185.79.121  swisscows.com
-119.167.229.190 static.zhihu.com
-58.215.50.242   pic1.zhimg.com
-39.91.182.41    pica.zhimg.com
-180.97.248.187  picx.zhimg.com
-104.245.9.4     wiki.archlinuxcn.org
-135.181.27.174  wiki.archlinux.org
-39.91.182.35    zh-hans.ipshu.com
-61.162.101.124  www.ip138.com
-110.40.42.14    uutool.cn
-43.159.53.68    kkgithub.com
-124.237.208.52  zhidao.baidu.com
-13.107.246.74   mathsolver.microsoft.com
-220.181.43.101  api.map.baidu.com
-172.66.47.87    blog.windsky.tech
-119.84.174.67   www.bilibili.com
-180.163.151.38  googleads.g.doubleclick.net
-118.112.10.84   scholar.google.com
-20.85.172.21    pubs.aip.org
-211.24.108.117  efss.qloud.my
-85.10.195.17    nextcloud.com
-148.81.43.32    appol.ifpan.edu.pl
-104.20.6.134    i.creativecommons.org
-104.22.11.121   licensebuttons.net
-119.84.72.219   registry.npm.taobao.org
-182.140.154.89  lf26-cdn-tos.bytecdntp.com
-222.213.0.51    lf6-cdn-tos.bytecdntp.com
-118.112.26.6    lf9-cdn-tos.bytecdntp.com
-220.181.33.11   hm.baidu.com
-180.97.107.3    miaowu.baidu.com
-182.140.225.36  nlp-eb.cdn.bcebos.com
-182.140.225.35  ppui-static-wap.cdn.bcebos.com
-182.138.255.38  safe.cdn.bcebos.com
-36.110.192.16   passport.baidu.com
-36.110.192.160  wappass.baidu.com
-121.228.183.215 xlab.baidu.com
-124.237.177.120 yiyan.baidu.com
-45.145.74.221   sc.panda985.com
-220.181.174.38  pagead2.googlesyndication.com
-77.88.44.55     yandex.com
-8.217.146.9     xs.essclick.com
-47.74.191.76    sci-hub.org.cn
-47.243.184.134  so.cljtscd.com
-43.163.0.71     xueshu.aigrogu.com
-45.145.74.221   sc.panda985.com
-118.112.10.84   www.dotaindex.com
-47.76.116.252   xs.vygc.top
-207.46.147.148  googlehnzyc.azurewebsites.net
-154.40.44.20    www.nvtav.asia
-154.40.44.20    www.google1.asia
-172.64.131.63   g.george-tse.top
-172.67.151.207  google.bian666.cf
-8.217.133.25    xs.typicalgame.com
-1.94.168.65     www.ckvmk.com
-42.81.243.26    docs.qq.com
-39.107.192.243  account.wps.cn
-220.181.111.153 map.baidu.com
-202.89.233.101  cn.bing.com
-183.60.11.66    www.amap.com
-52.130.17.203   login.partner.microsoftonline.cn
-50.117.117.42   onedrive.live.com
-58.222.32.241   aadcdn.msftauth.cn
-52.182.141.63   browser.events.data.microsoft.com
-117.18.232.200  bingedu.azureedge.net
-163.228.253.213 microsoft365.microsoftonline.cn
-110.185.115.215 news.sina.com.cn
-110.185.115.215 finance.sina.com.cn
-110.185.115.209 n1.sinaimg.cn
-110.185.115.209 n.sinaimg.cn
-110.185.115.213 d5.sina.com.cn
-110.185.115.214 d1.sina.com.cn
-110.185.115.210 d3.sina.com.cn
-110.185.115.214 ent.sina.com.cn
-110.185.115.216 d2.sina.com.cn
-110.185.115.209 tech.sina.com.cn
-110.185.115.215 k.sinaimg.cn
-110.185.115.212 n.sinaimg.cn
-110.185.115.214 tvax3.sinaimg.cn
-110.185.115.214 tvax2.sinaimg.cn
-110.185.115.214 tvax1.sinaimg.cn
-171.220.246.251 i0.sinaimg.cn
-171.220.246.251 i1.sinaimg.cn
-118.112.238.199 ess.leju.com
-123.59.190.224  ip.leju.com
-106.63.15.133   interface.sina.cn
-202.108.0.173   top.news.sina.com.cn
-123.126.45.26   sax.sina.com.cn
-123.126.45.26   saxn.sina.com.cn
-110.185.115.215 mjs.sinaimg.cn
-119.84.93.129   j.pc.bd.dhsz.cn
-183.60.95.165   hq.sinajs.cn
-49.7.36.183     mail.sina.com.cn
-182.140.210.211 wise.cdn.partner.office365.cn
-143.64.130.197  webshell.suite.partner.microsoftonline.cn
-182.247.224.218 shell.cdn.office.net
-40.73.242.0     oauth.partner.officewebapps.cn
-52.111.232.5    store.office.com
-117.18.232.200  ajax.aspnetcdn.com
-23.2.13.225     omex.cdn.office.net
-118.112.238.199 res-cn.cdn.partner.office365.cn
-118.112.238.199 res-4.cdn.partner.office365.cn
-40.73.242.14    cnc-word-edit.partner.officewebapps.cn
-40.73.242.2     cnc-excel.partner.officewebapps.cn
-40.73.242.2     excel.cdn.partner.officewebapps.cn
-40.73.242.7     cnc-powerpoint.partner.officewebapps.cn
-40.73.242.7     powerpoint.cdn.partner.officewebapps.cn
-40.73.242.5     cnc-onenote.partner.officewebapps.cn
-40.73.242.5     onenote.cdn.partner.officewebapps.cn
-40.73.242.14    word-edit.cdn.partner.officewebapps.cn
-40.113.200.201  partner.outlook.com
-210.192.118.82  res-1.cdn.partner.office365.cn
-210.192.118.82  res-3.cdn.partner.office365.cn
-42.159.38.39    bnuinfo-my.sharepoint.cn
-210.192.118.82  r5.cdn.partner.outlook.cn
-124.232.177.49  statics-cn.teams.cdn.office.net
-40.72.124.133   teams.microsoftonline.cn
-42.159.38.39    bnuinfo.sharepoint.cn
-101.89.47.179   wx.qq.com
-114.255.219.24  pan.bnu.edu.cn
-34.120.52.64    www.overleaf.com
-34.241.46.245   cdn.overleaf.com
-220.181.174.34  www.gstatic.cn
-121.40.36.113   www.latexstudio.net
-110.40.32.155   pics.latexstudio.net
-121.40.36.113   online.latexstudio.net
-74.48.216.22    www.mintos.org
-182.43.175.129  imcn.me
-220.135.154.8   cn.linux.vbird.org
-120.55.40.41    www.w3school.com.cn
-47.106.199.63   www.w3cschool.cn
-104.18.86.42    cdn.cookielaw.org
-104.18.87.42    cdn.cookielaw.org
-216.198.53.1    orcid.zendesk.com
-162.247.243.39  js-agent.newrelic.com
-140.20.229.70   homepage-prod.orcid.org
-104.20.229.70   orcid.org
-199.16.158.182  player.vimeo.com
-EOF
-sudo systemctl restart NetworkManager
+# sudo sh -c "cat >> $OutHost" <<EOF
+# 172.67.9.71     journals.aps.org
+# 44.219.200.219  link.aps.org
+# 13.225.78.87    cdn.journals.aps.org
+# 13.33.21.18     cdn.aps.org
+# 3.168.149.142   cdn.segment.com
+# 35.166.226.67   api.segment.io
+# 35.186.235.23   cdn.mxpnl.com
+# 220.181.174.33  www.google-analytics.com
+# 180.163.151.41  www.googletagmanager.com
+# 220.181.174.38  googleads.g.doubleclick.net
+# 172.64.131.63   www.google.com
+# 13.225.141.142  d1bxh8uas1mnw7.cloudfront.net
+# 13.226.251.10   d1uo4w7k31k5mn.cloudfront.net
+# 13.226.228.14   badge.dimensions.ai
+# 172.67.23.100   api.altmetric.com
+# 3.163.125.81    metrics-api.dimensions.ai
+# 104.26.5.132    doi.org
+# 66.22.61.221    iopscience.iop.org
+# 172.64.146.247  www.researchgate.net
+# 151.101.3.42    arxiv.org
+# 54.230.21.3     static.arxiv.org
+# 162.159.136.70  www.sciencedirect.com
+# 65.202.222.45   opg.optica.org
+# 199.59.243.227  picx.zhiming.com
+# 42.81.178.46    graph.qq.com
+# 104.17.248.203  unpkg.com
+# 218.92.216.56   s4.zstatic.net
+# 104.17.24.14    cdnjs.cloudflare.com
+# 119.167.224.134 cdn.onmicrosoft.cn
+# 49.7.253.26     game.qzone.qq.com
+# 123.151.49.171  user.qzone.qq.com
+# 220.194.111.195 huatuo.qq.com
+# 123.151.56.60   rc.qzone.qq.com
+# 123.151.49.171  h5.qzone.qq.com
+# 81.71.56.224    waf.tencent.com
+# 42.81.194.105   galileotelemetry.tencent.com
+# 221.204.209.136 aegis.cdn-go.cn
+# 61.162.8.218    qzonestyle.gtimg.cn
+# 157.255.219.222 v.gdt.qq.com
+# 119.147.104.148 a1.qpic.cn
+# 42.81.178.208   tsdk.qq.com
+# 93.46.8.90      cdn.jsdelivr.net
+# 104.26.8.84     theme-next.js.org
+# 202.89.233.101  cn.bing.com
+# 47.104.29.85    www.tboxn.com
+# 35.185.44.232   fengzhenhua.gitlab.io
+# 172.65.251.78   gitlab.com
+# 40.99.69.146    outlook.live.com
+# 110.242.68.186  fanyi.baidu.com
+# 117.135.207.132 fanyi.youdao.com
+# 111.124.200.101 dict.youdao.com
+# 171.220.246.249 shared.ydstatic.com
+# 172.64.148.47   www.deepl.com
+# 172.65.212.243  www2.deepl.com
+# 172.65.180.1    experimentation.deepl.com
+# 104.18.36.122   static.deepl.com
+# 52.130.17.203   login.partner.microsoftonline.cn
+# 218.58.101.49   www.microsoft.com
+# 124.156.154.242 ac.scmor.com
+# 47.56.147.214   search.essclick.com
+# 45.150.165.138  ffsou.com
+# 59.110.251.11   tongyi.aliyun.com
+# 140.205.135.3   account.aliyun.com
+# 49.79.227.198   g.aplus.aliyun.com
+# 182.140.130.201 g.alicdn.com
+# 171.214.25.232  at.alicdn.com
+# 182.131.10.120  img.alicdn.com
+# 59.110.251.9    qianwen.biz.aliyun.com
+# 182.140.130.200 cloud-assets.alicdn.com
+# 59.82.121.73    tongyi-passport.aliyun.com
+# 49.7.149.106    www.aliyundrive.com
+# 203.119.144.59  passport.aliyundrive.com
+# 110.242.68.3    www.baidu.com
+# 107.148.237.98  scholar.lanfanshu.cn
+# 43.138.188.21   xmsoushu.com
+# 159.226.241.44  book.sciencereading.cn
+# 203.176.95.151  iam.sciencereading.cn
+# 104.26.4.225    plainproxies.com
+# 121.228.183.215 xlab.baidu.com
+# 101.89.47.179   wx.qq.com
+# 104.21.19.38    tools.liumingye.cn
+# 139.196.36.248  www.duolingo.cn
+# 106.14.177.239  englishtest.duolingo.cn
+# 58.215.175.53   www.jianguoyun.com
+# 202.89.233.96   www.msn.cn
+# 182.40.24.204   www.zhihu.com
+# 220.185.184.63  www.csdn.net
+# 123.249.12.207  devpress-api.csdn.net
+# 123.249.99.208  bizapi.csdn.net
+# 124.71.234.74   silkroad.csdn.net
+# 121.36.47.3     eva2.csdn.net
+# 171.214.31.138  csdnimg.cn
+# 124.71.234.74   silkroad.csdn.net
+# 125.64.6.4      i-blog.csdnimg.cn
+# 180.76.198.77   gitee.com
+# 185.199.111.153 fengzhenhua-vip.github.io
+# 184.26.127.154  img-s-msn-com.akamaized.net
+# 104.26.15.72    www.linux.org
+# 124.223.124.125 www.xitongzhijia.net
+# 58.218.215.175  www.uzzf.com
+# 58.220.52.240   www.downcc.com
+# 175.178.178.156 www.homefont.cn
+# 47.93.162.43    www.foundertype.com
+# 3.229.115.31    www.zotero.org
+# 60.247.18.7     www.bnu.edu.cn
+# 114.255.219.19  cas.bnu.edu.cn
+# 104.21.80.27    shields.io
+# 172.67.173.89   img.shields.io
+# 150.139.252.35  www.runoob.com
+# 47.93.2.78      www.latexlive.com
+# 172.67.209.92   p2t.breezedeus.com
+# 111.173.89.132  simpletex.cn
+# 186.2.163.201   www.sci-hub.st
+# 185.53.178.52   search.esslink.com
+# 146.185.79.121  swisscows.com
+# 119.167.229.190 static.zhihu.com
+# 58.215.50.242   pic1.zhimg.com
+# 39.91.182.41    pica.zhimg.com
+# 180.97.248.187  picx.zhimg.com
+# 104.245.9.4     wiki.archlinuxcn.org
+# 135.181.27.174  wiki.archlinux.org
+# 39.91.182.35    zh-hans.ipshu.com
+# 61.162.101.124  www.ip138.com
+# 110.40.42.14    uutool.cn
+# 43.159.53.68    kkgithub.com
+# 124.237.208.52  zhidao.baidu.com
+# 13.107.246.74   mathsolver.microsoft.com
+# 220.181.43.101  api.map.baidu.com
+# 172.66.47.87    blog.windsky.tech
+# 119.84.174.67   www.bilibili.com
+# 180.163.151.38  googleads.g.doubleclick.net
+# 118.112.10.84   scholar.google.com
+# 20.85.172.21    pubs.aip.org
+# 211.24.108.117  efss.qloud.my
+# 85.10.195.17    nextcloud.com
+# 148.81.43.32    appol.ifpan.edu.pl
+# 104.20.6.134    i.creativecommons.org
+# 104.22.11.121   licensebuttons.net
+# 119.84.72.219   registry.npm.taobao.org
+# 182.140.154.89  lf26-cdn-tos.bytecdntp.com
+# 222.213.0.51    lf6-cdn-tos.bytecdntp.com
+# 118.112.26.6    lf9-cdn-tos.bytecdntp.com
+# 220.181.33.11   hm.baidu.com
+# 180.97.107.3    miaowu.baidu.com
+# 182.140.225.36  nlp-eb.cdn.bcebos.com
+# 182.140.225.35  ppui-static-wap.cdn.bcebos.com
+# 182.138.255.38  safe.cdn.bcebos.com
+# 36.110.192.16   passport.baidu.com
+# 36.110.192.160  wappass.baidu.com
+# 121.228.183.215 xlab.baidu.com
+# 124.237.177.120 yiyan.baidu.com
+# 45.145.74.221   sc.panda985.com
+# 220.181.174.38  pagead2.googlesyndication.com
+# 77.88.44.55     yandex.com
+# 8.217.146.9     xs.essclick.com
+# 47.74.191.76    sci-hub.org.cn
+# 47.243.184.134  so.cljtscd.com
+# 43.163.0.71     xueshu.aigrogu.com
+# 45.145.74.221   sc.panda985.com
+# 118.112.10.84   www.dotaindex.com
+# 47.76.116.252   xs.vygc.top
+# 207.46.147.148  googlehnzyc.azurewebsites.net
+# 154.40.44.20    www.nvtav.asia
+# 154.40.44.20    www.google1.asia
+# 172.64.131.63   g.george-tse.top
+# 172.67.151.207  google.bian666.cf
+# 8.217.133.25    xs.typicalgame.com
+# 1.94.168.65     www.ckvmk.com
+# 42.81.243.26    docs.qq.com
+# 39.107.192.243  account.wps.cn
+# 220.181.111.153 map.baidu.com
+# 202.89.233.101  cn.bing.com
+# 183.60.11.66    www.amap.com
+# 52.130.17.203   login.partner.microsoftonline.cn
+# 50.117.117.42   onedrive.live.com
+# 58.222.32.241   aadcdn.msftauth.cn
+# 52.182.141.63   browser.events.data.microsoft.com
+# 117.18.232.200  bingedu.azureedge.net
+# 163.228.253.213 microsoft365.microsoftonline.cn
+# 110.185.115.215 news.sina.com.cn
+# 110.185.115.215 finance.sina.com.cn
+# 110.185.115.209 n1.sinaimg.cn
+# 110.185.115.209 n.sinaimg.cn
+# 110.185.115.213 d5.sina.com.cn
+# 110.185.115.214 d1.sina.com.cn
+# 110.185.115.210 d3.sina.com.cn
+# 110.185.115.214 ent.sina.com.cn
+# 110.185.115.216 d2.sina.com.cn
+# 110.185.115.209 tech.sina.com.cn
+# 110.185.115.215 k.sinaimg.cn
+# 110.185.115.212 n.sinaimg.cn
+# 110.185.115.214 tvax3.sinaimg.cn
+# 110.185.115.214 tvax2.sinaimg.cn
+# 110.185.115.214 tvax1.sinaimg.cn
+# 171.220.246.251 i0.sinaimg.cn
+# 171.220.246.251 i1.sinaimg.cn
+# 118.112.238.199 ess.leju.com
+# 123.59.190.224  ip.leju.com
+# 106.63.15.133   interface.sina.cn
+# 202.108.0.173   top.news.sina.com.cn
+# 123.126.45.26   sax.sina.com.cn
+# 123.126.45.26   saxn.sina.com.cn
+# 110.185.115.215 mjs.sinaimg.cn
+# 119.84.93.129   j.pc.bd.dhsz.cn
+# 183.60.95.165   hq.sinajs.cn
+# 49.7.36.183     mail.sina.com.cn
+# 182.140.210.211 wise.cdn.partner.office365.cn
+# 143.64.130.197  webshell.suite.partner.microsoftonline.cn
+# 182.247.224.218 shell.cdn.office.net
+# 40.73.242.0     oauth.partner.officewebapps.cn
+# 52.111.232.5    store.office.com
+# 117.18.232.200  ajax.aspnetcdn.com
+# 23.2.13.225     omex.cdn.office.net
+# 118.112.238.199 res-cn.cdn.partner.office365.cn
+# 118.112.238.199 res-4.cdn.partner.office365.cn
+# 40.73.242.14    cnc-word-edit.partner.officewebapps.cn
+# 40.73.242.2     cnc-excel.partner.officewebapps.cn
+# 40.73.242.2     excel.cdn.partner.officewebapps.cn
+# 40.73.242.7     cnc-powerpoint.partner.officewebapps.cn
+# 40.73.242.7     powerpoint.cdn.partner.officewebapps.cn
+# 40.73.242.5     cnc-onenote.partner.officewebapps.cn
+# 40.73.242.5     onenote.cdn.partner.officewebapps.cn
+# 40.73.242.14    word-edit.cdn.partner.officewebapps.cn
+# 40.113.200.201  partner.outlook.com
+# 210.192.118.82  res-1.cdn.partner.office365.cn
+# 210.192.118.82  res-3.cdn.partner.office365.cn
+# 42.159.38.39    bnuinfo-my.sharepoint.cn
+# 210.192.118.82  r5.cdn.partner.outlook.cn
+# 124.232.177.49  statics-cn.teams.cdn.office.net
+# 40.72.124.133   teams.microsoftonline.cn
+# 42.159.38.39    bnuinfo.sharepoint.cn
+# 101.89.47.179   wx.qq.com
+# 114.255.219.24  pan.bnu.edu.cn
+# 34.120.52.64    www.overleaf.com
+# 34.241.46.245   cdn.overleaf.com
+# 220.181.174.34  www.gstatic.cn
+# 121.40.36.113   www.latexstudio.net
+# 110.40.32.155   pics.latexstudio.net
+# 121.40.36.113   online.latexstudio.net
+# 74.48.216.22    www.mintos.org
+# 182.43.175.129  imcn.me
+# 220.135.154.8   cn.linux.vbird.org
+# 120.55.40.41    www.w3school.com.cn
+# 47.106.199.63   www.w3cschool.cn
+# 104.18.86.42    cdn.cookielaw.org
+# 104.18.87.42    cdn.cookielaw.org
+# 216.198.53.1    orcid.zendesk.com
+# 162.247.243.39  js-agent.newrelic.com
+# 140.20.229.70   homepage-prod.orcid.org
+# 104.20.229.70   orcid.org
+# 199.16.158.182  player.vimeo.com
+# EOF
+# sudo systemctl restart NetworkManager

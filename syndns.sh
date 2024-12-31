@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v2.2
+# Version  : v2.3
 # Date     : 2024-12-28 13:12
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
@@ -64,9 +64,12 @@ SYN_DN2IP(){
 }
 # 主程序
 SYNDNS_PROCESS(){
-    cat $SYN_HOS |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g' > $SYN_REC
-    # 需要重点探测的地址
-    SYN_DN2IP "${SYN_GITHUB[*]}" "$SYN_REC"
+    # 从gitlab更新github的IP
+    curl -o $SYN_REC https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts\?inline\=false
+    # 调入本地hosts
+    cat $SYN_HOS |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g' >> $SYN_REC
+    # SYN_DN2IP "${SYN_GITHUB[*]}" "$SYN_REC"
+    # 探测sci 期刊
     SYN_DN2IP "${SYN_SCI[*]}" "$SYN_REC"
     if [ -e $SYN_ADD ]; then
         cat $SYN_ADD |grep '^[0-9]' |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g' >> $SYN_REC
