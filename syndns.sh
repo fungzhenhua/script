@@ -31,6 +31,7 @@ SYN_DNSIP=(1.0.0.1 1.0.0.2 1.0.0.3 \
     4.2.2.1 4.2.2.2 4.2.2.3 4.2.2.4 4.2.2.5 4.2.2.6 \
     80.80.80.80 80.80.81.81 \
     101.101.101.101 101.102.103.104)  # 默认DNS服务器, 前4个可以正确返回github.com
+SYN_DNSCN=(119.29.29.29 180.76.76.76 1.2.4.8)
 # Github 网站涉及的所有域名, 暂时保留，只是1.0.0.1可以正确解析
 SYN_GITHUB=(github.githubassets.com central.github.com desktop.githubusercontent.com \
 assets-cdn.github.com camo.githubusercontent.com github.map.fastly.net github.global.ssl.fastly.net \
@@ -44,11 +45,13 @@ github-production-user-asset-6210df.s3.amazonaws.com \
 github-production-repository-file-5c1aeb.s3.amazonaws.com githubstatus.com github.community \
 media.githubusercontent.com objects.githubusercontent.com raw.github.com copilot-proxy.githubusercontent.com \
 kkgithub.com css.kkgithub.com)
-SYN_SCI=(journals.aps.org link.aps.org cdn.journals.aps.org cdn.aps.org cdn.segment.com api.segment.io cdn.mxpnl.com lf6-cdn-tos.bytecdntp.com lf9-cdn-tos.bytecdntp.com lf26-cdn-tos.bytecdntp.com lf6-unpkg.zstaticcdn.com \
+SYN_SCI=(journals.aps.org link.aps.org cdn.journals.aps.org cdn.aps.org cdn.segment.com api.segment.io cdn.mxpnl.com \
 www.google-analytics.com www.googletagmanager.com googleads.g.doubleclick.net www.google.com \
 d1bxh8uas1mnw7.cloudfront.net d1uo4w7k31k5mn.cloudfront.net badge.dimensions.ai api.altmetric.com metrics-api.dimensions.ai \
 doi.org iopscience.iop.org www.researchgate.net a.researchgate.net c5.rgstatic.net adk.privacy-center.org code.jquery.com \
-arxiv.org static.arxiv.org www.sciencedirect.com opg.optica.org picx.zhiming.com cdnjs.cloudflare.com cdn.onmicrosoft.cn unpkg.com s4.zstatic.net)
+arxiv.org static.arxiv.org www.sciencedirect.com opg.optica.org picx.zhiming.com )
+SYN_CDN=(cdnjs.cloudflare.com cdn.onmicrosoft.cn unpkg.com s4.zstatic.net \
+lf2-cdn-tos.bytecdntp.com lf9-cdn-tos.bytecdntp.com lf26-cdn-tos.bytecdntp.com lf6-unpkg.zstaticcdn.com )
 #
 # 参数1为域名数组，参数2 保存文件， 使用 SYN_DN2IP "${DOMAN[*]}" "outfile"
 SYN_DN2IP(){
