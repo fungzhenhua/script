@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v2.4
-# Date     : 2024-12-31 12:09
+# Version  : v2.5
+# Date     : 2025-01-01 12:13
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -64,23 +64,24 @@ SYN_DN2IP(){
 }
 # 主程序
 SYNDNS_PROCESS(){
-    # 清理/etc/hosts 中的github有关域名
+    # 清空$SYN_REC, 若不存在则建立空文件
+    echo "" > $SYN_REC
+    # 清理/etc/hosts 中的github有关域名, 并调入
     sudo sed -i "/github/d" $SYN_HOS
-    # 从gitlab更新github的IP
-    curl -o $SYN_REC https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts\?inline\=false
-    # 由于DNS的不稳定性，暂时禁用自动探测，而前2个DNS可以正确探测github.com
-    # SYN_DN2IP "${SYN_GITHUB[*]}" "$SYN_REC"
-    # 调入本地hosts
     cat $SYN_HOS |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g' >> $SYN_REC
-    # 将整理好的 $SYN_REC 保存到 $SYN_HOS, 以供其他系统调用
-    sudo sh -c "cat $SYN_REC > $SYN_HOS"
+    # 探测github.com 相关
+    SYN_DN2IP "${SYN_GITHUB[*]}" "$SYN_REC"
     # 探测sci 期刊
     SYN_DN2IP "${SYN_SCI[*]}" "$SYN_REC"
     if [ -e $SYN_ADD ]; then
+        sudo sed -i "/github/d" $SYN_ADD
         cat $SYN_ADD |grep '^[0-9]' |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g' >> $SYN_REC
     fi
     cat $SYN_REC |grep '^[0-9]' |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g'  > $SYN_REC
     echo "$(hostname -i) localhost:" >> $SYN_REC
+    # 将整理好的 $SYN_REC 保存到 $SYN_HOS, 以供其他系统调用
+    sudo sh -c "cat $SYN_REC > $SYN_HOS"
+    # 重启dnsmasq服务
     systemctl is-active --quiet dnsmasq
     if [[ $? == 0 ]]; then
         sudo systemctl restart dnsmasq.service
