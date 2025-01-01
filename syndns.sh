@@ -25,7 +25,12 @@ SYN_HOS="/etc/hosts"
 SYN_REC=$(grep "addn-hosts" /etc/dnsmasq.conf |grep "/dev/shm/")
 SYN_REC=${SYN_REC#*=}
 SYN_ADD="$HOME/.host_dns_autoadd.txt"
-SYN_DNSIP=(1.0.0.1 9.9.9.9 4.2.2.1 4.2.2.2 101.101.101.101 101.102.103.104)  # 默认DNS服务器, 前4个可以正确返回github.com
+SYN_DNSIP=(1.0.0.1 1.0.0.2 1.0.0.3 \
+    9.9.9.9 149.112.112.112 149.112.112.9 \
+    77.88.8.8 77.88.8.1 77.88.8.2 77.88.8.88 77.88.8.3 77.88.8.3 \
+    4.2.2.1 4.2.2.2 4.2.2.3 4.2.2.4 4.2.2.5 4.2.2.6 \
+    80.80.80.80 80.80.81.81 \
+    101.101.101.101 101.102.103.104)  # 默认DNS服务器, 前4个可以正确返回github.com
 # Github 网站涉及的所有域名, 暂时保留，只是1.0.0.1可以正确解析
 SYN_GITHUB=(github.githubassets.com central.github.com desktop.githubusercontent.com \
 assets-cdn.github.com camo.githubusercontent.com github.map.fastly.net github.global.ssl.fastly.net \
