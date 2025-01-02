@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v2.9
-# Date     : 2025-01-02 16:30
+# Version  : v3.0
+# Date     : 2025-01-02 17:20
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -96,14 +96,18 @@ SYNDNS_PROCESS(){
     SYN_DN2IP "${SYN_DNS_EN[*]}" "${SYN_GITHUB[*]}" "$SYN_REC"
     # 探测sci 期刊
     SYN_DN2IP "${SYN_DNS_EN[*]}" "${SYN_SCI[*]}" "$SYN_REC"
+    # 将整理好的 $SYN_REC 保存到 $SYN_HOS, 不包含用户自己的游览记录 SYN_ADD
+    sudo sh -c "cat $SYN_REC > $SYN_HOS"
     if [ -e $SYN_ADD ]; then
         sudo sed -i "/github/d" $SYN_ADD
+        if [[ ${#SYN_HOSY} != 0 ]]; then
+            echo "" > $SYN_ADD
+            SYN_DN2IP "${SYN_DNS_CN[*]}" "${SYN_HOSY[*]}" "$SYN_ADD"
+        fi
         cat $SYN_ADD |grep '^[0-9]' |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g' >> $SYN_REC
     fi
     cat $SYN_REC |grep '^[0-9]' |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g'  > $SYN_REC
     echo "$(hostname -i) localhost:" >> $SYN_REC
-    # 将整理好的 $SYN_REC 保存到 $SYN_HOS, 以供其他系统调用
-    sudo sh -c "cat $SYN_REC > $SYN_HOS"
     # 重启dnsmasq服务
     systemctl is-active --quiet dnsmasq
     if [[ $? == 0 ]]; then
@@ -173,6 +177,10 @@ fi
         cat $SYN_ADD |grep '^[0-9]' |grep -v '^$'|grep -v '^#'|sort |uniq -u |sed -r 's/ * / /g' > $SYN_ADD
     elif [[ $1 = "-r" || $1 = "-rebuild" ]]; then
         SYN_HOSX=$(awk '{print $2}' $SYN_HOS |sort |uniq |sed -r 's/ * / /g')
+        if [ -e $SYN_ADD ]; then
+            sudo sed -i "/github/d" $SYN_ADD
+            SYN_HOSY=$(awk '{print $2}' $SYN_HOS |sort |uniq |sed -r 's/ * / /g')
+        fi
     fi
 fi
 # 默认执行主程序
