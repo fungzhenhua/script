@@ -3,13 +3,13 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2024-12-29 22:07
+# Date     : 2025-01-02 21:22
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=usbmain
-DY_VERSION="${DY_NAME}-V14.1"
+DY_VERSION="${DY_NAME}-V14.2"
 DY_REMOTE=origin
 DY_BRANCH=main
 if [ $# -gt 0 ]; then
@@ -106,6 +106,13 @@ else
     REGISTRATION_TOKEN=${DY_INFO[5]}
     GITLAB_SIT=${DY_INFO[6]}
 fi
+DY_IGNORE="$DY_PATH/.gitignore"
+if [[ ! -e $DY_IGNORE ]]; then
+    touch $DY_IGNORE
+    echo ".deploy_git/" > $DY_IGNORE
+    echo "public/" >> $DY_IGNORE
+    echo "db.json" >> $DY_IGNORE
+fi
 #=========================下载博客=========================
 DY_CLONE(){
     git  clone $DY_PCLONESITE  $DY_PATH
@@ -183,7 +190,6 @@ ThemeUpdate(){
 #=========================定义函数=========================
 DY_PUSHX(){
     cd $DY_PATH
-    rm -rf .deploy_git
     hexo g
     hexo d
     git add .  &> /dev/null
