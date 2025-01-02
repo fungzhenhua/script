@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v3.0
-# Date     : 2025-01-02 17:20
+# Version  : v3.1
+# Date     : 2025-01-02 18:01
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -53,11 +53,13 @@ doi.org iopscience.iop.org www.researchgate.net a.researchgate.net c5.rgstatic.n
 arxiv.org static.arxiv.org www.sciencedirect.com opg.optica.org picx.zhiming.com \
 mirrors.sustech.edu.cn cdnjs.cloudflare.com cdn.onmicrosoft.cn unpkg.com s4.zstatic.net \
 lf2-cdn-tos.bytecdntp.com lf9-cdn-tos.bytecdntp.com lf26-cdn-tos.bytecdntp.com lf6-unpkg.zstaticcdn.com )
+SYN_CLEAN_DOM=( $(echo ${SYN_GITHUB[*]} ${SYN_SCI[*]}) )
 #
 # 参数1 DNS服务器 参数2为域名数组，参数3 保存文件， 使用 SYN_DN2IP "${SYN_DNS_CN[*]}" "${DOMAN[*]}" "outfile"
 SYN_DN2IP(){
-    SYN_DNSIP=($1)
-    for hubweb in $2; do
+    unset SYN_DNSIP ; unset SYN_DNS_DOM
+    SYN_DNSIP=($1) ; SYN_DNS_DOM=($2)
+    for hubweb in ${SYN_DNS_DOM[*]}; do
         unset SYN_IP
         for ((k = 0; k < ${#SYN_DNSIP[@]}; k++)); do
             SYN_IP="$(dig @${SYN_DNSIP[$k]} +short $hubweb)"
@@ -70,6 +72,11 @@ SYN_DN2IP(){
                 echo "$ipc $hubweb" >> $3
             done
         fi
+    done
+}
+SYN_CLEAN(){
+    for VAR in $1 ; do
+        sudo sed -i "/$VAR/d" $2
     done
 }
 # 主程序
@@ -86,7 +93,7 @@ SYNDNS_PROCESS(){
     # 清空$SYN_REC, 若不存在则建立空文件
     echo "" > $SYN_REC
     # 清理/etc/hosts 中的github有关域名, 并调入
-    sudo sed -i "/github/d" $SYN_HOS
+    SYN_CLEAN "${SYN_CLEAN_DOM[*]}" "$SYN_HOS"
     if [[ ${#SYN_HOSX} = 0 ]]; then
         cat $SYN_HOS |grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g' >> $SYN_REC
     else
@@ -99,7 +106,7 @@ SYNDNS_PROCESS(){
     # 将整理好的 $SYN_REC 保存到 $SYN_HOS, 不包含用户自己的游览记录 SYN_ADD
     sudo sh -c "cat $SYN_REC > $SYN_HOS"
     if [ -e $SYN_ADD ]; then
-        sudo sed -i "/github/d" $SYN_ADD
+        SYN_CLEAN "${SYN_CLEAN_DOM[*]}" "$SYN_ADD"
         if [[ ${#SYN_HOSY} != 0 ]]; then
             echo "" > $SYN_ADD
             SYN_DN2IP "${SYN_DNS_CN[*]}" "${SYN_HOSY[*]}" "$SYN_ADD"
@@ -176,10 +183,11 @@ fi
         SYN_DN2IP "${Address[*]}" "$SYN_ADD"
         cat $SYN_ADD |grep '^[0-9]' |grep -v '^$'|grep -v '^#'|sort |uniq -u |sed -r 's/ * / /g' > $SYN_ADD
     elif [[ $1 = "-r" || $1 = "-rebuild" ]]; then
+        SYN_CLEAN "${SYN_CLEAN_DOM[*]}" "$SYN_HOS"
         SYN_HOSX=$(awk '{print $2}' $SYN_HOS |sort |uniq |sed -r 's/ * / /g')
         if [ -e $SYN_ADD ]; then
-            sudo sed -i "/github/d" $SYN_ADD
-            SYN_HOSY=$(awk '{print $2}' $SYN_HOS |sort |uniq |sed -r 's/ * / /g')
+            SYN_CLEAN "${SYN_CLEAN_DOM[*]}" "$SYN_ADD"
+            SYN_HOSY=$(awk '{print $2}' $SYN_ADD |sort |uniq |sed -r 's/ * / /g')
         fi
     fi
 fi
