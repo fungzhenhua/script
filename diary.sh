@@ -3,13 +3,13 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-01-03 10:50
+# Date     : 2025-01-03 11:43
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 # 变量配置
-DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=usbmain
-DY_VERSION="${DY_NAME}-V14.3"
+DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
+DY_VERSION="${DY_NAME}-V14.4"
 DY_REMOTE=origin
 DY_BRANCH=main
 if [ $# -gt 0 ]; then
@@ -33,6 +33,15 @@ DY_NEXT_COLOR=#9400D3
 USB_TIMEOUT=1
 NEO_FORMAT="44;39"
 NEO_WARNING="7"
+# 检测/etc/hosts中对github.com的解析，以确保文章可以正常推送
+DY_HOST="/etc/hosts"
+DY_DNS_GITHUB=$(dig @119.29.29.29 +short github.com)
+cat $DY_HOST |grep "$DY_DNS_GITHUB * github.com" &> /dev/null
+if [[ $? = 0 ]]; then
+    DY_DNS_GITHUA=$(dig @4.2.2.1 +short github.com)
+    sudo sed -ie "s/"${DY_DNS_GITHUB}" * github.com/"${DY_DNS_GITHUA}" github.com /g" "$DY_HOST"
+fi
+# 定义博客分类
 DY_TAGS=( 电脑技术 科研笔记 心情随笔 )
 unset USB_UPDATE_URLS
 USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inline\=false     # 默认升级地址
