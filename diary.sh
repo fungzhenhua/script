@@ -3,13 +3,13 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-01-02 21:22
+# Date     : 2025-01-03 10:50
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=usbmain
-DY_VERSION="${DY_NAME}-V14.2"
+DY_VERSION="${DY_NAME}-V14.3"
 DY_REMOTE=origin
 DY_BRANCH=main
 if [ $# -gt 0 ]; then
@@ -190,7 +190,6 @@ ThemeUpdate(){
 #=========================定义函数=========================
 DY_PUSHX(){
     cd $DY_PATH
-    rm -rf .deploy_git
     hexo g
     hexo d
     git add .  &> /dev/null
@@ -748,6 +747,7 @@ else
         let NEO_LINENO=${TTY_H}+1
         if [ $Snum == "Y" -o $Snum == "y" ]; then
             rm "$DY_ART/$EDFILE"
+            rm -rf .deploy_git
             printf "\033[${NEO_LINENO};1H\u2705删除: \033[${NEO_WARNING}m《${EDFILE%.*}》\033[0m"
         else
             printf "\033[${NEO_LINENO};1H\u274E退出: \033[${NEO_WARNING}m《${EDFILE%.*}》\033[0m"
