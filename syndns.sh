@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v3.3
-# Date     : 2025-01-02 20:16
+# Version  : v3.4
+# Date     : 2025-01-04 13:31
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
