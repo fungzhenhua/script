@@ -107,7 +107,8 @@ SYNDNS_PROCESS(){
     # 探测sci 期刊
     SYN_DN2IP "${SYN_DNS_EN[*]}" "${SYN_SCI[*]}" "$SYN_REC"
     # 将整理好的 $SYN_REC 保存到 $SYN_HOS, 不包含用户自己的游览记录 SYN_ADD
-    sudo sh -c "cat $SYN_REC > $SYN_HOS"
+    # sudo sh -c "cat $SYN_REC > $SYN_HOS"
+    cat $SYN_REC | sudo tee $SYN_HOS
     if [ -e $SYN_ADD ]; then
         if [[ $1 = "-rebuild" ]]; then
             echo "" > $SYN_ADD
@@ -162,7 +163,7 @@ fi
 if [ ! -e $SYN_SUDO ]; then
    sudo touch $SYN_SUDO
 sudo sh -c "cat > $SYN_SUDO" <<EOB
-$USER ALL=(ALL) NOPASSWD: /bin/systemctl restart dnsmasq.service, /bin/systemctl start dnsmasq.service
+$USER ALL=(ALL) NOPASSWD: /bin/systemctl restart dnsmasq.service, /bin/systemctl start dnsmasq.service /usr/bin/tee $SYN_HOS , /usr/bin/tee -a $SYN_HOS
 EOB
 fi
     exit
