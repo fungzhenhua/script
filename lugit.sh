@@ -1,15 +1,15 @@
 #! /bin/sh
 #
 # Program  : ugit.sh
-# Date     : 2024-12-30 11:27
-# Weather  : 2024年12月30日星期一晴北京市
+# Date     : 2025-01-06 12:25
+# Weather  : 2025年01月06日星期一晴北京市
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2024 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 USB_NAME=ugit ; USB_NAME_SH="lugit.sh" ; USB_BNAME=main
-USB_VERSION="${USB_NAME}-V11.1"
+USB_VERSION="${USB_NAME}-V11.2"
 USB_REMORT="$HOME/.gitrepository"                         # 默认git仓库
 USB_LOCAL="$HOME/KINGSTON@UGIT"
 USB_URL_CFG="$HOME/.ugit-url"
@@ -38,8 +38,6 @@ USB_USED=95                                                                     
 USB_DEPENDENT="trash-cli curl gawk sed grep"                                                  # 本脚本依赖的程序
 USB_TIMEOUT=1                                                                                 # curl 最大请求时间
 NEO_ESC=`echo -ne "\033"`
-# 建立远程和本地仓库
-
 # 网络探测程序
 USB_DETECT_URL(){
     wget --spider -T 5 -q -t 2 $1
@@ -595,7 +593,7 @@ if [ $# -gt 0 ]; then
             exit
         fi
     elif [ $1 == "-n" -o $1 == "-N" -o $1 == "--new" -o $1 == "--NEW" ]; then
-        while ((i = 1; $i <= ${#USB_REMORT_MAP_ALL[*]}; i++ )); do
+        for ((i = 1; $i <= ${#USB_REMORT_MAP_ALL[*]}; i++ )); do
             echo "[$i] ${USB_REMORT_MAP_ALL[$i-1]}"
         done
         DY_MKLINE
