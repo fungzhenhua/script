@@ -1,15 +1,14 @@
 #! /bin/sh
 #
 # Program  : ugit.sh
-# Date     : 2025-01-06 12:25
-# Weather  : 2025年01月06日星期一晴北京市
+# Date     : 2025-01-07 20:46
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2024 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 USB_NAME=ugit ; USB_NAME_SH="lugit.sh" ; USB_BNAME=main
-USB_VERSION="${USB_NAME}-V11.2"
+USB_VERSION="${USB_NAME}-V11.3"
 USB_REMORT="$HOME/.gitrepository"                         # 默认git仓库
 USB_LOCAL="$HOME/KINGSTON@UGIT"
 USB_URL_CFG="$HOME/.ugit-url"
@@ -35,7 +34,7 @@ unset USB_UPDATE_URLS
 USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inline\=false     # 默认升级地址
 USB_UPDATE_URLS[1]=https://gitlab.com/fengzhenhua/script/-/raw/$USB_REMORT_SH\?inline\=false  # 备用升级地址
 USB_USED=95                                                                                   # U盘使用量阈值(0-100)
-USB_DEPENDENT="trash-cli curl gawk sed grep"                                                  # 本脚本依赖的程序
+USB_DEPENDENT="github-cli trash-cli curl gawk sed grep"                                       # 本脚本依赖的程序
 USB_TIMEOUT=1                                                                                 # curl 最大请求时间
 NEO_ESC=`echo -ne "\033"`
 # 网络探测程序
@@ -487,12 +486,22 @@ if [ $# -gt 0 ]; then
                 touch $USB_RCFG
                 chmod +w $USB_RCFG
                 echo "example: " > $USB_RCFG
-                echo "gitee https://github.com/project.git" >> $USB_RCFG
+                echo "github https://github.com/project.git" >> $USB_RCFG
                 nvim $USB_RCFG
             fi
             USB_RCF=($(cat $USB_RCFG))
             i=2 ; k=${#USB_RCF[*]} ; let k=k-2 ; j=0
             USB_RNA=${PWD##*/}
+            USB_GH_REP=($(gh repo list |awk '{print $1}'))
+            USB_GH_REP=(${USB_GH_REP[@]##*/})
+            if [[ ! "${USB_GH_REP[*]}" =~ $USB_RNA ]]; then
+                echo -ne "设置github仓库：1. private 2. public"; read TLS_SNum
+                if [[ $TLS_SNum == 2 ]]; then
+                    gh repo create $USB_RNA --public
+                else
+                    gh repo create $USB_RNA --private
+                fi
+            fi
             USB_RNAC=($(cat "$PWD/$USB_SCFG"))
             while [ $i -lt $k ]; do
                 let i+=2 ; let j+=1
