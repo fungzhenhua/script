@@ -113,8 +113,8 @@ SYNDNS_PROCESS(){
             cat $SYN_ADD >> $SYN_REC
         fi
         # 将整理好的 $SYN_REC 保存到 $SYN_HOS
-        cat $SYN_REC | sudo tee $SYN_HOS
-        # sudo sh -c "cat $SYN_REC > $SYN_HOS"
+        # cat $SYN_REC | sudo tee $SYN_HOS &> /dev/null
+        sudo sh -c "cat $SYN_REC > $SYN_HOS" &> /dev/null
     fi
     echo "$(hostname -i) localhost:" >> $SYN_REC
     # 重启dnsmasq服务
