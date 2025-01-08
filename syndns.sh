@@ -1,22 +1,13 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v3.4
-# Date     : 2025-01-04 13:31
+# Version  : v3.5
+# Date     : 2025-01-08 16:23
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
-# 检测软件依懒, 若未检测到，则自动安装
-SYNDNS_DEPEND(){
-    for VAR in $1 ;do
-        pacman -Qq $VAR &> /dev/null
-        if [[ $? != 0 ]]; then
-            sudo pacman -S $VAR
-        fi
-    done
-}
 # 变量
 SYN_EXE="/usr/local/bin/${0%.sh}"
 SYN_AUTO="$HOME/.config/autostart/${0%.sh}.desktop"
@@ -61,6 +52,15 @@ if [ -e $SYN_ADD ]; then
     SYN_ADD_ARR=( $(cat $SYN_ADD |awk '{print $2}'|grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g') )
     SYN_ADDX=( $(echo ${SYN_ADD_ARR[*]} ${SYN_CLEAN_DOM[*]} |sed 's/ /\n/g'|sort|uniq -c|awk '$1==1{print $2}' ) )
 fi
+# 检测软件依懒, 若未检测到，则自动安装
+SYNDNS_DEPEND(){
+    for VAR in $1 ;do
+        pacman -Qq $VAR &> /dev/null
+        if [[ $? != 0 ]]; then
+            sudo pacman -S $VAR
+        fi
+    done
+}
 # 参数1 DNS服务器 参数2为域名数组，参数3 保存文件， 使用 SYN_DN2IP "${SYN_DNS_CN[*]}" "${DOMAN[*]}" "outfile"
 SYN_DN2IP(){
     unset SYN_DNSIP ; unset SYN_DNS_DOM
@@ -106,15 +106,15 @@ SYNDNS_PROCESS(){
     SYN_DN2IP "${SYN_DNS_EN[*]}" "${SYN_GITHUB[*]}" "$SYN_REC"
     # 探测sci 期刊
     SYN_DN2IP "${SYN_DNS_EN[*]}" "${SYN_SCI[*]}" "$SYN_REC"
-    # 将整理好的 $SYN_REC 保存到 $SYN_HOS, 不包含用户自己的游览记录 SYN_ADD
-    # sudo sh -c "cat $SYN_REC > $SYN_HOS"
-    cat $SYN_REC | sudo tee $SYN_HOS
-    if [ -e $SYN_ADD ]; then
-        if [[ $1 = "-rebuild" ]]; then
+    if [[ $1 = "-rebuild" ]]; then
+        if [ -e $SYN_ADD ]; then
             echo "" > $SYN_ADD
             SYN_DN2IP "${SYN_DNS_CN[*]}" "${SYN_ADDX[*]}" "$SYN_ADD"
+            cat $SYN_ADD >> $SYN_REC
         fi
-        cat $SYN_ADD >> $SYN_REC
+        # 将整理好的 $SYN_REC 保存到 $SYN_HOS
+        cat $SYN_REC | sudo tee $SYN_HOS
+        # sudo sh -c "cat $SYN_REC > $SYN_HOS"
     fi
     echo "$(hostname -i) localhost:" >> $SYN_REC
     # 重启dnsmasq服务
