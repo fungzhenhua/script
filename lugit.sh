@@ -573,7 +573,8 @@ if [ $# -gt 0 ]; then
                         if [ $? = 0 ]; then
                             git add . &> /dev/null
                             git commit -m "$COMMENT" &> /dev/null
-                            git push -f $USB_TEMP &> /dev/null
+                            # git push -f $USB_TEMP &> /dev/null
+                            git push $USB_TEMP &> /dev/null
                             printf " %${USB_SYNC_WNUM}s)  \u$USB_TEMP_ICON \u2b60 \U0001F4BB %s \n" \
                                 "$k" "${USB_SYNC_MAP_ALL[$i-1]}"
                         else
