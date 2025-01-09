@@ -2,7 +2,7 @@
 
 ![Static Badge](https://img.shields.io/badge/diary.sh-V14.0-purple)
 ![Static Badge](https://img.shields.io/badge/lugit.sh-V11.0-purple)
-![Static Badge](https://img.shields.io/badge/syndns.sh-V3.5-purple)
+![Static Badge](https://img.shields.io/badge/syndns.sh-V3.7-purple)
 ![Static Badge](https://img.shields.io/badge/updatehost.sh-V1.4-purple)
 ![Static Badge](https://img.shields.io/badge/stirling.sh-V1.0-purple)
 ![Static Badge](https://img.shields.io/badge/xugit.sh-V8.0-purple)
@@ -35,6 +35,7 @@
 - 2024年12月05日, 将`github`添加到脚本中自动探测`IP`, 不再依赖`updatehost`. 升级版本号`V1.8`
 - 2024年12月05日, 修复去除重复行过度的`Bug`, 升级版本号`V1.9`
 - 2025年01月08日, 修复每次启动导致`sudo`无法接收密码的错误，停用每次启动都写入`hosts`文件的行为，改为手动选项`-r`操作。升级版本号`V3.5`
+- 2025年01月09日, 修改`sudo`行为，改用单独加密的策略，更加安全。升级版本号`V3.7`
 
 ## lugit.sh ##
 
