@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v3.5
-# Date     : 2025-01-08 16:23
+# Version  : v3.6
+# Date     : 2025-01-09 11:23
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -163,7 +163,7 @@ fi
 if [ ! -e $SYN_SUDO ]; then
    sudo touch $SYN_SUDO
 sudo sh -c "cat > $SYN_SUDO" <<EOB
-$USER ALL=(ALL) NOPASSWD: /bin/systemctl restart dnsmasq.service, /bin/systemctl start dnsmasq.service /usr/bin/tee $SYN_HOS , /usr/bin/tee -a $SYN_HOS
+$USER ALL=(ALL) NOPASSWD: /bin/systemctl restart dnsmasq.service, /bin/systemctl start dnsmasq.service
 EOB
 fi
     exit
