@@ -3,13 +3,13 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-01-10 02:16
+# Date     : 2025-01-10 20:41
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V14.5"
+DY_VERSION="${DY_NAME}-V14.6"
 DY_REMOTE=origin
 DY_BRANCH=main
 if [ $# -gt 0 ]; then
@@ -33,13 +33,29 @@ DY_NEXT_COLOR=#9400D3
 USB_TIMEOUT=1
 NEO_FORMAT="44;39"
 NEO_WARNING="7"
+# 添加密码加密
+SYN_KEY="$HOME/.syndns_conf"
+SYN_KEY_SET(){
+    if [[ ! -e $SYN_KEY ]]; then
+        touch $SYN_KEY
+        read -p "请输入sudo密码：" SYN_KEY_DATA
+        echo "$SYN_KEY_DATA"|base64 -i | tee $SYN_KEY
+    fi
+    SYN_KEY_X=$(echo $(cat $SYN_KEY)| base64 -d)
+    sudo -k
+    echo $SYN_KEY_X | sudo -lS &> /dev/null
+    if [[ $? != 0 ]]; then
+        SYN_KEY_SET
+    fi
+}
+SYN_KEY_SET
 # 检测/etc/hosts中对github.com的解析，以确保文章可以正常推送
 DY_HOST="/etc/hosts"
 DY_DNS_GITHUB=$(dig @119.29.29.29 +short github.com)
 cat $DY_HOST |grep "$DY_DNS_GITHUB * github.com" &> /dev/null
 if [[ $? = 0 ]]; then
     DY_DNS_GITHUA=$(dig @4.2.2.1 +short github.com)
-    sudo sed -ie "s/"${DY_DNS_GITHUB}" * github.com/"${DY_DNS_GITHUA}" github.com /g" "$DY_HOST"
+    echo $SYN_KEY_X |sudo -S sed -ie "s/"${DY_DNS_GITHUB}" * github.com/"${DY_DNS_GITHUA}" github.com /g" "$DY_HOST"
 fi
 # 定义博客分类
 DY_TAGS=( 电脑技术 科研笔记 心情随笔 )
@@ -53,7 +69,7 @@ if [ ! $? -eq 0 ]; then
     DY_EDIT="vim"
     which ${DY_EDIT} &>  /dev/null 
     if [ ! $? -eq 0 ]; then
-        sudo pacman -S neovim vim &> /dev/null
+        echo $SYN_KEY_X |sudo -S pacman -S neovim vim &> /dev/null
         echo “已经为您安装默认编辑器：neovim vim , 请重新运行脚本！”
         exit
     fi
@@ -68,17 +84,17 @@ DY_SET_SIZE
 DY_INSTALL(){
     # 检测并安装依赖
     if [[ $(which ssh) == 1 ]]; then
-        sudo pacman --needed --noconfirm -S openssh unzip curl
+        echo $SYN_KEY_X |sudo -S pacman --needed --noconfirm -S openssh unzip curl
         echo "您的SSH还未设置，请设置您博客的SSH密钥以关联发布网址！"
     fi
-    sudo pacman --needed --noconfirm -S $DY_DEPENDENT &> /dev/null
-    if [[ $(which hexo) == 1 ]]; then sudo yarn global add hexo-cli ;  fi
+    echo $SYN_KEY_X |sudo -S pacman --needed --noconfirm -S $DY_DEPENDENT &> /dev/null
+    if [[ $(which hexo) == 1 ]]; then echo $SYN_KEY_X |sudo -S yarn global add hexo-cli ;  fi
     # 安装脚本
     if [ $0 == $DY_NAME ]; then
         echo "请切换到最新的脚本目录执行: ./install.sh -i "
     else
-        sudo cp -f $0 $DY_EXE
-        sudo chmod 755 $DY_EXE
+        echo $SYN_KEY_X |sudo -S cp -f $0 $DY_EXE
+        echo $SYN_KEY_X |sudo -S chmod 755 $DY_EXE
         echo "${DY_VERSION}成功安装到标准位置$DY_EXEPATH，帮助请执行： diary --help "
     fi
     exit
@@ -173,7 +189,7 @@ SelfUpdate(){
     USB_DETECT_URL "${USB_UPDATE_URL}"
     if [ $? = 0 ]; then
         echo "Diary is updating, please wait ......"
-        sudo curl -o $DY_EXE $USB_UPDATE_URL
+        echo $SYN_KEY_X |sudo -S curl -o $DY_EXE $USB_UPDATE_URL
         echo "Update completed, please run diary again"
         exit
     else
@@ -386,7 +402,7 @@ NEO_DIS_COLOR(){
 }
 NEO_THEME_SET(){
     NEO_DIS_COLOR 30 37 40 47
-    sudo sed -i "s/^$1.*$/$1=\"${NEO_THEME_COLOR}\"/" $DY_EXE
+    echo $SYN_KEY_X |sudo -S sed -i "s/^$1.*$/$1=\"${NEO_THEME_COLOR}\"/" $DY_EXE
 }
 # 参数： 输出行，行号，数组号， 高亮行号
 NEO_PRINT(){
@@ -706,7 +722,7 @@ if [ $# -eq 0 ]; then
     fi
 else
     if [ $1 == "--Setsym" -o $1 == "--SetSym" ]; then
-        sudo sed -i "s/^DY_LINE.*$/DY_LINE=\"$2\"/g"  $0
+        echo $SYN_KEY_X |sudo -S sed -i "s/^DY_LINE.*$/DY_LINE=\"$2\"/g"  $0
         echo "分隔符已经修改为:$2"
         exit
     elif [ $1 == "-XL" -o $1 == "-xl" ]; then
@@ -714,14 +730,14 @@ else
         $DY_EDIT "$DY_SOC/$EDFILE/index.md"
         DY_PUSH "$DY_SOC/$EDFILE"
     elif [ $1 == "--Setedit" -o $1 == "--SetEdit" ]; then
-        sudo pacman -S --needed --noconfirm $2 &> /dev/null
+        echo $SYN_KEY_X |sudo -S pacman -S --needed --noconfirm $2 &> /dev/null
         if [ $? == 0 ]; then
             if [ $2 == "neovim" ]; then
                 SetEdited="nvim"
             else
                 SetEdited="$2"
             fi
-            sudo sed -i "s/^DY_EDIT.*$/DY_EDIT=\"$SetEdited\"/g"  $0
+            echo $SYN_KEY_X |sudo -S sed -i "s/^DY_EDIT.*$/DY_EDIT=\"$SetEdited\"/g"  $0
             echo "$2已经成功设置，Happy diaring !"
         else
             echo "$2无法识别，请输入正确的编辑器！建议：neovim vim vi"
