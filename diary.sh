@@ -3,13 +3,13 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-01-03 11:43
+# Date     : 2025-01-10 02:16
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V14.4"
+DY_VERSION="${DY_NAME}-V14.5"
 DY_REMOTE=origin
 DY_BRANCH=main
 if [ $# -gt 0 ]; then
@@ -44,9 +44,9 @@ fi
 # 定义博客分类
 DY_TAGS=( 电脑技术 科研笔记 心情随笔 )
 unset USB_UPDATE_URLS
-USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inline\=false     # 默认升级地址
-# USB_UPDATE_URLS[1]=https://gitlab.com/fengzhenhua/script/-/raw/$USB_REMORT_SH\?inline\=false  # 备用升级地址
-DY_DEPENDENT="unzip curl nodejs npm git pandoc gawk sed"                            # 依赖程序
+USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inline\=false      # 默认升级地址
+# USB_UPDATE_URLS[1]=https://gitlab.com/fengzhenhua/script/-/raw/$USB_REMORT_SH\?inline\=false # 备用升级地址
+DY_DEPENDENT="github-cli unzip curl nodejs npm git pandoc gawk sed"                            # 依赖程序
 DY_EDIT="nvim"
 which ${DY_EDIT} &>  /dev/null 
 if [ ! $? -eq 0 ]; then
@@ -197,6 +197,7 @@ ThemeUpdate(){
     echo "The next theme of hexo has been updated, happy diary !!"
 }
 #=========================定义函数=========================
+# 此处应当在电脑上配置好帐号 fongzhenhua 和 fungzhenhua 的github-cli 登录, 因为时间关系暂不写成通用程序
 DY_PUSHX(){
     cd $DY_PATH
     hexo g
@@ -204,6 +205,9 @@ DY_PUSHX(){
     git add .  &> /dev/null
     git commit  -m  "$COMMENT" &> /dev/null
     git push "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
+    gh auth switch -u fongzhenhua
+    gh repo sync --force fongzhenhua/fongzhenhua.github.io --source fungzhenhua/fungzhenhua.github.io
+    gh auth switch -u fungzhenhua
     echo -e "文章发布成功，期待您的下一篇文章!"
 }
 DY_BUT_LS(){
