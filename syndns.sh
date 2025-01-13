@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v3.7
-# Date     : 2025-01-09 15:37
+# Version  : v3.9
+# Date     : 2025-01-13 12:11
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -33,8 +33,8 @@ SYN_REC=$(grep "addn-hosts" /etc/dnsmasq.conf |grep "/dev/shm/")
 SYN_REC=${SYN_REC#*=}
 SYN_ADD="$HOME/.host_dns_autoadd.txt"
 SYN_HOS_USE="$HOME/.host_dns_clean"
-SYN_DNS_EN=(4.2.2.1 4.2.2.2 4.2.2.3 4.2.2.4 4.2.2.5 4.2.2.6 \
-    9.9.9.9 149.112.112.112 149.112.112.9 \
+SYN_DNS_EN=(9.9.9.9 149.112.112.112 149.112.112.9 \
+    4.2.2.1 4.2.2.2 4.2.2.3 4.2.2.4 4.2.2.5 4.2.2.6 \
     1.0.0.1 1.0.0.2 1.0.0.3 \
     77.88.8.8 77.88.8.1 77.88.8.2 77.88.8.88 77.88.8.3 77.88.8.3 \
     80.80.80.80 80.80.81.81 \
