@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v3.9
-# Date     : 2025-01-13 12:11
+# Version  : v4.0
+# Date     : 2025-01-13 19:31
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -140,6 +140,7 @@ EOC
     else
        echo $SYN_KEY_X | sudo -S systemctl start dnsmasq.service
     fi
+    echo $SYN_KEY_X |sudo -S systemctl restart NetworkManager
 }
 # 安装和更新
 if [ $# -gt 0 ]; then
