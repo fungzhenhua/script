@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v4.0
+# Version  : v4.1
 # Date     : 2025-01-13 19:31
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
@@ -180,20 +180,20 @@ fi
     exit
     elif [[ $1 =~ ".json" || $1 =~ ".dom" ]]; then
         if [[ $1 =~ ".json" ]]; then
-            Address=($(cat $1|jq -r '.children[]' |grep "\"uri\":"))
-            Address=(${Address[*]#*//})
-            Address=(${Address[*]/\"uri\":})
-            Address=(${Address[*]%%/*})
-            Address=(${Address[*]%%\"*})
-            Address=(${Address[*]%%*[0-9]})  # 去除非域名
-            Address=(`echo ${Address[@]}|sed -e 's/ /\n/g'|sort |uniq`)
+            SYN_ADDRESS=($(cat $1|jq -r '.children[]' |grep "\"uri\":"))
+            SYN_ADDRESS=(${SYN_ADDRESS[*]#*//})
+            SYN_ADDRESS=(${SYN_ADDRESS[*]/\"uri\":})
+            SYN_ADDRESS=(${SYN_ADDRESS[*]%%/*})
+            SYN_ADDRESS=(${SYN_ADDRESS[*]%%\"*})
+            SYN_ADDRESS=(${SYN_ADDRESS[*]%%*[0-9]})  # 去除非域名
+            SYN_ADDRESS=(`echo ${SYN_ADDRESS[@]}|sed -e 's/ /\n/g'|sort |uniq`)
         elif [[ $1 =~ ".dom" ]]; then
-            Address=($(cat $1))
+            SYN_ADDRESS=($(cat $1))
         fi
         if [ ! -e $SYN_ADD ]; then
             touch $SYN_ADD
         fi
-        SYN_DN2IP "${SYN_DNS_CN[*]}" "${Address[*]}" "$SYN_ADD"
+        SYN_DN2IP "${SYN_DNS_CN[*]}" "${SYN_ADDRESS[*]}" "$SYN_ADD"
         cat $SYN_ADD |grep '^[0-9]' |grep -v '^$'|grep -v '^#'|sort |uniq -u |sed -r 's/ * / /g' > $SYN_ADD
     elif [[ $1 = "-r" || $1 = "-rebuild" ]]; then
         SYNDNS_PROCESS "-rebuild"
