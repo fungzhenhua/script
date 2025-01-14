@@ -2,7 +2,7 @@
 
 ![Static Badge](https://img.shields.io/badge/diary.sh-V14.5-purple)
 ![Static Badge](https://img.shields.io/badge/lugit.sh-V11.0-purple)
-![Static Badge](https://img.shields.io/badge/syndns.sh-V4.0-purple)
+![Static Badge](https://img.shields.io/badge/syndns.sh-V4.4-purple)
 ![Static Badge](https://img.shields.io/badge/updatehost.sh-V1.4-purple)
 ![Static Badge](https://img.shields.io/badge/stirling.sh-V1.0-purple)
 ![Static Badge](https://img.shields.io/badge/xugit.sh-V8.0-purple)
@@ -37,6 +37,7 @@
 - 2025年01月08日, 修复每次启动导致`sudo`无法接收密码的错误，停用每次启动都写入`hosts`文件的行为，改为手动选项`-r`操作。升级版本号`V3.5`
 - 2025年01月09日, 修改`sudo`行为，改用单独加密的策略，更加安全。升级版本号`V3.7`
 - 2025年01月13日, 增加了重启网卡选项。升级版本号`V4.0`
+- 2025年01月14日, 修复`-r`选项的`bug`, 同时为`/etc/resolv.conf`文件加锁，防止其他程序篡改。升级版本号`V4.4`
 
 ## lugit.sh ##
 
