@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v4.4
-# Date     : 2025-01-14 12:27
+# Version  : v4.5
+# Date     : 2025-02-08 22:39
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -60,7 +60,8 @@ d1bxh8uas1mnw7.cloudfront.net d1uo4w7k31k5mn.cloudfront.net badge.dimensions.ai 
 doi.org iopscience.iop.org www.researchgate.net a.researchgate.net c5.rgstatic.net adk.privacy-center.org code.jquery.com \
 arxiv.org static.arxiv.org www.sciencedirect.com opg.optica.org picx.zhiming.com \
 mirrors.sustech.edu.cn cdnjs.cloudflare.com cdn.onmicrosoft.cn unpkg.com s4.zstatic.net \
-lf2-cdn-tos.bytecdntp.com lf9-cdn-tos.bytecdntp.com lf26-cdn-tos.bytecdntp.com lf6-unpkg.zstaticcdn.com )
+lf2-cdn-tos.bytecdntp.com lf9-cdn-tos.bytecdntp.com lf26-cdn-tos.bytecdntp.com lf6-unpkg.zstaticcdn.com \
+scipost.org)
 SYN_CLEAN_DOM=( $(echo ${SYN_GITHUB[*]} ${SYN_SCI[*]} |sed 's/ /\n/g'|sort|uniq) )
 SYN_HOS_ARR=( $(cat $SYN_HOS |awk '{print $2}'|grep -v '^$'|grep -v '^#'|sort |uniq |sed -r 's/ * / /g') )
 SYN_HOSX=( $(echo ${SYN_HOS_ARR[*]} ${SYN_CLEAN_DOM[*]} |sed 's/ /\n/g'|sort|uniq -c|awk '$1==1{print $2}' ) )
