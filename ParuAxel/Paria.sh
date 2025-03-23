@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# Program: ParuAxel.sh
+# Program: Paria.sh
 # Version: V2.0
 # Author : Zhen-Hua Feng
 # Email  : fengzhenhua@outlook.com
