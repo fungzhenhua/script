@@ -1,10 +1,10 @@
 #! /bin/sh
 #
 # Program: Paria.sh
-# Version: V2.0
+# Version: V2.1
 # Author : Zhen-Hua Feng
 # Email  : fengzhenhua@outlook.com
-# Date   : 2025-03-24 05:10
+# Date   : 2025-03-24 11:45
 # Copyright (C) 2023-2025 feng <feng@arch>
 #
 # Distributed under terms of the MIT license.
@@ -29,7 +29,7 @@ case "$GIT_DOMIN" in
     "github.com")
         GIT_URL="$2"
         echo "Download from mirror $GIT_URL";
-        /usr/bin/aria2c --async-dns-server="$DNS_SERVERS" --split=15 --max-connection-per-server=15 -o "$1" "$GIT_URL" ;
+        /usr/bin/aria2c --async-dns-server="$DNS_SERVERS" --split=15 --max-connection-per-server=15 -k 1M --auto-file-renaming=false -o "$1" "$GIT_URL" ;
         if [[ $? -ne 0 ]]; then
             echo "[WARN] GitHub 原始地址下载失败，启动镜像检测..."
             if [ -e $GCF ]; then
@@ -41,7 +41,7 @@ case "$GIT_DOMIN" in
                         GIT_URL="${mirror}/${GIT_PATH}"
                     fi
                     if mirror_available "${GIT_URL}"; then
-                        /usr/bin/aria2c --split=15 --max-connection-per-server=15 -o "$1" "$GIT_URL" ;
+                        /usr/bin/aria2c --split=15 --max-connection-per-server=15 -k 1M --auto-file-renaming=false -o "$1" "$GIT_URL" ;
                         if [[ $? -eq 0 ]]; then
                             exit 0  # 下载成功则退出
                         else
@@ -56,6 +56,6 @@ case "$GIT_DOMIN" in
         fi
         ;;
     *)
-        /usr/bin/aria2c --split=15 --max-connection-per-server=15 -o "$1" "$2";
+        /usr/bin/aria2c --split=15 --max-connection-per-server=15 -k 1M --auto-file-renaming=false -o "$1" "$2" ;
         ;;
 esac
