@@ -29,7 +29,7 @@ case "$GIT_DOMIN" in
     "github.com")
         GIT_URL="$2"
         echo "Download from mirror $GIT_URL";
-        /usr/bin/aria2c --async-dns-server="$DNS_SERVERS" --split=15 --max-connection-per-server=15 -k 1M --auto-file-renaming=false -o "$1" "$GIT_URL" ;
+        /usr/bin/aria2c --async-dns-server="$DNS_SERVERS" --split=12 --max-connection-per-server=15 -k 1M --auto-file-renaming=false -o "$1" "$GIT_URL" ;
         if [[ $? -ne 0 ]]; then
             echo "[WARN] GitHub 原始地址下载失败，启动镜像检测..."
             if [ -e $GCF ]; then
@@ -41,7 +41,7 @@ case "$GIT_DOMIN" in
                         GIT_URL="${mirror}/${GIT_PATH}"
                     fi
                     if mirror_available "${GIT_URL}"; then
-                        /usr/bin/aria2c --split=15 --max-connection-per-server=15 -k 1M --auto-file-renaming=false -o "$1" "$GIT_URL" ;
+                        /usr/bin/aria2c --split=12 --max-connection-per-server=15 -k 1M --auto-file-renaming=false -o "$1" "$GIT_URL" ;
                         if [[ $? -eq 0 ]]; then
                             exit 0  # 下载成功则退出
                         else
@@ -56,6 +56,6 @@ case "$GIT_DOMIN" in
         fi
         ;;
     *)
-        /usr/bin/aria2c --split=15 --max-connection-per-server=15 -k 1M --auto-file-renaming=false -o "$1" "$2" ;
+        /usr/bin/aria2c --split=12 --max-connection-per-server=15 -k 1M --auto-file-renaming=false -o "$1" "$2" ;
         ;;
 esac
