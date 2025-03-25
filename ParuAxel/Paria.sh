@@ -18,7 +18,7 @@ DNS_SERVERS="4.2.2.1,4.2.2.2,4.2.2.3,4.2.2.4,4.2.2.5,4.2.2.6 \
     9.9.9.9,149.112.112.112,149.112.112.9"
 GCF=/home/$USER/.gitconfig
 GIT_SIT=($(grep -oP '\[url\s+"\Khttps://[^"]+' $GCF))
-# 取得sudo密码
+# 取得sudo密码, 这部分不加密有风险
 SYN_KEY="$HOME/.syndns_conf"
 SYN_KEY_SET(){
     if [[ ! -e $SYN_KEY ]]; then
