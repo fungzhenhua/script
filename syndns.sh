@@ -260,7 +260,7 @@ SYNDNS_PROCESS(){
 if [ $# -gt 0 ]; then
     if [ $1 == "-i" -o $1 == "-I" ]; then
         SYN_KEY_GET
-        SYNDNS_DEPEND "dnsutils inetutils dnsmasq jq"
+        GIT_DEPEND "dnsutils inetutils dnsmasq jq"
         echo $SYN_KEY_X |sudo -S cp -f $0 $SYN_EXE
         echo $SYN_KEY_X |sudo -S chmod +x $SYN_EXE
         SYN_SET_COF
