@@ -1,20 +1,31 @@
 # script 仓库 #
 
-![Static Badge](https://img.shields.io/badge/diary.sh-V14.7-purple)
-![Static Badge](https://img.shields.io/badge/lugit.sh-V11.0-purple)
+![Static Badge](https://img.shields.io/badge/diary.sh-V14.9-purple)
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
 ![Static Badge](https://img.shields.io/badge/Paria.sh-V2.1-purple)
 ![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.2-purple)
-![Static Badge](https://img.shields.io/badge/zugit.sh-V10.6-purple)
+![Static Badge](https://img.shields.io/badge/zugit.sh-V10.7-purple)
+![Static Badge](https://img.shields.io/badge/weather.sh-V2.9-purple)
+![Static Badge](https://img.shields.io/badge/install.sh-V2.0-purple)
 ![Static Badge](https://img.shields.io/badge/stirling.sh-V1.0-purple)
 ![Static Badge](https://img.shields.io/badge/updatehost.sh-V1.4-green)
 ![Static Badge](https://img.shields.io/badge/xugit.sh-V8.0-purple)
 ![Static Badge](https://img.shields.io/badge/neogit.sh-V4.0-green)
 ![Static Badge](https://img.shields.io/badge/ugit.sh-V2.1-green)
 ![Static Badge](https://img.shields.io/badge/archsetup.sh-V1.4-green)
+![Static Badge](https://img.shields.io/badge/lugit.sh-V11.0-purple)
 
 
-`xugit.sh`和`diary.sh`的`选择菜单`支持`vim`的快捷键，即`j`向下，`k`向上，同时`J`向下一页，`K`向上一页.
+`zugit.sh`和`diary.sh`的`选择菜单`支持`vim`的快捷键，即`j`向下，`k`向上，同时`J`向下一页，`K`向上一页.
+
+## install.sh ##
+
+- 2025年03月26日, 自今天起合并`diary.sh-V14.9`、`syndns.sh-V4.6`、`Paria.sh-V2.1`、`makepkg.sh-V1.2`、`zugit.sh-V10.7` 以及`weather.sh-V2.9`作为一个集合统一由`install.sh-V2.0`安装及配置依赖关系。后面升级的版本，均在此列出版本号及之后。
+- 2025年03月26日, 使用方法：
+    + 克隆本仓库.
+    + 进入`NeoProgram`目录.
+    + 执行`./install.sh`.
+    + 完成安装.
 
 ## stirling.sh ##
 
