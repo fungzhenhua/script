@@ -1,6 +1,6 @@
 # script 仓库 #
 
-## 积极开发中 ##
+## 积极开发中--NeoProgram ##
 
 ![Static Badge](https://img.shields.io/badge/diary.sh-V14.9-purple)
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
@@ -11,7 +11,7 @@
 ![Static Badge](https://img.shields.io/badge/install.sh-V2.0-purple)
 ![Static Badge](https://img.shields.io/badge/stirling.sh-V1.0-purple)
 
-## 停止维护--不建议使用，仅限学习参考 ##
+## 停止维护--AbandonMent不建议使用，仅限学习参考 ##
 
 ![Static Badge](https://img.shields.io/badge/updatehost.sh-V1.4-green)
 ![Static Badge](https://img.shields.io/badge/xugit.sh-V8.0-green)
