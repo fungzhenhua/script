@@ -13,7 +13,7 @@
 source ./Share_Fun/Share_Fun_KeySudo.sh
 source ./Share_Fun/Share_Fun_Menu.sh
 # 安装函数库到本地
-INS_Share_Fun="~/.Share_Fun"
+INS_Share_Fun=~/.Share_Fun
 if [ -e "$INS_Share_Fun" ]; then
     rm -rf "$INS_Share_Fun"
 fi
