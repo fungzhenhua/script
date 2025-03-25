@@ -104,6 +104,8 @@ GIT_DEPEND(){
             echo "$SYN_KEY_X" | sudo -S pacman -S --needed --noconfirm "$VAR"
         fi
     done
+    sudo -k
+    unset SYN_KEY_X
 }
 ## 安装Paria, 增强Paru下载Github资源功能
 GIT_DEPEND "aria2 cmake"
@@ -114,3 +116,15 @@ sudo chmod 755 /usr/bin/Paria
 echo "Paria 安装成功，paru配置完毕 !! "
 #
 ## 安装diary.sh, 日志编写和管理程序, 已经内置了此密码程序，暂不单独列出
+DY_NAME=diary
+DY_EXEPATH=/usr/local/bin
+DY_EXE="$DY_EXEPATH/$DY_NAME"
+DY_VERSION="${DY_NAME}-V15.0"
+GIT_DEPEND "neovim vim openssh unzip curl github-cli unzip curl nodejs npm git pandoc gawk sed"
+SYN_KEY_GET
+if [[ $(which hexo) == 1 ]]; then
+    echo $SYN_KEY_X |sudo -S yarn global add hexo-cli ;
+fi
+echo $SYN_KEY_X |sudo -S cp -f ./diary.sh $DY_EXE
+echo $SYN_KEY_X |sudo -S chmod 755 $DY_EXE
+echo "${DY_VERSION}成功安装到标准位置$DY_EXEPATH，帮助请执行： diary --help "
