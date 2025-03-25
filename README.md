@@ -1,17 +1,17 @@
 # script 仓库 #
 
-![Static Badge](https://img.shields.io/badge/diary.sh-V14.5-purple)
+![Static Badge](https://img.shields.io/badge/diary.sh-V14.7-purple)
 ![Static Badge](https://img.shields.io/badge/lugit.sh-V11.0-purple)
-![Static Badge](https://img.shields.io/badge/syndns.sh-V4.4-purple)
-![Static Badge](https://img.shields.io/badge/updatehost.sh-V1.4-purple)
+![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
+![Static Badge](https://img.shields.io/badge/Paria.sh-V2.1-purple)
+![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.2-purple)
+![Static Badge](https://img.shields.io/badge/zugit.sh-V10.6-purple)
 ![Static Badge](https://img.shields.io/badge/stirling.sh-V1.0-purple)
+![Static Badge](https://img.shields.io/badge/updatehost.sh-V1.4-green)
 ![Static Badge](https://img.shields.io/badge/xugit.sh-V8.0-purple)
 ![Static Badge](https://img.shields.io/badge/neogit.sh-V4.0-green)
 ![Static Badge](https://img.shields.io/badge/ugit.sh-V2.1-green)
 ![Static Badge](https://img.shields.io/badge/archsetup.sh-V1.4-green)
-![Static Badge](https://img.shields.io/badge/ParuAxel.sh-V1.2-green)
-![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.1-green)
-![Static Badge](https://img.shields.io/badge/zugit.sh-V10.6-green)
 
 
 `xugit.sh`和`diary.sh`的`选择菜单`支持`vim`的快捷键，即`j`向下，`k`向上，同时`J`向下一页，`K`向上一页.
@@ -38,6 +38,7 @@
 - 2025年01月09日, 修改`sudo`行为，改用单独加密的策略，更加安全。升级版本号`V3.7`
 - 2025年01月13日, 增加了重启网卡选项。升级版本号`V4.0`
 - 2025年01月14日, 修复`-r`选项的`bug`, 同时为`/etc/resolv.conf`文件加锁，防止其他程序篡改。升级版本号`V4.4`
+- 2025年03月25日, 增强依赖处理时的密码自动获取，使用gnome 密钥环加密保存和调用sudo密码.升级版本号`V4.6`
 
 ## lugit.sh ##
 
@@ -99,6 +100,7 @@
 - 2024年12月01日, 更改判断依赖软件安装方式为通用`which`命令。升级版本号`V13.3`.
 - 2024年12月29日, 由于GitLab强制迁移到付费的极狐GitLab, 所以决定修改diary.sh支持github, 不再维护gitlab版本。直接升级版本号`V14.0`
 - 2025年01月10日, 配置好两个github帐号在github-cli上登录，并自动切换一个发布博客，一个同步另一个博客。这样做的好处是，本地只处理一个仓库，另一个仓库的同步在github上完成，不用消耗本地的流量。由于时间紧张，暂未写成通用程序，待时间允许再做修改。请使用者注意第`200`行，根据自己的帐号情况修改。升级版本号`V14.5`
+- 2025年03月25日, 增强依赖处理时的密码自动获取，使用gnome 密钥环加密保存和调用sudo密码.升级版本号`V4.7`
 
 ## xugit.sh增强版 ##
 
