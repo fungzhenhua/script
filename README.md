@@ -1,5 +1,7 @@
 # script 仓库 #
 
+## 积极开发中 ##
+
 ![Static Badge](https://img.shields.io/badge/diary.sh-V14.9-purple)
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
 ![Static Badge](https://img.shields.io/badge/Paria.sh-V2.1-purple)
@@ -8,12 +10,15 @@
 ![Static Badge](https://img.shields.io/badge/weather.sh-V2.9-purple)
 ![Static Badge](https://img.shields.io/badge/install.sh-V2.0-purple)
 ![Static Badge](https://img.shields.io/badge/stirling.sh-V1.0-purple)
+
+## 停止维护--不建议使用，仅限学习参考 ##
+
 ![Static Badge](https://img.shields.io/badge/updatehost.sh-V1.4-green)
-![Static Badge](https://img.shields.io/badge/xugit.sh-V8.0-purple)
+![Static Badge](https://img.shields.io/badge/xugit.sh-V8.0-green)
 ![Static Badge](https://img.shields.io/badge/neogit.sh-V4.0-green)
 ![Static Badge](https://img.shields.io/badge/ugit.sh-V2.1-green)
 ![Static Badge](https://img.shields.io/badge/archsetup.sh-V1.4-green)
-![Static Badge](https://img.shields.io/badge/lugit.sh-V11.0-purple)
+![Static Badge](https://img.shields.io/badge/lugit.sh-V11.0-green)
 
 
 `zugit.sh`和`diary.sh`的`选择菜单`支持`vim`的快捷键，即`j`向下，`k`向上，同时`J`向下一页，`K`向上一页.
