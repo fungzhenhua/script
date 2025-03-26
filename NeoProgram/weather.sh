@@ -9,7 +9,7 @@
 # Date     : 2025-03-26 00:42
 #
 # 调入私有函数库
-source ~/.Share_Fun/Share_Weather.sh
+source ~/.Share_Fun/Share_Fun_Weather.sh
 # 输出天气、地址信息
 if [ $# -gt 0 ]; then
    if [ $1 == "-I" -o $1 == "-i" -o $1 == "--install" ]; then
