@@ -1,7 +1,7 @@
 #! /bin/bash
 #
 # Program  : install.sh
-# Version  : V2.1
+# Version  : V2.2
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # Date     : 2025-03-26 01:20
@@ -54,7 +54,7 @@ SYN_INS_Weather(){
     INS_EXE="$INS_EXEPATH/$INS_NAME"
     GIT_DEPEND gawk sed curl
     SYN_KEY_GET
-    echo $SYN_KEY_X |sudo -S cp -f ./Share_Fun/weather.sh $INS_EXE
+    echo $SYN_KEY_X |sudo -S cp -f ./weather.sh $INS_EXE
     echo $SYN_KEY_X |sudo -S chmod 755 $INS_EXE
     unset SYN_KEY_X
     echo "${INS_NAME} 安装成功，${INS_NAME}配置完毕 !!"

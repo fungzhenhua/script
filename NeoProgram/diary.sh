@@ -3,18 +3,18 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-03-26 16:05
+# Date     : 2025-03-26 23:58
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 # 调入私有函数库
 source ~/.Share_Fun/Share_Fun_Menu.sh
 source ~/.Share_Fun/Share_Fun_KeySudo.sh
-source ~/.Share_Fun/weather.sh
+source ~/.Share_Fun/Share_weather.sh
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V15.0"
+DY_VERSION="${DY_NAME}-V15.1"
 DY_REMOTE=origin
 DY_BRANCH=main
 if [ $# -gt 0 ]; then
