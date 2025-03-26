@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-03-26 01:44
+# Date     : 2025-03-26 16:05
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -14,7 +14,7 @@ source ~/.Share_Fun/weather.sh
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V14.9"
+DY_VERSION="${DY_NAME}-V15.0"
 DY_REMOTE=origin
 DY_BRANCH=main
 if [ $# -gt 0 ]; then
@@ -108,16 +108,16 @@ else
     REGISTRATION_TOKEN=${DY_INFO[4]}
     GITLAB_SIT=${DY_INFO[5]}
 fi
-DY_IGNORE="$DY_PATH/.gitignore"
-if [[ ! -e $DY_IGNORE ]]; then
-    touch $DY_IGNORE
-    echo ".deploy_git/" > $DY_IGNORE
-    echo "public/" >> $DY_IGNORE
-    echo "db.json" >> $DY_IGNORE
-fi
 #=========================下载博客=========================
+DY_IGNORE="$DY_PATH/.gitignore"
 DY_CLONE(){
     git  clone $DY_PCLONESITE  $DY_PATH
+    if [[ ! -e $DY_IGNORE ]]; then
+        touch $DY_IGNORE
+        echo ".deploy_git/" > $DY_IGNORE
+        echo "public/" >> $DY_IGNORE
+        echo "db.json" >> $DY_IGNORE
+    fi
     echo "博客源文档目录$DY_PATH已经下载成功，Happy diarying ！"
     exit
 }
