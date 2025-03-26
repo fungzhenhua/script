@@ -282,7 +282,7 @@ fi
 #=========================管理博客=========================
 if [ $# -eq 0 ]; then
     if [[ "${DY_FILES[*]}" =~ "${DY_DEF##*/}"  && "${DY_ART}" == "${DY_DEF%/*}" ]]; then
-        GetNetWeather
+        GetNetWeather &> /dev/null
         sed -i "1,/^$/{s/^$/\n## $DY_DATE $AdWeather $AdCity ##\n\n<++>\n/}"  $DY_DEF
         $DY_EDIT +%s/"<++>"//g $DY_DEF
         DY_PUSH   $DY_DEF
