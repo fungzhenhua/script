@@ -6,10 +6,10 @@
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
 ![Static Badge](https://img.shields.io/badge/Paria.sh-V2.1-purple)
 ![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.2-purple)
-![Static Badge](https://img.shields.io/badge/zugit.sh-V10.7-purple)
+![Static Badge](https://img.shields.io/badge/zugit.sh-V10.8-purple)
 ![Static Badge](https://img.shields.io/badge/weather.sh-V2.9-purple)
-![Static Badge](https://img.shields.io/badge/install.sh-V2.0-purple)
-![Static Badge](https://img.shields.io/badge/stirling.sh-V1.0-purple)
+![Static Badge](https://img.shields.io/badge/install.sh-V2.1-purple)
+![Static Badge](https://img.shields.io/badge/stirling.sh-V1.1-purple)
 
 ## 停止维护--AbandonMent不建议使用，仅限学习参考 ##
 
@@ -31,6 +31,9 @@
     + 进入`NeoProgram`目录.
     + 执行`./install.sh`.
     + 完成安装.
+
+- 2025年03月26日, 升级公共函数库`Share_Fun_KeySudo`中的函数`GIT_DEPEND`，实现自动探测Linux发行版，确定包管理器，进而解决包依赖问题。升级版本号`V1.1`.
+- 2025年03月26日, 规范`diary.sh`的依赖安装，升级版本号`V2.1`.
 
 ## stirling.sh ##
 
@@ -80,6 +83,7 @@
 - 2024年12月01日, 修复自动`COMMENT`的`BUG`。升级版本号`V10.5`.
 - 2024年12月04日, 修复强制`PUSH`时`COMMENT`遗漏`BUG`. 升级版本号`V10.6`
 - 2024年12月14日, 因U盘经常损坏，停止使用此版本，但是为了确保特殊情况下可用，仍然保留此脚本。建议改用`lugit.sh`
+- 2025年03月26日, 使用`GIT_DEPEND`统一管理依赖，升级版本号`V10.8`
 
 ## diary.sh博客管理脚本 ##
 
