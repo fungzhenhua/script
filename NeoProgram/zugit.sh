@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # Program  : zugit.sh
-# Date     : 2025-03-26 00:54
+# Date     : 2025-03-26 13:47
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2024 FengZhenhua(冯振华)
@@ -12,7 +12,7 @@ source ~/.Share_Fun/Share_Fun_Menu.sh
 source ~/.Share_Fun/Share_Fun_KeySudo.sh
 #
 USB_NAME=ugit ; USB_NAME_SH="zugit.sh" ; USB_BNAME=usbmain
-USB_VERSION="${USB_NAME}-V10.7"
+USB_VERSION="${USB_NAME}-V10.8"
 USB_REGISTER=".uregister"
 USB_RCFG_TAG=".ugitrcf"
 USB_SCFG=.git/config
@@ -24,7 +24,6 @@ unset USB_UPDATE_URLS
 USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inline\=false     # 默认升级地址
 USB_UPDATE_URLS[1]=https://gitlab.com/fengzhenhua/script/-/raw/$USB_REMORT_SH\?inline\=false  # 备用升级地址
 USB_USED=95                                                                                   # U盘使用量阈值(0-100)
-USB_DEPENDENT="trash-cli curl gawk sed grep"                                        # 本脚本依赖的程序
 USB_TIMEOUT=1                                                                                 # curl 最大请求时间
 NEO_ESC=`echo -ne "\033"`
 USB_DETECT_URL(){
@@ -34,7 +33,7 @@ USB_DETECT_URL(){
 if [[ $# -gt 0 ]]; then
     if [[ $0 =~ ".sh" ]]; then
         if [ $1 == "-i" -o $1 == "-I" -o $1 == "--install" -o $1 == "--INSTALL" ]; then
-            sudo pacman --needed --noconfirm -S $USB_DEPENDENT &> /dev/null
+            GIT_DEPEND trash-cli curl gawk sed grep
             sudo cp -f $0 $USB_EXE
             sudo chmod 755 $USB_EXE
             echo "ugit-${USB_VERSION}成功安装到: $USB_EXE"
@@ -42,7 +41,7 @@ if [[ $# -gt 0 ]]; then
         fi
     else
         if [ $1 == "-u" -o $1 == "-U" -o $1 == "--update" -o $1 == "--UPDATE" ]; then
-            sudo pacman --needed --noconfirm -S $USB_DEPENDENT &> /dev/null
+            GIT_DEPEND trash-cli curl gawk sed grep
             USB_DETECT_URL "${USB_UPDATE_URLS[0]}"
             if [ $? = 0 ]; then
                 USB_UPDATE_URL=${USB_UPDATE_URLS[0]}

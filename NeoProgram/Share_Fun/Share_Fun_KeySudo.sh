@@ -1,7 +1,8 @@
 #! /bin/bash
 #
 # 项目：Share_Fun_KeySudo.sh
-# 版本：V1.0
+# 版本：V1.1
+# 时间：2025-03-26 13:51
 # Copyright (C) 2023 feng <feng@arch>
 # Distributed under terms of the MIT license.
 #
@@ -89,17 +90,62 @@ SYN_FAIL_RES(){
         [ -n "$SYN_RES_CMD" ] && echo "可尝试执行: sudo $SYN_RES_CMD" >&2
     fi
 }
+# 初始化包管理器检测（只执行一次）
+_PKG_INIT() {
+    # 检测包管理器路径
+    local PM_PATH=$(command -v apt-get || command -v dnf || command -v yum || command -v pacman || command -v zypper)
+    # 使用参数扩展提取二进制名称
+    [[ -n "$PM_PATH" ]] && PM_NAME=${PM_PATH##*/} || {
+        echo "ERROR: No package manager found" >&2
+        return 2
+    }
+    # 定义包管理参数
+    case "$PM_NAME" in
+        apt-get)
+            _INSTALL_CMD="apt-get install -yq"
+            _CHECK_CMD="dpkg -s"
+            ;;
+        dnf|yum)
+            _INSTALL_CMD="$PM_NAME install -y"
+            _CHECK_CMD="$PM_NAME list installed"
+            ;;
+        pacman)
+            _INSTALL_CMD="pacman -S --needed --noconfirm"
+            _CHECK_CMD="pacman -Qi"
+            ;;
+        zypper)
+            _INSTALL_CMD="zypper -n install"
+            _CHECK_CMD="rpm -q"
+            ;;
+        *)
+            echo "Unsupported package manager: $PM_NAME" >&2
+            return 3
+            ;;
+    esac
+    # 导出为只读全局变量
+    declare -gr PM_NAME
+    declare -gr _INSTALL_CMD
+    declare -gr _CHECK_CMD
+}
+# 执行初始化（脚本加载时运行一次）
+_PKG_INIT || exit $?
 # 检测软件依懒, 若未检测到，则自动安装
 GIT_DEPEND(){
-    # 获取sudo 密钥
+    # 获取sudo密码
     SYN_KEY_GET
     # 安装依赖
-    for VAR in $1 ;do
-        pacman -Qq "$VAR" &> /dev/null
-        if [[ $? != 0 ]]; then
-            echo "$SYN_KEY_X" | sudo -S pacman -S --needed --noconfirm "$VAR"
+    for PKG in "$@"; do
+        if ! $_CHECK_CMD "$PKG" &>/dev/null; then
+            echo "$SYN_KEY_X" | sudo -S $_INSTALL_CMD "$PKG"
+            local INSTALL_STATUS=$?
+            # 处理Arch系更新问题
+            if [[ $PM_NAME == "pacman" && $INSTALL_STATUS -ne 0 ]]; then
+                echo "$SYN_KEY_X" | sudo -S pacman -Sy && \
+                    echo "$SYN_KEY_X" | sudo -S $_INSTALL_CMD "$PKG"
+            fi
         fi
     done
+    # 清理凭证
     sudo -k
     unset SYN_KEY_X
 }

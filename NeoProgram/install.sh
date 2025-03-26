@@ -1,7 +1,7 @@
 #! /bin/bash
 #
 # Program  : install.sh
-# Version  : V2.0
+# Version  : V2.1
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # Date     : 2025-03-26 01:20
@@ -21,7 +21,7 @@ cp -r ./Share_Fun "$INS_Share_Fun"
 ## 安装脚本到指定位置
 #------------------------------------------------------------
 SYN_INS_Paru(){
-    GIT_DEPEND "aria2 cmake"
+    GIT_DEPEND aria2 cmake
     SYN_KEY_GET
     echo "$SYN_KEY_X" | sudo -S cp ./makepkg.conf /etc/makepkg.conf
     echo "$SYN_KEY_X" | sudo -S cp ./Paria.sh  /usr/bin/Paria
@@ -34,13 +34,14 @@ SYN_INS_Diary(){
     INS_NAME=diary
     INS_EXEPATH=/usr/local/bin
     INS_EXE="$INS_EXEPATH/$INS_NAME"
-    GIT_DEPEND "github-cli unzip curl nodejs npm git pandoc gawk sed unzip curl"
+    GIT_DEPEND github-cli unzip curl nodejs-lts-iron npm git pandoc gawk sed unzip curl openssh
     SYN_KEY_GET
-    if [[ $(which ssh) == 1 ]]; then
-        echo $SYN_KEY_X |sudo -S pacman --needed --noconfirm -S openssh
-        echo "请设置您博客的SSH密钥以关联发布网址！"
+    if ! command -v yarn &>/dev/null; then
+        echo $SYN_KEY_X |sudo -S npm install yarn -g
     fi
-    if [[ $(which hexo) == 1 ]]; then echo $SYN_KEY_X |sudo -S yarn global add hexo-cli ;  fi
+    if ! command -v hexo &>/dev/null; then
+        echo $SYN_KEY_X |sudo -S yarn global add hexo-cli
+    fi
     echo $SYN_KEY_X |sudo -S cp -f ./diary.sh $INS_EXE
     echo $SYN_KEY_X |sudo -S chmod 755 $INS_EXE
     unset SYN_KEY_X
@@ -51,7 +52,7 @@ SYN_INS_Weather(){
     INS_NAME=weather
     INS_EXEPATH=/usr/local/bin
     INS_EXE="$INS_EXEPATH/$INS_NAME"
-    GIT_DEPEND "gawk sed curl"
+    GIT_DEPEND gawk sed curl
     SYN_KEY_GET
     echo $SYN_KEY_X |sudo -S cp -f ./Share_Fun/weather.sh $INS_EXE
     echo $SYN_KEY_X |sudo -S chmod 755 $INS_EXE
@@ -63,7 +64,7 @@ SYN_INS_Syndns(){
     INS_NAME=syndns
     INS_EXEPATH=/usr/local/bin
     INS_EXE="$INS_EXEPATH/$INS_NAME"
-    GIT_DEPEND "dnsutils inetutils dnsmasq jq"
+    GIT_DEPEND dnsutils inetutils dnsmasq jq
     SYN_KEY_GET
     echo $SYN_KEY_X |sudo -S cp -f ./syndns.sh $INS_EXE
     echo $SYN_KEY_X |sudo -S chmod 755 $INS_EXE
