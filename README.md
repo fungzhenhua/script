@@ -2,7 +2,7 @@
 
 ## 积极开发中--NeoProgram ##
 
-![Static Badge](https://img.shields.io/badge/diary.sh-V15.1-purple)
+![Static Badge](https://img.shields.io/badge/diary.sh-V15.2-purple)
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
 ![Static Badge](https://img.shields.io/badge/Paria.sh-V2.1-purple)
 ![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.2-purple)
@@ -35,6 +35,7 @@
 - 2025年03月26日, 升级公共函数库`Share_Fun_KeySudo`中的函数`GIT_DEPEND`，实现自动探测Linux发行版，确定包管理器，进而解决包依赖问题。升级版本号`V1.1`.
 - 2025年03月26日, 规范`diary.sh`的依赖安装，升级版本号`V2.1`.
 - 2025年03月26日, 规范`weather.sh`的依赖安装，升级版本号`V2.2`.
+- 2025年04月05日, `diary.sh`使用`case`取代`if`判断，规范代码，升级版本号`V15.2`.
 
 ## stirling.sh ##
 

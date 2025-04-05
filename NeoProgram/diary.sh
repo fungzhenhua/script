@@ -3,18 +3,18 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-03-26 23:58
+# Date     : 2025-04-05 15:05
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 # 调入私有函数库
 source ~/.Share_Fun/Share_Fun_Menu.sh
 source ~/.Share_Fun/Share_Fun_KeySudo.sh
-source ~/.Share_Fun/Share_Fun_Weather.sh
+source ~/.Share_Fun/weather.sh
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V15.1"
+DY_VERSION="${DY_NAME}-V15.2"
 DY_REMOTE=origin
 DY_BRANCH=main
 if [ $# -gt 0 ]; then
@@ -280,26 +280,29 @@ else
     DY_DEF=${DY_DATAX[1]}
 fi
 #=========================管理博客=========================
-if [ $# -eq 0 ]; then
-    if [[ "${DY_FILES[*]}" =~ "${DY_DEF##*/}"  && "${DY_ART}" == "${DY_DEF%/*}" ]]; then
-        GetNetWeather &> /dev/null
-        sed -i "1,/^$/{s/^$/\n## $DY_DATE $AdWeather $AdCity ##\n\n<++>\n/}"  $DY_DEF
-        $DY_EDIT +%s/"<++>"//g $DY_DEF
-        DY_PUSH   $DY_DEF
-    else
-        mv  -t ~/.local/share/Trash/files --backup=t ${DY_CFG}
-        echo "${DY_DEF} 不存在，无效配置${DY_CFG} 己移除到回收站，重新设置默认文章请运行：diary !"
-    fi
-else
-    if [ $1 == "--Setsym" -o $1 == "--SetSym" ]; then
+case ${1:-} in
+    "")
+        if [[ "${DY_FILES[*]}" =~ "${DY_DEF##*/}"  && "${DY_ART}" == "${DY_DEF%/*}" ]]; then
+            GetNetWeather &> /dev/null
+            sed -i "1,/^$/{s/^$/\n## $DY_DATE $AdWeather $AdCity ##\n\n<++>\n/}"  $DY_DEF
+            $DY_EDIT +%s/"<++>"//g $DY_DEF
+            DY_PUSH   $DY_DEF
+        else
+            mv  -t ~/.local/share/Trash/files --backup=t ${DY_CFG}
+            echo "${DY_DEF} 不存在，无效配置${DY_CFG} 己移除到回收站，重新设置默认文章请运行：diary !"
+        fi
+        ;;
+    "--Setsym"|"--SetSym")
         echo $SYN_KEY_X |sudo -S sed -i "s/^DY_LINE.*$/DY_LINE=\"$2\"/g"  $0
         echo "分隔符已经修改为:$2"
         exit
-    elif [ $1 == "-XL" -o $1 == "-xl" ]; then
+        ;;
+    "-XL"|"-xl")
         NEO_LIST "${DY_SOURC[*]}" 1
         $DY_EDIT "$DY_SOC/$EDFILE/index.md"
         DY_PUSH "$DY_SOC/$EDFILE"
-    elif [ $1 == "--Setedit" -o $1 == "--SetEdit" ]; then
+        ;;
+    "--Setedit"|"--SetEdit")
         echo $SYN_KEY_X |sudo -S pacman -S --needed --noconfirm $2 &> /dev/null
         if [ $? == 0 ]; then
             if [ $2 == "neovim" ]; then
@@ -313,33 +316,44 @@ else
             echo "$2无法识别，请输入正确的编辑器！建议：neovim vim vi"
         fi
         exit
-    elif [ $1 == "-H" -o $1 == "-h" -o $1 == "--help" ]; then
+        ;;
+    "-H"|"-h"|"--help")
         DY_HELP
-    elif [ $1 == "-U" -o $1 == "-u" -o $1 == "--update" ]; then
+        ;;
+    "-U"|"-u"|"--update")
         SelfUpdate
-    elif [ $1 == "-TU" -o $1 == "-tu" -o $1 == "--ThemeUpdate" ]; then
+        ;;
+    "-TU"|"-tu"|"--ThemeUpdate")
         ThemeUpdate
-    elif [ $1 == "-C" -o $1 == "-c" -o $1 == "--config" ]; then
+        ;;
+    "-C"|"-c"|"--config")
         $DY_EDIT  $DY_PATH/_config.yml
         echo "主站配置文件修改完毕，请手动执行推送任务：diary -d"
-    elif [ $1 == "-C-next" -o $1 == "-c-next" -o $1 == "--config--next" ]; then
+        ;;
+    "-C-Next"|"-c-next"|"--config--next")
         $DY_EDIT  $DY_PATH/_config.next.yml
         hexo clean
         hexo g
         echo "Next主题配置文件修改完毕，请手动执行推送任务：diary -d"
-    elif [ $1 == "--theme" -o $1 == "--THEME" ];then
+        ;;
+    "--theme"|"--THEME")
         NEO_THEME_SET "NEO_FORMAT"
-    elif [ $1 == "-S" -o $1 == "-s" ];then
+        ;;
+    "-S"|"-s")
         hexo s
-    elif [ $1 == "-D" -o $1 == "-d" ];then
+        ;;
+    "-D"|"-d")
         DY_PUSHX
-    elif [ $1 == "-O" -o $1 == "-o" ];then
+        ;;
+    "-O"|"-o")
         DY_INIT
-    elif [ $1 == "-L" -o $1 == "-l" -o $1 == "--list" ]; then
+        ;;
+    "-L"|"-l"|"--list")
         NEO_LIST "${DY_FILES[*]}" 1
         $DY_EDIT "$DY_ART/$EDFILE"
         DY_PUSH  "$DY_ART/$EDFILE"  
-    elif [ $1 == "-R" -o $1 == "-r" ];then
+        ;;
+    "-R"|"-r")
         NEO_LIST "${DY_FILES[*]}" 1
         echo -ne "\r\033[5m\033[101m\u26A0 \033[0m\033[${NEO_WARNING}m《${EDFILE%.*}》\033[0m [y] 删除 [q] 退出 $DY_TAG\033[K"; read Snum
         DY_SET_SIZE
@@ -352,10 +366,11 @@ else
             printf "\033[${NEO_LINENO};1H\u274E退出: \033[${NEO_WARNING}m《${EDFILE%.*}》\033[0m"
             exit
         fi
-    else
-        DY_DEF="$DY_ART/$1.md"
-        if [[ "${DY_FILES[*]}" =~ "$1.md" ]]; then
-            echo -n "文章《$1》已经存在，编辑 y/n : "; read QueRen
+        ;;
+    *)
+        DY_DEF="$DY_ART/${1:-}.md"
+        if [[ "${DY_FILES[*]}" =~ "${1:-}.md" ]]; then
+            echo -n "文章《${1:-}》已经存在，编辑 y/n : "; read QueRen
             if [ $QueRen == "Y" -o $QueRen == "y" ]; then
                 $DY_EDIT "$DY_DEF"
                 DY_PUSH  "$DY_DEF"
@@ -363,12 +378,12 @@ else
                 exit
             fi
         else
-            hexo n $1  &> /dev/null
+            hexo n ${1:-}  &> /dev/null
             NEO_LIST "${DY_TAGS[*]}" 1
             sed -i "s/^tags:$/tags: $EDFILE/g" $DY_DEF
             sed -i "2,/---/{s/---/---\n\n <++>/}"  $DY_DEF
             $DY_EDIT +%s/"<++>"//g "$DY_DEF"
             DY_PUSH  "$DY_DEF"
         fi
-    fi
-fi
+        ;;
+esac
