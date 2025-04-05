@@ -34,7 +34,7 @@ SYN_INS_Diary(){
     INS_NAME=diary
     INS_EXEPATH=/usr/local/bin
     INS_EXE="$INS_EXEPATH/$INS_NAME"
-    GIT_DEPEND github-cli unzip curl nodejs-lts-iron npm git pandoc gawk sed unzip curl openssh
+    GIT_DEPEND github-cli unzip curl nodejs-lts-jod npm git pandoc gawk sed unzip curl openssh
     SYN_KEY_GET
     if ! command -v yarn &>/dev/null; then
         echo $SYN_KEY_X |sudo -S npm install yarn -g

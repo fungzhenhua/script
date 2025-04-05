@@ -10,7 +10,7 @@
 # 调入私有函数库
 source ~/.Share_Fun/Share_Fun_Menu.sh
 source ~/.Share_Fun/Share_Fun_KeySudo.sh
-source ~/.Share_Fun/weather.sh
+source ~/.Share_Fun/Share_Fun_Weather.sh
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
