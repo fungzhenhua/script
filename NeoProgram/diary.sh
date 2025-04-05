@@ -17,12 +17,12 @@ DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
 DY_VERSION="${DY_NAME}-V15.2"
 DY_REMOTE=origin
 DY_BRANCH=main
-if [ $# -gt 0 ]; then
-    if [ $1 == "-V" -o $1 == "-v" -o $1 == "--version" ]; then
+case "${1:-}" in
+    "-V"|"-v"|"--version") echo default
         echo "${DY_VERSION}"
         exit
-    fi
-fi
+        ;;
+esac
 DY_SOURCE=~/.DY_SCE
 DY_CFG=~/.DY_DATA
 DY_KEY_CFG=~/.DY_KEY
@@ -81,8 +81,8 @@ DY_INSTALL(){
 if [ ! -e $DY_EXE ]; then
     DY_INSTALL
 elif [ ! $# -eq 0 ]; then
-    if [  $1 == "-i" -o $1 == "--install" ]; then
-        if [ ! $1 == $DY_NAME ]; then
+    if [  ${1:-} == "-i" -o ${1:-} == "--install" ]; then
+        if [ ! ${1:-} == $DY_NAME ]; then
             DY_INSTALL
         fi
     fi
