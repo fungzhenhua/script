@@ -1,14 +1,16 @@
 #! /bin/sh
 #
 # Program: Paria.sh
-# Version: V2.1
+# Version: V2.2
 # Author : Zhen-Hua Feng
 # Email  : fengzhenhua@outlook.com
-# Date   : 2025-03-24 11:45
+# Date   : 2025-04-06 19:56
 # Copyright (C) 2023-2025 feng <feng@arch>
 #
 # Distributed under terms of the MIT license.
 #
+# 调入私有函数库
+source ~/.Share_Fun/Share_Fun_KeySudo.sh
 # 取得基本信息
 GIT_DOMIN=`echo "$2" | cut -f3 -d'/'`;
 GIT_OTHER=`echo "$2" | cut -f4- -d'/'`;
@@ -18,15 +20,6 @@ DNS_SERVERS="4.2.2.1,4.2.2.2,4.2.2.3,4.2.2.4,4.2.2.5,4.2.2.6 \
     9.9.9.9,149.112.112.112,149.112.112.9"
 GCF=/home/$USER/.gitconfig
 GIT_SIT=($(grep -oP '\[url\s+"\Khttps://[^"]+' $GCF))
-# 定义处理程序
-mirror_available() {
-    local url="$1"
-    if curl -fsL --max-time 5 --head "$url" >/dev/null 2>&1; then
-        return 0
-    else
-        return 1
-    fi
-}
 case "$GIT_DOMIN" in
     "github.com")
         GIT_URL="$2"

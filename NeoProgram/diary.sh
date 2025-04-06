@@ -14,7 +14,7 @@ source ~/.Share_Fun/Share_Fun_Weather.sh
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V15.3"
+DY_VERSION="${DY_NAME}-V15.4"
 DY_REMOTE=origin
 DY_BRANCH=main
 DY_SOURCE=~/.DY_SCE
@@ -44,7 +44,7 @@ USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inli
 DY_INSTALL(){
     SYN_KEY_GET
     # 安装依赖
-    GIT_DEPEND neovim vim
+    GIT_DEPEND neovim vim curl
     # 安装脚本
     if [ $0 == $DY_NAME ]; then
         echo "请切换到最新的脚本目录执行: ./install.sh -i "
@@ -92,8 +92,7 @@ DY_CLONE(){
     exit
 }
 USB_DETECT_URL(){
-    wget --spider -T 5 -q -t 2 $1
-    if [ $? = 0 ]; then
+    if mirror_available "${DY_URL}"; then
         echo "网络畅通，$DY_VERSION 启动成功!"
         cd $DY_PATH
         git pull &> /dev/null
@@ -108,14 +107,12 @@ USB_DETECT_URL(){
 }
 #=========================脚本更新=========================
 SelfUpdate(){
-    USB_DETECT_URL "${USB_UPDATE_URLS[0]}"
-    if [ $? = 0 ]; then
+    if mirror_available "${USB_UPDATE_URLS[0]}"; then
         USB_UPDATE_URL=${USB_UPDATE_URLS[0]}
     else
         USB_UPDATE_URL=${USB_UPDATE_URLS[1]}
     fi
-    USB_DETECT_URL "${USB_UPDATE_URL}"
-    if [ $? = 0 ]; then
+    if mirror_available "${USB_UPDATE_URL}"; then
         SYN_KEY_GET
         echo "Diary is updating, please wait ......"
         echo $SYN_KEY_X |sudo -S curl -o $DY_EXE $USB_UPDATE_URL
@@ -240,7 +237,7 @@ case ${1:-} in
         DY_HELP
         ;;
     *)
-        USB_DETECT_URL ${DY_URL}
+        USB_DETECT_URL
         ;;
 esac
 # 检测默认文章

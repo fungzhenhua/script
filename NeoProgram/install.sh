@@ -1,10 +1,10 @@
 #! /bin/bash
 #
 # Program  : install.sh
-# Version  : V2.2
+# Version  : V2.3
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-03-26 01:20
+# Date     : 2025-04-06 20:04
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -21,7 +21,7 @@ cp -r ./Share_Fun "$INS_Share_Fun"
 ## 安装脚本到指定位置
 #------------------------------------------------------------
 SYN_INS_Paru(){
-    GIT_DEPEND aria2 cmake
+    GIT_DEPEND aria2 cmake curl
     SYN_KEY_GET
     echo "$SYN_KEY_X" | sudo -S cp ./makepkg.conf /etc/makepkg.conf
     echo "$SYN_KEY_X" | sudo -S cp ./Paria.sh  /usr/bin/Paria
@@ -34,7 +34,7 @@ SYN_INS_Diary(){
     INS_NAME=diary
     INS_EXEPATH=/usr/local/bin
     INS_EXE="$INS_EXEPATH/$INS_NAME"
-    GIT_DEPEND github-cli unzip curl nodejs-lts-jod npm git pandoc gawk sed unzip curl openssh
+    GIT_DEPEND github-cli unzip curl nodejs-lts-jod npm git pandoc gawk sed unzip curl openssh neovim vim
     SYN_KEY_GET
     if ! command -v yarn &>/dev/null; then
         echo $SYN_KEY_X |sudo -S npm install yarn -g

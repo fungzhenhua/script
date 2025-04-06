@@ -1,8 +1,8 @@
 #! /bin/bash
 #
 # 项目：Share_Fun_KeySudo.sh
-# 版本：V1.1
-# 时间：2025-03-26 13:51
+# 版本：V1.2
+# 时间：2025-04-06 20:02
 # Copyright (C) 2023 feng <feng@arch>
 # Distributed under terms of the MIT license.
 #
@@ -148,4 +148,13 @@ GIT_DEPEND(){
     # 清理凭证
     sudo -k
     unset SYN_KEY_X
+}
+# 探测网址是否连通
+mirror_available() {
+    local url="$1"
+    if curl -fsL --max-time 5 --head "$url" >/dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
 }
