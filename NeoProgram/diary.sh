@@ -3,8 +3,8 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-04-05 15:05
-# CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
+# Date     : 2025-04-06 18:53
+# CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
 # 调入私有函数库
@@ -14,15 +14,9 @@ source ~/.Share_Fun/Share_Fun_Weather.sh
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V15.2"
+DY_VERSION="${DY_NAME}-V15.3"
 DY_REMOTE=origin
 DY_BRANCH=main
-case "${1:-}" in
-    "-V"|"-v"|"--version") echo default
-        echo "${DY_VERSION}"
-        exit
-        ;;
-esac
 DY_SOURCE=~/.DY_SCE
 DY_CFG=~/.DY_DATA
 DY_KEY_CFG=~/.DY_KEY
@@ -36,37 +30,21 @@ NEO_ESC=`echo -ne "\033"`
 DY_NEXT_COLOR=#9400D3
 USB_TIMEOUT=1
 NEO_WARNING="7"
-# 检测/etc/hosts中对github.com的解析，以确保文章可以正常推送
+DY_EDIT="nvim" # 默认编辑器 nvim/vim
+COMMENT="${USER}@$(hostname -i)"
+DY_IGNORE="$DY_PATH/.gitignore"
 DY_HOST="/etc/hosts"
-DY_DNS_GITHUB=$(dig @119.29.29.29 +short github.com)
-cat $DY_HOST |grep "$DY_DNS_GITHUB * github.com" &> /dev/null
-if [[ $? = 0 ]]; then
-    DY_DNS_GITHUA=$(dig @4.2.2.1 +short github.com)
-    SYN_KEY_GET
-    echo $SYN_KEY_X |sudo -S sed -ie "s/"${DY_DNS_GITHUB}" * github.com/"${DY_DNS_GITHUA}" github.com /g" "$DY_HOST"
-    unset SYN_KEY_X
-fi
 # 定义博客分类
 DY_TAGS=( 电脑技术 科研笔记 心情随笔 )
 unset USB_UPDATE_URLS
 USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inline\=false      # 默认升级地址
 # USB_UPDATE_URLS[1]=https://gitlab.com/fengzhenhua/script/-/raw/$USB_REMORT_SH\?inline\=false # 备用升级地址
-DY_EDIT="nvim"
-which ${DY_EDIT} &>  /dev/null 
-if [ ! $? -eq 0 ]; then
-    DY_EDIT="vim"
-    which ${DY_EDIT} &>  /dev/null 
-    if [ ! $? -eq 0 ]; then
-        SYN_KEY_GET
-        echo $SYN_KEY_X |sudo -S pacman -S neovim vim &> /dev/null
-        unset SYN_KEY_X
-        echo “已经为您安装默认编辑器：neovim vim , 请重新运行脚本！”
-        exit
-    fi
-fi
+#
 #=========================安装脚本=========================
 DY_INSTALL(){
     SYN_KEY_GET
+    # 安装依赖
+    GIT_DEPEND neovim vim
     # 安装脚本
     if [ $0 == $DY_NAME ]; then
         echo "请切换到最新的脚本目录执行: ./install.sh -i "
@@ -78,38 +56,30 @@ DY_INSTALL(){
     unset SYN_KEY_X
     exit
 }
-if [ ! -e $DY_EXE ]; then
-    DY_INSTALL
-elif [ ! $# -eq 0 ]; then
-    if [  ${1:-} == "-i" -o ${1:-} == "--install" ]; then
-        if [ ! ${1:-} == $DY_NAME ]; then
-            DY_INSTALL
-        fi
-    fi
-fi
-COMMENT="${USER}@$(hostname -i)"
 # 私人信息设置
-if [ ! -e $DY_KEY_CFG ]; then
-    touch $DY_KEY_CFG
-    chmod +w $DY_KEY_CFG
-    echo "个人信息配置：注意下面直接按示例填写配置信息，去掉第1行之外的所有中文!!" > $DY_KEY_CFG
-    echo "博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_KEY_CFG
-    echo "博客的本地名称，如xiaoming.github.io" >> $DY_KEY_CFG
-    echo "Gitlab博客仓库Token，如glpat-t3T_ZzJkcqp45kuiaNiP" >> $DY_KEY_CFG
-    echo "gitlab-runner的Token，如GR1248741HKoaT483PhaqA1N894AY" >> $DY_KEY_CFG
-    echo "博客发布地址，如https://gitlab.com/" >> $DY_KEY_CFG
-    echo "配置文件已经生成在$DY_KEY_CFG, 请打开此文件按说明填写信息!"
-    exit
-else
-    DY_INFO=($(cat $DY_KEY_CFG))
-    DY_PCLONESITE=${DY_INFO[1]}
-    DY_PATH=$DY_SOURCE/${DY_INFO[2]}
-    DY_TOKEN=${DY_INFO[3]}
-    REGISTRATION_TOKEN=${DY_INFO[4]}
-    GITLAB_SIT=${DY_INFO[5]}
-fi
+DY_GET_INF(){
+    if [ ! -e $DY_KEY_CFG ]; then
+        touch $DY_KEY_CFG
+        chmod +w $DY_KEY_CFG
+        echo "个人信息配置：注意下面直接按示例填写配置信息，去掉第1行之外的所有中文!!" > $DY_KEY_CFG
+        echo "博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_KEY_CFG
+        echo "博客的本地名称，如xiaoming.github.io" >> $DY_KEY_CFG
+        echo "Gitlab博客仓库Token，如glpat-t3T_ZzJkcqp45kuiaNiP" >> $DY_KEY_CFG
+        echo "gitlab-runner的Token，如GR1248741HKoaT483PhaqA1N894AY" >> $DY_KEY_CFG
+        echo "博客发布地址，如https://gitlab.com/" >> $DY_KEY_CFG
+        echo "配置文件已经生成在$DY_KEY_CFG, 请打开此文件按说明填写信息!"
+        exit
+    else
+        DY_INFO=($(cat $DY_KEY_CFG))
+        DY_PCLONESITE=${DY_INFO[1]}
+        DY_PATH=$DY_SOURCE/${DY_INFO[2]}
+        DY_URL="https://${DY_INFO[2]}"
+        DY_TOKEN=${DY_INFO[3]}
+        REGISTRATION_TOKEN=${DY_INFO[4]}
+        GITLAB_SIT=${DY_INFO[5]}
+    fi
+}
 #=========================下载博客=========================
-DY_IGNORE="$DY_PATH/.gitignore"
 DY_CLONE(){
     git  clone $DY_PCLONESITE  $DY_PATH
     if [[ ! -e $DY_IGNORE ]]; then
@@ -121,40 +91,21 @@ DY_CLONE(){
     echo "博客源文档目录$DY_PATH已经下载成功，Happy diarying ！"
     exit
 }
-if [ ! -e $DY_SOURCE ]; then
-    mkdir -p $DY_SOURCE
-fi
-if [ ! -e $DY_PATH ]; then
-    mkdir -p $DY_PATH
-    DY_CLONE
-else
-    if [ ! -s $DY_PATH ];  then
-        rm -rf $DY_PATH
-        DY_CLONE
-    fi
-fi
-# 检测联网条件，不联网直接退出
 USB_DETECT_URL(){
     wget --spider -T 5 -q -t 2 $1
+    if [ $? = 0 ]; then
+        echo "网络畅通，$DY_VERSION 启动成功!"
+        cd $DY_PATH
+        git pull &> /dev/null
+    else
+        DY_DNS_GITHUA=$(dig @4.2.2.1 +short github.com)
+        SYN_KEY_GET
+        echo $SYN_KEY_X |sudo -S sed -ie "s/"${DY_DNS_GITHUB}" * github.com/"${DY_DNS_GITHUA}" github.com /g" "$DY_HOST"
+        unset SYN_KEY_X
+        echo "网络探测完成，请重新运行程序!"
+        exit
+    fi
 }
-USB_DETECT_URL "https://fungzhenhua.github.io"
-if [ $? = 0 ]; then
-    echo "网络畅通，$DY_VERSION 启动成功!"
-    cd $DY_PATH
-    git pull &> /dev/null
-else
-    echo "网络不通，请确保联网后撰写博客!"
-    exit
-fi
-# 获取日记配置位置
-DY_ART="$DY_PATH/source/_posts"
-DY_SOC="$DY_PATH/source"
-DY_FILES=($(ls $DY_ART))
-DY_SOURC=($(ls $DY_SOC))
-DY_DEL=(404 PDF Picture _posts tags)
-for DEL_LS in ${DY_DEL[*]} ; do
-    DY_SOURC=(${DY_SOURC[*]/$DEL_LS})
-done
 #=========================脚本更新=========================
 SelfUpdate(){
     USB_DETECT_URL "${USB_UPDATE_URLS[0]}"
@@ -264,7 +215,35 @@ cat << EOF
     -xl                    修改目录后再列出
 EOF
 }
-#=====================配置文件设置顶置=====================
+#=========================预先配置=========================
+# 检测是否已经安装
+if [ ! -e $DY_EXE ]; then
+    DY_INSTALL
+fi
+# 获取私人信息, 立刻获取各种变量
+DY_GET_INF
+# 探测博客网址是否可达以及博客设置
+case ${1:-} in
+    "-v"|"-V"|"--version")
+        echo "${DY_VERSION}"
+        exit
+        ;;
+    "-i"|"-I"|"--install")
+        DY_INSTALL
+        ;;
+    "--Setsym"|"--SetSym")
+        echo $SYN_KEY_X |sudo -S sed -i "s/^DY_LINE.*$/DY_LINE=\"$2\"/g"  $0
+        echo "分隔符已经修改为:$2"
+        exit
+        ;;
+    "-H"|"-h"|"--help")
+        DY_HELP
+        ;;
+    *)
+        USB_DETECT_URL ${DY_URL}
+        ;;
+esac
+# 检测默认文章
 if [ ! -e $DY_CFG ]; then 
     echo "默认文章未设置，设置默认文章启动 ... ..."
     sleep 2
@@ -279,6 +258,28 @@ else
     # COMMENT=${DY_DATAX[0]}
     DY_DEF=${DY_DATAX[1]}
 fi
+# 检测目录是否下载
+if [ ! -e $DY_SOURCE ]; then
+    mkdir -p $DY_SOURCE
+fi
+if [ ! -e $DY_PATH ]; then
+    mkdir -p $DY_PATH
+    DY_CLONE
+else
+    if [ ! -s $DY_PATH ];  then
+        rm -rf $DY_PATH
+        DY_CLONE
+    fi
+fi
+# 获取日记配置位置
+DY_ART="$DY_PATH/source/_posts"
+DY_SOC="$DY_PATH/source"
+DY_FILES=($(ls $DY_ART))
+DY_SOURC=($(ls $DY_SOC))
+DY_DEL=(404 PDF Picture _posts tags)
+for DEL_LS in ${DY_DEL[*]} ; do
+    DY_SOURC=(${DY_SOURC[*]/$DEL_LS})
+done
 #=========================管理博客=========================
 case ${1:-} in
     "")
@@ -292,39 +293,16 @@ case ${1:-} in
             echo "${DY_DEF} 不存在，无效配置${DY_CFG} 己移除到回收站，重新设置默认文章请运行：diary !"
         fi
         ;;
-    "--Setsym"|"--SetSym")
-        echo $SYN_KEY_X |sudo -S sed -i "s/^DY_LINE.*$/DY_LINE=\"$2\"/g"  $0
-        echo "分隔符已经修改为:$2"
-        exit
-        ;;
-    "-XL"|"-xl")
-        NEO_LIST "${DY_SOURC[*]}" 1
-        $DY_EDIT "$DY_SOC/$EDFILE/index.md"
-        DY_PUSH "$DY_SOC/$EDFILE"
-        ;;
-    "--Setedit"|"--SetEdit")
-        echo $SYN_KEY_X |sudo -S pacman -S --needed --noconfirm $2 &> /dev/null
-        if [ $? == 0 ]; then
-            if [ $2 == "neovim" ]; then
-                SetEdited="nvim"
-            else
-                SetEdited="$2"
-            fi
-            echo $SYN_KEY_X |sudo -S sed -i "s/^DY_EDIT.*$/DY_EDIT=\"$SetEdited\"/g"  $0
-            echo "$2已经成功设置，Happy diaring !"
-        else
-            echo "$2无法识别，请输入正确的编辑器！建议：neovim vim vi"
-        fi
-        exit
-        ;;
-    "-H"|"-h"|"--help")
-        DY_HELP
-        ;;
     "-U"|"-u"|"--update")
         SelfUpdate
         ;;
     "-TU"|"-tu"|"--ThemeUpdate")
         ThemeUpdate
+        ;;
+    "-XL"|"-xl")
+        NEO_LIST "${DY_SOURC[*]}" 1
+        $DY_EDIT "$DY_SOC/$EDFILE/index.md"
+        DY_PUSH "$DY_SOC/$EDFILE"
         ;;
     "-C"|"-c"|"--config")
         $DY_EDIT  $DY_PATH/_config.yml

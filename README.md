@@ -2,7 +2,7 @@
 
 ## 积极开发中--NeoProgram ##
 
-![Static Badge](https://img.shields.io/badge/diary.sh-V15.2-purple)
+![Static Badge](https://img.shields.io/badge/diary.sh-V15.3-purple)
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
 ![Static Badge](https://img.shields.io/badge/Paria.sh-V2.1-purple)
 ![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.2-purple)
@@ -36,6 +36,7 @@
 - 2025年03月26日, 规范`diary.sh`的依赖安装，升级版本号`V2.1`.
 - 2025年03月26日, 规范`weather.sh`的依赖安装，升级版本号`V2.2`.
 - 2025年04月05日, `diary.sh`使用`case`取代`if`判断，规范代码，升级版本号`V15.2`.
+- 2025年04月06日, `diary.sh`优化结构，规范代码，升级版本号`V15.3`.
 
 ## stirling.sh ##
 
