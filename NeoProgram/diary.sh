@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-04-09 13:18
+# Date     : 2025-04-09 17:01
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -14,7 +14,7 @@ source ~/.Share_Fun/Share_Fun_Weather.sh
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V15.5"
+DY_VERSION="${DY_NAME}-V15.6"
 DY_REMOTE=origin
 DY_BRANCH=main
 DY_SOURCE=~/.DY_SCE
@@ -42,13 +42,13 @@ USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inli
 #
 #=========================安装脚本=========================
 DY_INSTALL(){
-    SYN_KEY_GET
     # 安装依赖
     GIT_DEPEND neovim vim curl
     # 安装脚本
     if [ $0 == $DY_NAME ]; then
         echo "请切换到最新的脚本目录执行: ./install.sh -i "
     else
+        SYN_KEY_GET
         echo $SYN_KEY_X |sudo -S cp -f $0 $DY_EXE
         echo $SYN_KEY_X |sudo -S chmod 755 $DY_EXE
         echo "${DY_VERSION}成功安装到标准位置$DY_EXEPATH，帮助请执行： diary --help "

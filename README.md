@@ -2,7 +2,7 @@
 
 ## 积极开发中--NeoProgram ##
 
-![Static Badge](https://img.shields.io/badge/diary.sh-V15.4-purple)
+![Static Badge](https://img.shields.io/badge/diary.sh-V15.6-purple)
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
 ![Static Badge](https://img.shields.io/badge/Paria.sh-V2.2-purple)
 ![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.2-purple)
@@ -38,6 +38,7 @@
 - 2025年04月05日, `diary.sh`使用`case`取代`if`判断，规范代码，升级版本号`V15.2`.
 - 2025年04月06日, `diary.sh`优化结构，规范代码，升级版本号`V15.3`.
 - 2025年04月06日, 将网址探测功能并入`Share_Fun_KeySudo`公共模块，在`Paria.sh`和`diary.sh`中调用公共模块探测网址畅通，同时改写`install.sh`增加相应命令。
+- 2025年04月09日, 去除`diary.sh`安装时调用密码的`bug`, 升级版本号`V15.6`.
 
 ## stirling.sh ##
 
