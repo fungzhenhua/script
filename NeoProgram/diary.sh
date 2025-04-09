@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-04-06 18:53
+# Date     : 2025-04-09 13:18
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -14,7 +14,7 @@ source ~/.Share_Fun/Share_Fun_Weather.sh
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V15.4"
+DY_VERSION="${DY_NAME}-V15.5"
 DY_REMOTE=origin
 DY_BRANCH=main
 DY_SOURCE=~/.DY_SCE
@@ -299,7 +299,7 @@ case ${1:-} in
     "-XL"|"-xl")
         NEO_LIST "${DY_SOURC[*]}" 1
         $DY_EDIT "$DY_SOC/$EDFILE/index.md"
-        DY_PUSH "$DY_SOC/$EDFILE"
+        DY_PUSH "$DY_SOC/$EDFILE/index.md"
         ;;
     "-C"|"-c"|"--config")
         $DY_EDIT  $DY_PATH/_config.yml
@@ -326,7 +326,7 @@ case ${1:-} in
     "-L"|"-l"|"--list")
         NEO_LIST "${DY_FILES[*]}" 1
         $DY_EDIT "$DY_ART/$EDFILE"
-        DY_PUSH  "$DY_ART/$EDFILE"  
+        DY_PUSH  "$DY_ART/$EDFILE"
         ;;
     "-R"|"-r")
         NEO_LIST "${DY_FILES[*]}" 1
