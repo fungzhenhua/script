@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-04-09 17:01
+# Date     : 2025-04-14 15:11
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -14,7 +14,7 @@ source ~/.Share_Fun/Share_Fun_Weather.sh
 #
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V15.6"
+DY_VERSION="${DY_NAME}-V15.7"
 DY_REMOTE=origin
 DY_BRANCH=main
 DY_SOURCE=~/.DY_SCE
@@ -154,9 +154,11 @@ DY_PUSHX(){
 }
 DY_PUSH(){
     clear # 参数$1 的唯一作用是提供编辑文件的名字，然后提示编辑的文件
+    local DY_ED_FILE="$1"
     DY_TEMP=$1 ; DY_TEMP=${DY_TEMP##*/}; DY_TEMP=${DY_TEMP%%.*}
+    local DY_ED_INFO="${2:-$DY_TEMP}"
     DY_PU_INF=("[d]发布博客"  "[s]预览博客" "[b]回归编辑" "[q]退出")
-    echo -e "\033[${NEO_WARNING}m正在编辑\033[0m：$DY_TEMP "
+    echo -e "\033[${NEO_WARNING}m正在编辑\033[0m：$DY_ED_INFO"
     DY_BUT_LIST 0 0 "${DY_PU_INF[*]}"
     case "$QueRen" in
         0|d|D)
@@ -166,12 +168,12 @@ DY_PUSH(){
         1|s|S)
             echo -e "\r\e[${NEO_FORMAT}m${DY_PU_INF[1]}\e[0m\033[K"
             hexo s
-            DY_PUSH $1
+            DY_PUSH "$DY_ED_FILE" "$DY_ED_INFO"
             ;;
         2|b|B)
             echo -e "\r\e[${NEO_FORMAT}m${DY_PU_INF[2]}\e[0m\033[K"
-            $DY_EDIT $1
-            DY_PUSH $1
+            $DY_EDIT "$DY_ED_FILE"
+            DY_PUSH  "$DY_ED_FILE" "$DY_ED_INFO"
             ;;
         3|q|Q)
             echo -e "\r\e[${NEO_FORMAT}m${DY_PU_INF[3]}\e[0m\033[K"
@@ -299,7 +301,7 @@ case ${1:-} in
     "-XL"|"-xl")
         NEO_LIST "${DY_SOURC[*]}" 1
         $DY_EDIT "$DY_SOC/$EDFILE/index.md"
-        DY_PUSH "$DY_SOC/$EDFILE/index.md"
+        DY_PUSH "$DY_SOC/$EDFILE/index.md" "$EDFILE"
         ;;
     "-C"|"-c"|"--config")
         $DY_EDIT  $DY_PATH/_config.yml

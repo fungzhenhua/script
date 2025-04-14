@@ -2,7 +2,7 @@
 
 ## 积极开发中--NeoProgram ##
 
-![Static Badge](https://img.shields.io/badge/diary.sh-V15.6-purple)
+![Static Badge](https://img.shields.io/badge/diary.sh-V15.7-purple)
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
 ![Static Badge](https://img.shields.io/badge/Paria.sh-V2.2-purple)
 ![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.2-purple)
@@ -39,6 +39,7 @@
 - 2025年04月06日, `diary.sh`优化结构，规范代码，升级版本号`V15.3`.
 - 2025年04月06日, 将网址探测功能并入`Share_Fun_KeySudo`公共模块，在`Paria.sh`和`diary.sh`中调用公共模块探测网址畅通，同时改写`install.sh`增加相应命令。
 - 2025年04月09日, 去除`diary.sh`安装时调用密码的`bug`, 升级版本号`V15.6`.
+- 2025年04月14日, `diary.sh`在结束编辑后提示信息“正在编辑：xxxx"，但是在使用`-xl`编辑特定模块时，会显示为`index`, 修复后升级版本号`V15.7`.
 
 ## stirling.sh ##
 
