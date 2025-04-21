@@ -15,7 +15,7 @@ SYN_KEY_GET     # 获取本机密码
 echo $SYN_KEY_X |sudo -S sed -i "/^Icon/c\Icon=java-openjdk" $ICON_PATH/java-java-openjdk.desktop
 echo $SYN_KEY_X |sudo -S sed -i "/^Icon/c\Icon=java-openjdk" $ICON_PATH/jshell-java-openjdk.desktop
 echo $SYN_KEY_X |sudo -S sed -i "/^Icon/c\Icon=java-openjdk" $ICON_PATH/jconsole-java-openjdk.desktop
-echo $SYN_KEY_X |sudo -S sed -i "/^Icon/c\Icon=/usr/share/ions/Singular.png" $ICON_PATH/Singular.desktop
+echo $SYN_KEY_X |sudo -S sed -i "/^Icon/c\Icon=/usr/share/icons/Singular.png" $ICON_PATH/Singular.desktop
 echo $SYN_KEY_X |sudo -S update-desktop-database
 echo $SYN_KEY_X |sudo -S update-desktop-database /usr/share/mime
 unset SYN_KEY_X # 取消密码
