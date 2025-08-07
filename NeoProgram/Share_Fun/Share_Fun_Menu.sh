@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # 项目：Share_Fun_Menu.sh
-# 版本：V1.0
+# 版本：V1.1
 # Copyright (C) 2023 feng <feng@arch>
 # Distributed under terms of the MIT license.
 #
@@ -9,9 +9,14 @@ DY_LINE="\u2584"
 NEO_FORMAT="44;39"
 # 列表程序
 DY_SET_SIZE(){
-    TTY_H=$(stty size|awk '{print $1}')
+    if [ -t 0 ]; then
+        TTY_H=$(stty size|awk '{print $1}')
+        TTY_W=$(stty size|awk '{print $2}')
+    else
+        TTY_H=$(tput lines 2>/dev/null) || TTY_H=37
+        TTY_W=$(tput cols 2>/dev/null) || TTY_W=147
+    fi
     let TTY_H-=2
-    TTY_W=$(stty size|awk '{print $2}')
 }
 DY_SET_SIZE
 # 2024年05月26日 引入全新列表程序

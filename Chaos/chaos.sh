@@ -11,8 +11,12 @@
 # 注解：本程序之所以用chaos命名，因为在研究生毕业时，某博士导师当众纠正我的发音“Kei-阿丝”为"超丝“，这个纠正是极其错误的，为纪念这一事件，程序命名为chaos.
 #
 # 调入私有函数库
-source ~/.Share_Fun/Share_Fun_Menu.sh
-source ~/.Share_Fun/Share_Fun_KeySudo.sh
-source ~/.Share_Fun/Share_Fun_Weather.sh
-# 变量配置
+source "$HOME/.Share_Fun/Share_Fun_Menu.sh"
+source "$HOME/.Share_Fun/Share_Fun_KeySudo.sh"
+source "$HOME/.Share_Fun/Share_Fun_Weather.sh"
+# # 变量配置
 CH_NAME=tch ; CH_NAME_SH="texchief.sh" ; CH_VERSION="${CH_NAME-V1.0}"
+CH_SOURCE="$HOME/.chaos"
+if [ ! -e $CH_SOURCE ]; then
+    mkdir $CH_SOURCE
+fi
