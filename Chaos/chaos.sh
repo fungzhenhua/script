@@ -14,45 +14,109 @@
 source "$HOME/.Share_Fun/Share_Fun_Menu.sh"
 source "$HOME/.Share_Fun/Share_Fun_KeySudo.sh"
 source "$HOME/.Share_Fun/Share_Fun_Weather.sh"
-# # 变量配置
-CH_NAME=tch ; CH_NAME_SH="texchief.sh" ; CH_VERSION="${CH_NAME-V1.0}"
+# 保存脚本变量
+CH_ARGS=( "$0" "$@" )
+# 变量配置
+CH_NAME="chaos" ; CH_NAME_SH="chaos.sh" ; CH_VERSION="${CH_NAME-V1.1}"
+CH_EXEPATH=/usr/local/bin
+CH_EXE="$CH_EXEPATH/$CH_NAME"
 CH_SOURCE="$HOME/.chaos"
-CH_CFG="$CH_SOURCE/.CH_DATA"
-# CH_PATH="$PWD"
-CH_PATH="./test"
+CH_CFG="$CH_SOURCE/info.sh"
+CH_PATH="$PWD"
+CH_INSTALL(){
+    # 安装依赖
+    GIT_DEPEND neovim vim sed
+    # 安装脚本
+    if [ $0 == $CH_NAME ]; then
+        echo "请切换到最新的脚本目录执行: ./chaos.sh -i "
+    else
+        SYN_KEY_GET
+        echo $SYN_KEY_X |sudo -S cp -f $0 $CH_EXE
+        echo $SYN_KEY_X |sudo -S chmod 755 $CH_EXE
+        echo "${CH_VERSION}成功安装到标准位置$CH_EXEPATH，帮助请执行： diary --help "
+    fi
+    unset SYN_KEY_X
+    exit
+}
+# 检测是否已经安装
+if [[ ! -e $CH_EXE || $1 == "-i" ]]; then
+    CH_INSTALL
+fi
+# 建立模板源
 if [ ! -e $CH_SOURCE ]; then
     mkdir $CH_SOURCE
 fi
 if [ ! -e $CH_CFG ]; then
-   touch $CH_CFG 
+   touch $CH_CFG
    chmod +w $CH_CFG
-   echo "个人信息配置：注意下面直接按示例填写配置信息，去掉第1行之外的所有中文!!" > $CH_CFG
-   echo "作者：" >> $CH_CFG
+   echo "#! /bin/sh"               > $CH_CFG
+   echo "CH_AUTHOR_ZH=\" \""      >> $CH_CFG
+   echo "CH_AUTHOR_EN=\" \""      >> $CH_CFG
+   echo "CH_EMAIL=\" \""          >> $CH_CFG
+   echo "CH_OCID=\" \""           >> $CH_CFG
+   echo "CH_CITY_ZH=\" \""        >> $CH_CFG
+   echo "CH_CITY_EN=\" \""        >> $CH_CFG
+   echo "CH_POSTCODE=\" \""       >> $CH_CFG
+   echo "CH_SCHOOL_ZH=\" \""      >> $CH_CFG
+   echo "CH_SCHOOL_EN=\" \""      >> $CH_CFG
+   echo "CH_INSTITUTE_ZH=\" \""   >> $CH_CFG
+   echo "CH_INSTITUTE_EN=\" \""   >> $CH_CFG
+   echo "CH_AFFILIATION_EN=\" \"" >> $CH_CFG
 else
-    CH_INFO=($(cat $CH_CFG))
-    CH_AUTHOR=${CH_INFO[1]}
+    source $CH_CFG
 fi
-CH_DATE=$(date +"%Y-%m-%d")
-DY_FILES=($(ls $CH_SOURCE))
-
+CH_DATE_EN=$(date +"%Y-%m-%d")
+CH_DATE_ZH=$(date +"%Y年%m月%d日")
+# 读取模板
+CH_FILES=($(ls $CH_SOURCE))
+# 替换关键字
+CH_ADD_INFO(){
+    sed -i "s/<+title+>/${CH_ARGS[1]}/" "$2"
+    if [[ $1 == "zh" ]]; then
+        sed -i "s/<+author+>/$CH_AUTHOR_ZH/" "$2"
+        sed -i "s/<+date+>/$CH_DATE_ZH/" "$2"
+        sed -i "s/<+city+>/$CH_CITY_ZH/" "$2"
+        sed -i "s/<+institute+>/$CH_INSTITUTE_ZH/" "$2"
+    else
+        sed -i "s/<+author+>/$CH_AUTHOR_EN/" "$2"
+        sed -i "s/<+date+>/$CH_DATE_EN/" "$2"
+        sed -i "s/<+city+>/$CH_CITY_EN/" "$2"
+        sed -i "s/<+institute+>/$CH_INSTITUTE_EN/" "$2"
+        sed -i "s/<+affiliation+>/$CH_AFFILIATION_EN/" "$2"
+    fi
+    sed -i "s/<+email+>/$CH_EMAIL/" "$2"
+    sed -i "s/<+orcid+>/$CH_ORCID/" "$2"
+    sed -i "s/<+postcode+>/$CH_POSTCODE/" "$2"
+}
 # 列出模板
-NEO_LIST "${DY_FILES[*]}" 1
-
+NEO_LIST "${CH_FILES[*]}" 1
 # 建立文件目录
-if [[ ! -e $1 ]]; then
-    cp -r "$CH_SOURCE/$EDFILE" "${CH_PATH}/$1"
+if [[ ! -e ${CH_ARGS[1]} ]]; then
+    cp -r "$CH_SOURCE/$EDFILE" "${CH_PATH}/${CH_ARGS[1]}"
 fi
-
 # 分类处理文档
 case ${EDFILE} in
-    "Article")
-        CH_TARGET="${CH_PATH}/$1/${1}.tex"
-        mv "${CH_PATH}/$1/article.tex" "${CH_TARGET}"
-        sed -i "s/<+title+>/$1/" ${CH_TARGET}
-        sed -i "s/<+author+>/${CH_AUTHOR}/" ${CH_TARGET}
-        sed -i "s/<+date+>/${CH_DATE}/" ${CH_TARGET}
+    "article")
+        CH_TARGET="${CH_PATH}/${CH_ARGS[1]}/${CH_ARGS[1]}.tex"
+        mv "${CH_PATH}/${CH_ARGS[1]}/article.tex" "${CH_TARGET}"
+        CH_ADD_INFO "en" "${CH_TARGET}"
         ;;
-    "Book")
-        echo "book!"
+    "ctexart")
+        CH_TARGET="${CH_PATH}/${CH_ARGS[1]}/${CH_ARGS[1]}.tex"
+        mv "${CH_PATH}/${CH_ARGS[1]}/article.tex" "${CH_TARGET}"
+        CH_ADD_INFO "zh" "${CH_TARGET}"
+        ;;
+    "ctexbeamer")
+        CH_TARGET="${CH_PATH}/${CH_ARGS[1]}/${CH_ARGS[1]}.tex"
+        mv "${CH_PATH}/${CH_ARGS[1]}/beamer.tex" "${CH_TARGET}"
+        CH_ADD_INFO "zh" "${CH_TARGET}"
+        ;;
+    "ctexbook")
+        CH_TARGET="${CH_PATH}/${CH_ARGS[1]}/main/${CH_ARGS[1]}.tex"
+        mv "${CH_PATH}/${CH_ARGS[1]}/main/book.tex" "${CH_TARGET}"
+        CH_ADD_INFO "zh" "${CH_TARGET}"
+        ;;
+    *)
+        echo "尚未完成模板建设，敬请期待！"
         ;;
 esac

@@ -1,0 +1,36 @@
+\documentclass[aps,showpacs,showkeys,superscriptaddress]{revtex4-2}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{ulem}
+\usepackage{bm}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{epstopdf}
+\usepackage{epsfig,dsfont,multirow}
+\usepackage{caption}
+\usepackage{physics}
+\usepackage{orcidlink}
+
+\graphicspath{./images/} % 请确保所引用图片放入images目录中
+\begin{document}
+
+\title{<+title+>}
+
+\author{<+author+> \,  \orcidlink{<+ocrid+>}}
+\affiliation{<+affiliation+>}
+\email{<+email+>}
+\date{<+date+>}
+\begin{abstract}
+    <++>
+\end{abstract}
+\pacs{<++>; <++>}
+\keywords{<++>, <++>}
+\maketitle
+
+
+% article reference
+\bibliographystyle{apsrev4-2}
+\bibliography{reference}
+
+\end{document}
