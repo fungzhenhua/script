@@ -17,7 +17,7 @@ source "$HOME/.Share_Fun/Share_Fun_Weather.sh"
 # 保存脚本变量
 CH_ARGS=( "$0" "$@" )
 # 变量配置
-CH_NAME="chaos" ; CH_NAME_SH="chaos.sh" ; CH_VERSION="${CH_NAME-V1.1}"
+CH_NAME="chaos" ; CH_NAME_SH="chaos.sh" ; CH_VERSION="${CH_NAME}-V1.1"
 CH_EXEPATH=/usr/local/bin
 CH_EXE="$CH_EXEPATH/$CH_NAME"
 CH_SOURCE="$HOME/.chaos"
@@ -41,6 +41,9 @@ CH_INSTALL(){
 # 检测是否已经安装
 if [[ ! -e $CH_EXE || $1 == "-i" ]]; then
     CH_INSTALL
+elif [[ $1 == "-v" || $1 == "-V" ]]; then
+    echo $CH_VERSION
+    exit
 fi
 # 建立模板源
 if [ ! -e $CH_SOURCE ]; then
