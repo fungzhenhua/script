@@ -14,40 +14,20 @@
 source "$HOME/.Share_Fun/Share_Fun_Menu.sh"
 source "$HOME/.Share_Fun/Share_Fun_KeySudo.sh"
 source "$HOME/.Share_Fun/Share_Fun_Weather.sh"
+source "$HOME/.Share_Fun/Share_Fun_Install.sh"
 # 保存脚本变量
 CH_ARGS=( "$0" "$@" )
 # 变量配置
-CH_NAME="chaos" ; CH_NAME_SH="chaos.sh" ; CH_VERSION="${CH_NAME}-V1.1"
-CH_EXEPATH=/usr/local/bin
-CH_EXE="$CH_EXEPATH/$CH_NAME"
+CH_VERSION="${CH_ARGS[0]##*/}-V1.2"
 CH_SOURCE="$HOME/.chaos"
 CH_CFG="$CH_SOURCE/info.sh"
 CH_PATH="$PWD"
-CH_INSTALL(){
-    # 安装依赖
-    GIT_DEPEND neovim vim sed
-    # 安装脚本
-    if [ $0 == $CH_NAME ]; then
-        echo "请切换到最新的脚本目录执行: ./chaos.sh -i "
-    else
-        SYN_KEY_GET
-        echo $SYN_KEY_X |sudo -S cp -f $0 $CH_EXE
-        echo $SYN_KEY_X |sudo -S chmod 755 $CH_EXE
-        echo "${CH_VERSION}成功安装到标准位置$CH_EXEPATH，帮助请执行： diary --help "
-    fi
-    unset SYN_KEY_X
-    exit
-}
 # 检测是否已经安装
-if [[ ! -e $CH_EXE || $1 == "-i" ]]; then
-    CH_INSTALL
-elif [[ $1 == "-v" || $1 == "-V" ]]; then
-    echo $CH_VERSION
-    exit
-fi
+SFI_INSTALL ${CH_ARGS[1]} ${CH_ARGS[0]} $CH_VERSION
 # 建立模板源
 if [ ! -e $CH_SOURCE ]; then
     mkdir $CH_SOURCE
+    cp -r ./CH-TEMP/* $CH_SOURCE
 fi
 if [ ! -e $CH_CFG ]; then
    touch $CH_CFG
@@ -90,6 +70,8 @@ CH_ADD_INFO(){
     sed -i "s/<+email+>/$CH_EMAIL/" "$2"
     sed -i "s/<+orcid+>/$CH_ORCID/" "$2"
     sed -i "s/<+postcode+>/$CH_POSTCODE/" "$2"
+    clear
+    echo "${2%/*} 创建成功! "
 }
 # 列出模板
 NEO_LIST "${CH_FILES[*]}" 1
@@ -120,6 +102,8 @@ case ${EDFILE} in
         CH_ADD_INFO "zh" "${CH_TARGET}"
         ;;
     *)
-        echo "尚未完成模板建设，敬请期待！"
+        clear
+        rm -rf "${CH_PATH}/${CH_ARGS[1]}"
+        echo "尚未完成${EDFILE}模板建设，敬请期待！"
         ;;
 esac

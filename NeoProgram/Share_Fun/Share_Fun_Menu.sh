@@ -5,19 +5,20 @@
 # Copyright (C) 2023 feng <feng@arch>
 # Distributed under terms of the MIT license.
 #
-DY_LINE="\u2584"
-NEO_FORMAT="44;39"
-# 列表程序
-DY_SET_SIZE(){
-    if [ -t 0 ]; then
-        TTY_H=$(stty size|awk '{print $1}')
-        TTY_W=$(stty size|awk '{print $2}')
-    else
-        TTY_H=$(tput lines 2>/dev/null) || TTY_H=37
-        TTY_W=$(tput cols 2>/dev/null) || TTY_W=147
-    fi
-    let TTY_H-=2
-}
+if [[ $SFM_LOADED == "" ]]; then
+    DY_LINE="\u2584"
+    NEO_FORMAT="44;39"
+    # 列表程序
+    DY_SET_SIZE(){
+        if [ -t 0 ]; then
+            TTY_H=$(stty size|awk '{print $1}')
+            TTY_W=$(stty size|awk '{print $2}')
+        else
+            TTY_H=$(tput lines 2>/dev/null) || TTY_H=37
+            TTY_W=$(tput cols 2>/dev/null) || TTY_W=147
+        fi
+        let TTY_H-=2
+    }
 DY_SET_SIZE
 # 2024年05月26日 引入全新列表程序
 DY_MKLINE(){
@@ -135,20 +136,20 @@ NEO_LISA(){
     p=$1 ; let q=$p+$TTY_H; m=$3
     if [ $q -gt "${#NEO_ARR[*]}" ]; then
         let q=$q-"${#NEO_ARR[*]}"
-        let p=$p-"${#NEO_ARR[*]}"
-        let m=$m-"${#NEO_ARR[*]}"
+            let p=$p-"${#NEO_ARR[*]}"
+                let m=$m-"${#NEO_ARR[*]}"
     fi
     if [ $p -le "-${#NEO_ARR[*]}" ]; then
         let q=$q+"${#NEO_ARR[*]}"
-        let p=$p+"${#NEO_ARR[*]}"
-        let m=$m+"${#NEO_ARR[*]}"
+            let p=$p+"${#NEO_ARR[*]}"
+                let m=$m+"${#NEO_ARR[*]}"
     fi
     NEO_LIA $p $2 $m
     DY_MKLINE
     if [ $m -le 0 ]; then
         let NEO_CURRENT=$m+"${#NEO_ARR[*]}"
-    else
-        NEO_CURRENT=$m
+        else
+            NEO_CURRENT=$m
     fi
     NEO_MENUE "$TTY_H" "$NEO_CURRENT"
     read -s -n 1 ListDo
@@ -322,36 +323,36 @@ NEO_LISB(){
 NEO_LIST(){
     unset NEO_ARR ; NEO_ARR=($1) ; NEO_SEL_ON=$2
     DY_NUM_WTX="${#NEO_ARR[*]}"
-    DY_NUM_WT="${#DY_NUM_WTX}"
-    clear
-    DY_SET_SIZE
-    if [ "${#NEO_ARR[*]}" -gt $TTY_H ]; then
-        NEO_LISA 0 "${#NEO_ARR[*]}" 1
-    else
-        NEO_LISB 0 "${#NEO_ARR[*]}" 1
-    fi
-    EDFILE="${NEO_ARR[$NEO_OUT_H-1]}"
-}
-DY_BUT_LS(){
-    DY_BUTTON=($1)
-    if [ $i -eq 0 ]; then
-        echo -ne "\r\033[2K"
-    fi
-    if [ $m -ge "${#DY_BUTTON[*]}" ]; then
-        let m-="${#DY_BUTTON[*]}"
-    fi
-    if [ $m -lt 0 ]; then
-        let m="${#DY_BUTTON[*]}"-1
-    fi
-    while [[ $i -le ${#DY_BUTTON[*]} ]]; do
-        if [[ $i -eq $m ]]; then
-            echo -en "\e[${NEO_FORMAT}m${DY_BUTTON[$i]}\e[0m "
-        else
-            echo -n "${DY_BUTTON[$i]} "
+        DY_NUM_WT="${#DY_NUM_WTX}"
+            clear
+            DY_SET_SIZE
+            if [ "${#NEO_ARR[*]}" -gt $TTY_H ]; then
+                NEO_LISA 0 "${#NEO_ARR[*]}" 1
+                else
+                    NEO_LISB 0 "${#NEO_ARR[*]}" 1
+            fi
+            EDFILE="${NEO_ARR[$NEO_OUT_H-1]}"
+        }
+    DY_BUT_LS(){
+        DY_BUTTON=($1)
+        if [ $i -eq 0 ]; then
+            echo -ne "\r\033[2K"
         fi
-        let i+=1
-    done
-}
+        if [ $m -ge "${#DY_BUTTON[*]}" ]; then
+            let m-="${#DY_BUTTON[*]}"
+        fi
+        if [ $m -lt 0 ]; then
+            let m="${#DY_BUTTON[*]}"-1
+        fi
+        while [[ $i -le ${#DY_BUTTON[*]} ]]; do
+            if [[ $i -eq $m ]]; then
+                echo -en "\e[${NEO_FORMAT}m${DY_BUTTON[$i]}\e[0m "
+            else
+                echo -n "${DY_BUTTON[$i]} "
+            fi
+            let i+=1
+        done
+    }
 # 参数：初始，选中
 DY_BUT_LIST(){
     i=$1; m=$2
@@ -393,3 +394,5 @@ DY_BUT_LIST(){
             ;;
     esac
 }
+SFM_LOADED="yes"
+fi

@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-04-14 15:11
+# Date     : 2025-08-09 17:50
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -11,10 +11,15 @@
 source ~/.Share_Fun/Share_Fun_Menu.sh
 source ~/.Share_Fun/Share_Fun_KeySudo.sh
 source ~/.Share_Fun/Share_Fun_Weather.sh
+source ~/.Share_Fun/Share_Fun_Install.sh
 #
+# 保存脚本变量
+DY_ARGS=( "$0" "$@" )
+DY_VERSION="${DY_ARGS[0]##*/}-V15.8"
+#=========================安装脚本=========================
+SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
-DY_VERSION="${DY_NAME}-V15.7"
 DY_REMOTE=origin
 DY_BRANCH=main
 DY_SOURCE=~/.DY_SCE
@@ -40,22 +45,6 @@ unset USB_UPDATE_URLS
 USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inline\=false      # 默认升级地址
 # USB_UPDATE_URLS[1]=https://gitlab.com/fengzhenhua/script/-/raw/$USB_REMORT_SH\?inline\=false # 备用升级地址
 #
-#=========================安装脚本=========================
-DY_INSTALL(){
-    # 安装依赖
-    GIT_DEPEND neovim vim curl
-    # 安装脚本
-    if [ $0 == $DY_NAME ]; then
-        echo "请切换到最新的脚本目录执行: ./install.sh -i "
-    else
-        SYN_KEY_GET
-        echo $SYN_KEY_X |sudo -S cp -f $0 $DY_EXE
-        echo $SYN_KEY_X |sudo -S chmod 755 $DY_EXE
-        echo "${DY_VERSION}成功安装到标准位置$DY_EXEPATH，帮助请执行： diary --help "
-    fi
-    unset SYN_KEY_X
-    exit
-}
 # 私人信息设置
 DY_GET_INF(){
     if [ ! -e $DY_KEY_CFG ]; then
@@ -215,21 +204,10 @@ cat << EOF
 EOF
 }
 #=========================预先配置=========================
-# 检测是否已经安装
-if [ ! -e $DY_EXE ]; then
-    DY_INSTALL
-fi
 # 获取私人信息, 立刻获取各种变量
 DY_GET_INF
 # 探测博客网址是否可达以及博客设置
 case ${1:-} in
-    "-v"|"-V"|"--version")
-        echo "${DY_VERSION}"
-        exit
-        ;;
-    "-i"|"-I"|"--install")
-        DY_INSTALL
-        ;;
     "--Setsym"|"--SetSym")
         echo $SYN_KEY_X |sudo -S sed -i "s/^DY_LINE.*$/DY_LINE=\"$2\"/g"  $0
         echo "分隔符已经修改为:$2"

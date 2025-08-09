@@ -7,16 +7,17 @@
 #
 # 调入私有函数库
 source ~/.Share_Fun/Share_Fun_KeySudo.sh
-# 安装依赖
-GIT_DEPEND coreutils grep
-# 函数：求交集
-function ana_intersection() {
-    local set1=($1)
-    local set2=($2)
+if [[ $SFS_LOADED =="" ]]; then
+    # 安装依赖
+    GIT_DEPEND coreutils grep
+    # 函数：求交集
+    function ana_intersection() {
+        local set1=($1)
+        local set2=($2)
 
-    # 使用 grep 找到两个集合的共同元素
-    echo "${set1[@]}" | tr ' ' '\n' | grep -Fx -f <(echo "${set2[@]}" | tr ' ' '\n') | sort -u
-}
+        # 使用 grep 找到两个集合的共同元素
+        echo "${set1[@]}" | tr ' ' '\n' | grep -Fx -f <(echo "${set2[@]}" | tr ' ' '\n') | sort -u
+    }
 # 函数：求并集
 function ana_union() {
     local set1=($1)
@@ -38,6 +39,8 @@ function ana_symmetric_difference() {
     local diff2=$(difference "$2" "$1")
     echo "$diff1 $diff2" | tr ' ' '\n' | sort -u
 }
+SFS_LOADED="yes"
+fi
 # 示例使用
 # set1="a b c d"
 # set2="b c e f"
