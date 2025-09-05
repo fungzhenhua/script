@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # Program  : zbftp.sh
-# Version  : v1.0
+# Version  : v1.1
 # Date     : 2025-09-04 18:29
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
@@ -12,12 +12,32 @@
 source ~/.Share_Fun/Share_Fun_KeySudo.sh
 #
 # 定义变量
-ZB_EXE="/usr/local/bin/${0%.sh}"
+ZB_NAME=${0%.sh}
+ZB_NAME=${ZB_NAME##*/}
+ZB_EXE="/usr/local/bin/$ZB_NAME"
 ZB_FTP_REMOTE="ftp://2025wuli:2025wuli@192.168.1.15:2180/"
+ZB_AUTO="$HOME/.config/autostart/$ZB_NAME.desktop"
 ZB_FTP_LOCAL="$HOME/ZBFTP"
 # 检查建立目录
 if [ ! -e $ZB_FTP_LOCAL ]; then
     mkdir $ZB_FTP_LOCAL
+fi
+# 设置自启动
+if [ ! -e $ZB_AUTO ]; then
+   touch $ZB_AUTO
+cat > $ZB_AUTO <<EOF
+[Desktop Entry]
+Name=$ZB_NAME
+TryExec=$ZB_NAME
+Exec=$ZB_EXE
+Type=Application
+Categories=GNOME;GTK;System;Utility;TerminalEmulator;
+StartupNotify=true
+X-Desktop-File-Install-Version=0.22
+X-GNOME-Autostart-enabled=true
+Hidden=false
+NoDisplay=false
+EOF
 fi
 # 安装并启动FTP
 if [ $# -gt 0 ]; then

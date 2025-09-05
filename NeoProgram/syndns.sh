@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # Program  : syndns.sh
-# Version  : v4.7
+# Version  : v4.8
 # Date     : 2025-03-26 00:49
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
@@ -12,8 +12,10 @@
 source ~/.Share_Fun/Share_Fun_KeySudo.sh
 #
 # 定义变量
-SYN_EXE="/usr/local/bin/${0%.sh}"
-SYN_AUTO="$HOME/.config/autostart/${0%.sh}.desktop"
+SYN_NAME=${0%.sh}
+SYN_NAME=${SYN_NAME##*/}
+SYN_EXE="/usr/local/bin/${SYN_NAME}"
+SYN_AUTO="$HOME/.config/autostart/${SYN_NAME}.desktop"
 SYN_SUDO="/etc/sudoers.d/01_$USER"
 SYN_HOS="/etc/hosts"
 SYN_RES="/etc/resolv.conf"
@@ -83,11 +85,11 @@ SYN_DN2IP(){
 SYN_SET_COF(){
 if [ ! -e $SYN_AUTO ]; then
    SYN_KEY_GET
-   echo $SYN_KEY_X |sudo -S touch $SYN_AUTO
+   touch $SYN_AUTO
 cat > $SYN_AUTO <<EOF
 [Desktop Entry]
-Name=SynDns
-TryExec=syndns
+Name=$SYN_NAME
+TryExec=$SYN_NAME
 Exec=$SYN_EXE
 Type=Application
 Categories=GNOME;GTK;System;Utility;TerminalEmulator;
