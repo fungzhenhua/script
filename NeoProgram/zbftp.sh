@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # Program  : zbftp.sh
-# Version  : v1.3
+# Version  : v1.4
 # Date     : 2025-09-22 18:24
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
@@ -53,7 +53,7 @@ else
         if [ ! -e $ZB_FTP_LOCAL ]; then
             mkdir $ZB_FTP_LOCAL
         fi
-        mount | grep $ZB_ITEM &> /dev/null
+        mount | grep $ZB_FTP_LOCAL &> /dev/null
         if [[ ! $? == 0 ]]; then
             curlftpfs -o codepage=gbk,allow_other $ZB_ITEM $ZB_FTP_LOCAL
         fi

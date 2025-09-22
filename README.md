@@ -11,7 +11,7 @@
 ![Static Badge](https://img.shields.io/badge/install.sh-V2.3-purple)
 ![Static Badge](https://img.shields.io/badge/stirling.sh-V1.1-purple)
 ![Static Badge](https://img.shields.io/badge/chaos.sh-V1.1-purple)
-![Static Badge](https://img.shields.io/badge/zbftp.sh-V1.3-purple)
+![Static Badge](https://img.shields.io/badge/zbftp.sh-V1.4-purple)
 
 ## 停止维护--AbandonMent不建议使用，仅限学习参考 ##
 
@@ -46,6 +46,7 @@
 ## zbftp.sh ##
 
 - 2025年09月22日, 新增zbftp.sh, 用于自动挂载ftp服务。默认挂载名为ftp的登录名, 支持挂载多个ftp.
+- 2025年09月22日, 判断挂载的条件改为探测本地挂载目录是否存在，而不是判断远程路径。
 
 ## chaos.sh ##
 
