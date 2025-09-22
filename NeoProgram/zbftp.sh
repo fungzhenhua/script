@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : zbftp.sh
-# Version  : v1.1
-# Date     : 2025-09-04 18:29
+# Version  : v1.3
+# Date     : 2025-09-22 18:24
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -15,13 +15,8 @@ source ~/.Share_Fun/Share_Fun_KeySudo.sh
 ZB_NAME=${0%.sh}
 ZB_NAME=${ZB_NAME##*/}
 ZB_EXE="/usr/local/bin/$ZB_NAME"
-ZB_FTP_REMOTE="ftp://2025wuli:2025wuli@192.168.1.15:2180/"
+ZB_FTP_ARR=( "ftp://2025wuli:2025wuli@192.168.1.15:2180/" "ftp://xkzxz:xkzxz%402020@192.168.1.15:2180/")
 ZB_AUTO="$HOME/.config/autostart/$ZB_NAME.desktop"
-ZB_FTP_LOCAL="$HOME/ZBFTP"
-# 检查建立目录
-if [ ! -e $ZB_FTP_LOCAL ]; then
-    mkdir $ZB_FTP_LOCAL
-fi
 # 设置自启动
 if [ ! -e $ZB_AUTO ]; then
    touch $ZB_AUTO
@@ -52,5 +47,15 @@ if [ $# -gt 0 ]; then
         exit
     fi
 else
-    curlftpfs -o codepage=gbk,allow_other $ZB_FTP_REMOTE $ZB_FTP_LOCAL
+    for ZB_ITEM in ${ZB_FTP_ARR[*]}; do
+        ZB_FTP_LOCAL=${ZB_ITEM#*//}
+        ZB_FTP_LOCAL="$HOME/${ZB_FTP_LOCAL%%:*}"
+        if [ ! -e $ZB_FTP_LOCAL ]; then
+            mkdir $ZB_FTP_LOCAL
+        fi
+        mount | grep $ZB_ITEM &> /dev/null
+        if [[ ! $? == 0 ]]; then
+            curlftpfs -o codepage=gbk,allow_other $ZB_ITEM $ZB_FTP_LOCAL
+        fi
+    done
 fi

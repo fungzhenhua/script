@@ -11,6 +11,7 @@
 ![Static Badge](https://img.shields.io/badge/install.sh-V2.3-purple)
 ![Static Badge](https://img.shields.io/badge/stirling.sh-V1.1-purple)
 ![Static Badge](https://img.shields.io/badge/chaos.sh-V1.1-purple)
+![Static Badge](https://img.shields.io/badge/zbftp.sh-V1.3-purple)
 
 ## 停止维护--AbandonMent不建议使用，仅限学习参考 ##
 
@@ -41,6 +42,10 @@
 - 2025年04月06日, 将网址探测功能并入`Share_Fun_KeySudo`公共模块，在`Paria.sh`和`diary.sh`中调用公共模块探测网址畅通，同时改写`install.sh`增加相应命令。
 - 2025年04月09日, 去除`diary.sh`安装时调用密码的`bug`, 升级版本号`V15.6`.
 - 2025年04月14日, `diary.sh`在结束编辑后提示信息“正在编辑：xxxx"，但是在使用`-xl`编辑特定模块时，会显示为`index`, 修复后升级版本号`V15.7`.
+
+## zbftp.sh ##
+
+- 2025年09月22日, 新增zbftp.sh, 用于自动挂载ftp服务。默认挂载名为ftp的登录名, 支持挂载多个ftp.
 
 ## chaos.sh ##
 
