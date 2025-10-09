@@ -1,8 +1,8 @@
 #! /bin/sh
 #
 # Program  : zbftp.sh
-# Version  : v1.4
-# Date     : 2025-09-22 18:24
+# Version  : v1.5
+# Date     : 2025-10-09 21:49
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
 # CopyRight: Copyright (C) 2022-2025 FengZhenhua(冯振华)
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_KeySudo.sh
 ZB_NAME=${0%.sh}
 ZB_NAME=${ZB_NAME##*/}
 ZB_EXE="/usr/local/bin/$ZB_NAME"
-ZB_FTP_ARR=( "ftp://2025wuli:2025wuli@192.168.1.15:2180/" "ftp://xkzxz:xkzxz%402020@192.168.1.15:2180/")
+ZB_FTP_ARR=( "ftp://2022wuli:wuli@192.168.1.15:2180/" "ftp://2025wuli:2025wuli@192.168.1.15:2180/" "ftp://xkzxz:xkzxz%402020@192.168.1.15:2180/")
 ZB_AUTO="$HOME/.config/autostart/$ZB_NAME.desktop"
 # 设置自启动
 if [ ! -e $ZB_AUTO ]; then
