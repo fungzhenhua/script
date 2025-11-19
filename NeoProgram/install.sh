@@ -1,10 +1,10 @@
 #! /bin/bash
 #
 # Program  : install.sh
-# Version  : V2.3
+# Version  : V2.4
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-04-06 20:04
+# Date     : 2025-11-19 09:11
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -12,12 +12,17 @@
 # 调入私有函数库
 source ./Share_Fun/Share_Fun_KeySudo.sh
 source ./Share_Fun/Share_Fun_Menu.sh
-# 安装函数库到本地
+# 安装函数库到本地, 这部分操作过于激进了
 INS_Share_Fun=~/.Share_Fun
 if [ -e "$INS_Share_Fun" ]; then
-    rm -rf "$INS_Share_Fun"
+    echo -n "检测到${INS_Share_Fun}已经安装，是否重装？Y/N"; read QueRen
+    if [ $QueRen == "Y" -o $QueRen == "y" ]; then
+        rm -rf "$INS_Share_Fun"
+        cp -r ./Share_Fun "$INS_Share_Fun"
+    fi
+else
+    cp -r ./Share_Fun "$INS_Share_Fun"
 fi
-cp -r ./Share_Fun "$INS_Share_Fun"
 ## 安装脚本到指定位置
 #------------------------------------------------------------
 SYN_INS_Paru(){
