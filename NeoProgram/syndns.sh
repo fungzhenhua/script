@@ -22,6 +22,9 @@ SYN_HOS="/etc/hosts"
 SYN_RES="/etc/resolv.conf"
 SYN_REC=$(grep "addn-hosts" /etc/dnsmasq.conf |grep "/dev/shm/")
 SYN_REC=${SYN_REC#*=}
+if [[ $SYN_REC == '' ]]; then
+    SYN_REC="/dev/shm/dnsrecord.txt"
+fi
 SYN_ADD="$HOME/.host_dns_autoadd.txt"
 SYN_HOS_USE="$HOME/.host_dns_clean"
 SYN_DNS_EN=(4.2.2.1 4.2.2.2 4.2.2.3 4.2.2.4 4.2.2.5 4.2.2.6 \
