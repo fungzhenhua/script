@@ -76,6 +76,16 @@ SYN_INS_Syndns(){
     unset SYN_KEY_X
     echo "${INS_NAME} 安装成功，${INS_NAME}配置完毕 !!"
 }
+SYN_INS_SeeWo(){
+    INS_NAME=seewo
+    INS_EXEPATH=/usr/local/bin
+    INS_EXE="$INS_EXEPATH/$INS_NAME"
+    SYN_KEY_GET
+    echo $SYN_KEY_X |sudo -S cp -f ./seewo.sh $INS_EXE
+    echo $SYN_KEY_X |sudo -S chmod 755 $INS_EXE
+    unset SYN_KEY_X
+    echo "${INS_NAME} 安装成功，${INS_NAME}配置完毕 !!"
+}
 #------------------------------------------------------------
 #
 echo "统一安装程序，正在为您安装..."
