@@ -12,21 +12,22 @@ source ~/.Share_Fun/Share_Fun_KeySudo.sh
 source ~/.Share_Fun/Share_Fun_Install.sh
 # 保存脚本变量
 SW_ARGS=( "$0" "$@" )
-SW_VERSION="${SW_ARGS[0]##*/}-V1.2"
+SW_VERSION="${SW_ARGS[0]##*/}-V1.4"
 SFI_INSTALL ${SW_ARGS[1]} ${SW_ARGS[0]} $SW_VERSION
 GIT_DEPEND imagemagick
 # 输出PDF文件命名
 if [[ ${SW_ARGS[1]} == "" ]] ; then
-    OUTNAME=$(basename $PWD)
+    OUTNAME=${PWD##*/}
 else
     OUTNAME=${SW_ARGS[1]}
 fi
 shopt -s nullglob # 如果没有匹配到文件，通配符返回空
-SW_FILES=( "$PWD"/*.png )
+SW_FILES=( ./*.png )
 shopt -u nullglob # 恢复默认设置
 # 如果未发现图片则不执行操作，发现图片则合成pdf
 if [ ${#SW_FILES[@]} -gt 0 ]; then
-    magick $(ls $PWD/*.png |sort -V) $PWD/${OUTNAME}.pdf
+    rename " " "" ./*
+    magick $(ls ./*.png |sort -V) "./${OUTNAME}.pdf"
 else
     echo "目录内未发现图片，不执行合成操作!"
 fi
