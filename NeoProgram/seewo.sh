@@ -12,11 +12,15 @@ source ~/.Share_Fun/Share_Fun_KeySudo.sh
 source ~/.Share_Fun/Share_Fun_Install.sh
 # 保存脚本变量
 SW_ARGS=( "$0" "$@" )
-SW_VERSION="${SW_ARGS[0]##*/}-V1.1"
+SW_VERSION="${SW_ARGS[0]##*/}-V1.2"
 SFI_INSTALL ${SW_ARGS[1]} ${SW_ARGS[0]} $SW_VERSION
 GIT_DEPEND imagemagick
-# 脚本主程序
-OUTNAME=$(basename $PWD)
+# 输出PDF文件命名
+if [[ ${SW_ARGS[1]} == "" ]] ; then
+    OUTNAME=$(basename $PWD)
+else
+    OUTNAME=${SW_ARGS[1]}
+fi
 shopt -s nullglob # 如果没有匹配到文件，通配符返回空
 SW_FILES=( "$PWD"/*.png )
 shopt -u nullglob # 恢复默认设置
