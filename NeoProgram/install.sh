@@ -93,4 +93,5 @@ SYN_INS_Paru
 SYN_INS_Diary
 SYN_INS_Syndns
 SYN_INS_Weather
+SYN_INS_SeeWo
 echo "统一安装程序，安装完毕."
