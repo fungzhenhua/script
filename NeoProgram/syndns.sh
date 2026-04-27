@@ -164,7 +164,7 @@ SYNDNS_PROCESS(){
     SYN_DN2IP "${SYN_DNS_EN[*]}" "${SYN_SCI[*]}" "$SYN_REC"
     # 将整理好的 $SYN_REC 保存到 $SYN_HOS
     echo $SYN_KEY_X | sudo -S sh -c "cat $SYN_REC > $SYN_HOS" &> /dev/null
-    echo "$(hostname -i) localhost:" >> $SYN_REC
+    # echo "$(hostname -i) localhost:" >> $SYN_REC
     # 重启dnsmasq服务
     SYN_SET_RES
 }

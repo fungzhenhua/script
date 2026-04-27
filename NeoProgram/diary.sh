@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-08-09 17:50
+# Date     : 2026-04-26 00:06
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V15.8"
+DY_VERSION="${DY_ARGS[0]##*/}-V17.8"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -37,8 +37,8 @@ USB_TIMEOUT=1
 NEO_WARNING="7"
 DY_EDIT="nvim" # 默认编辑器 nvim/vim
 COMMENT="${USER}@$(hostname -i)"
-DY_IGNORE="$DY_PATH/.gitignore"
 DY_HOST="/etc/hosts"
+DY_SURL="https://gitee.com"
 # 定义博客分类
 DY_TAGS=( 电脑技术 科研笔记 心情随笔 )
 unset USB_UPDATE_URLS
@@ -51,6 +51,7 @@ DY_GET_INF(){
         touch $DY_KEY_CFG
         chmod +w $DY_KEY_CFG
         echo "个人信息配置：注意下面直接按示例填写配置信息，去掉第1行之外的所有中文!!" > $DY_KEY_CFG
+        echo "博客的模式，仅本地：0 ,  仅远程：1, 本地+远程备份：2" >> $DY_KEY_CFG
         echo "博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_KEY_CFG
         echo "博客的本地名称，如xiaoming.github.io" >> $DY_KEY_CFG
         echo "Gitlab博客仓库Token，如glpat-t3T_ZzJkcqp45kuiaNiP" >> $DY_KEY_CFG
@@ -60,38 +61,84 @@ DY_GET_INF(){
         exit
     else
         DY_INFO=($(cat $DY_KEY_CFG))
-        DY_PCLONESITE=${DY_INFO[1]}
-        DY_PATH=$DY_SOURCE/${DY_INFO[2]}
-        DY_URL="https://${DY_INFO[2]}"
-        DY_TOKEN=${DY_INFO[3]}
-        REGISTRATION_TOKEN=${DY_INFO[4]}
-        GITLAB_SIT=${DY_INFO[5]}
+        DY_MODEL=${DY_INFO[1]}
+        DY_PCLONESITE=${DY_INFO[2]}
+        DY_PCLONESITE_BAK=${DY_INFO[3]}
+        DY_UNAME="${DY_INFO[4]}"
+        DY_PATH_BAK="$DY_SOURCE/${DY_UNAME}"
+        DY_PATH="${DY_PATH_BAK}.local"
+        if [[ ${DY_MODEL} == 1 ]]; then
+            DY_PCLONESITE=${DY_PCLONESITE_BAK}
+            DY_PATH=${DY_PATH_BAK}
+        fi
+        # DY_IGNORE="$DY_PATH/.gitignore"
+        DY_URL="https://${DY_UNAME}"
+        DY_TOKEN=${DY_INFO[5]}
+        REGISTRATION_TOKEN=${DY_INFO[6]}
+        SOURCE_SIT=${DY_INFO[7]}
     fi
 }
 #=========================下载博客=========================
-DY_CLONE(){
-    git  clone $DY_PCLONESITE  $DY_PATH
+DY_CLONE_X(){
+    if [ ! -e $2 ]; then
+        mkdir -p $2
+        git clone $1 $2
+        echo "博客源文档目录$1 已经下载成功，Happy diarying ！"
+    else
+        if [ ! -s $2 ]; then
+            rm -rf $2
+            git clone $1 $2
+            echo "博客源文档目录$1 已经下载成功，Happy diarying ！"
+        fi
+    fi
+    DY_IGNORE="$2/.gitignore"
     if [[ ! -e $DY_IGNORE ]]; then
         touch $DY_IGNORE
         echo ".deploy_git/" > $DY_IGNORE
         echo "public/" >> $DY_IGNORE
         echo "db.json" >> $DY_IGNORE
     fi
-    echo "博客源文档目录$DY_PATH已经下载成功，Happy diarying ！"
-    exit
+}
+DY_CLONE(){
+    if [ ! -e $DY_SOURCE ]; then
+        mkdir -p $DY_SOURCE
+    fi
+    if [[ ${DY_MODEL} == 2 ]]; then
+        DY_CLONE_X $DY_PCLONESITE_BAK  $DY_PATH_BAK
+    fi
+    DY_CLONE_X $DY_PCLONESITE $DY_PATH
 }
 USB_DETECT_URL(){
-    if mirror_available "${DY_URL}"; then
-        echo "网络畅通，$DY_VERSION 启动成功!"
-        cd $DY_PATH
-        git pull &> /dev/null
+    if [[ ${DY_MODEL} == 1 ]]; then
+        if mirror_available "${DY_URL}"; then
+            echo "网络畅通，$DY_VERSION 启动成功!"
+            echo "源更新: ${DY_PCLONESITE}"
+            cd $DY_PATH
+            git pull &> /dev/null
+            echo "源更新: 成功! "
+        else
+            DY_DNS_GITHUA=$(dig @4.2.2.1 +short github.com)
+            SYN_KEY_GET
+            echo $SYN_KEY_X |sudo -S sed -ie "s/"${DY_DNS_GITHUB}" * github.com/"${DY_DNS_GITHUA}" github.com /g" "$DY_HOST"
+            unset SYN_KEY_X
+            echo "网络探测完成，请重新运行程序!"
+            exit
+        fi
     else
-        DY_DNS_GITHUA=$(dig @4.2.2.1 +short github.com)
-        SYN_KEY_GET
-        echo $SYN_KEY_X |sudo -S sed -ie "s/"${DY_DNS_GITHUB}" * github.com/"${DY_DNS_GITHUA}" github.com /g" "$DY_HOST"
-        unset SYN_KEY_X
-        echo "网络探测完成，请重新运行程序!"
-        exit
+        if [[ ${DY_MODEL} == 0 ]]; then
+            echo "本地模式，$DY_VERSION 启动成功!"
+        elif [[ ${DY_MODEL} == 2 ]]; then
+            echo "备份模式，$DY_VERSION 启动成功!"
+        fi
+        if mirror_available "${SOURCE_SIT}"; then
+            echo "源更新: ${DY_PCLONESITE}"
+            cd $DY_PATH
+            git pull &> /dev/null
+            echo "源更新: 成功! "
+        else
+            echo "源不可达，请检查网络连接，确保网络畅通!"
+            exit
+        fi
     fi
 }
 #=========================脚本更新=========================
@@ -132,13 +179,24 @@ ThemeUpdate(){
 DY_PUSHX(){
     cd $DY_PATH
     hexo g
-    hexo d
     git add .  &> /dev/null
     git commit  -m  "$COMMENT" &> /dev/null
-    git push "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
-    gh auth switch -u fongzhenhua
-    gh repo sync --force fongzhenhua/fongzhenhua.github.io --source fungzhenhua/fungzhenhua.github.io
-    gh auth switch -u fungzhenhua
+    # git push "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
+    git push &> /dev/null
+    if [[ ${DY_MODEL} != 0 ]]; then
+        hexo d --skip-generator
+        gh auth switch -u fongzhenhua
+        gh repo sync --force fongzhenhua/fongzhenhua.github.io --source fungzhenhua/fungzhenhua.github.io
+        gh auth switch -u fungzhenhua
+    fi
+    if [[ ${DY_MODEL} == 2 ]]; then
+        rsync -a --update $DY_PATH/ $DY_PATH_BAK/
+        cd $DY_PATH_BAK
+        git add .  &> /dev/null
+        git commit  -m  "$COMMENT" &> /dev/null
+        # git push "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
+        git push  &> /dev/null
+    fi
     echo -e "文章发布成功，期待您的下一篇文章!"
 }
 DY_PUSH(){
@@ -156,7 +214,11 @@ DY_PUSH(){
             ;;
         1|s|S)
             echo -e "\r\e[${NEO_FORMAT}m${DY_PU_INF[1]}\e[0m\033[K"
-            hexo s
+            if [[ ${DY_MODEL} == 1 ]]; then
+                hexo s
+            else
+                $DY_EDIT "$DY_ED_FILE"
+            fi
             DY_PUSH "$DY_ED_FILE" "$DY_ED_INFO"
             ;;
         2|b|B)
@@ -203,9 +265,157 @@ cat << EOF
     -xl                    修改目录后再列出
 EOF
 }
+#=========================配置本地服务=========================
+DY_SERVE_FILE="/etc/systemd/system/blog.service"
+DY_SERVE(){
+if [ ! -e $DY_SERVE_FILE ]; then
+SYN_KEY_GET
+echo $SYN_KEY_X | sudo -S touch $DY_SERVE_FILE
+echo $SYN_KEY_X | sudo -S sh -c "cat > $DY_SERVE_FILE" <<EOA
+[Unit]
+Description=Hexo Blog Static Server
+After=network.target
+
+[Service]
+Type=simple
+User=$USER
+WorkingDirectory=$DY_PATH/public
+ExecStart=/usr/bin/python3 -m http.server 4000 --bind 127.0.0.1
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOA
+echo $SYN_KEY_X | sudo -S systemctl daemon-reload
+unset SYN_KEY_X
+fi
+}
+DY_SYNC_FILE="$HOME/.config/systemd/user/diary-sync.service"
+DY_SYNC(){
+    if [ ! -e ${DY_SYNC_FILE%/*} ]; then
+        mkdir -p ${DY_SYNC_FILE%/*}
+    fi
+    if [ ! -e $DY_SYNC_FILE ]; then
+        touch $DY_SYNC_FILE
+cat > $DY_SYNC_FILE << EOB
+[Unit]
+Description=Sync diary repository after network is ready
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=$DY_EXE --autostart
+
+[Install]
+WantedBy=default.target
+EOB
+systemctl --user daemon-reload
+    fi
+}
+DY_CANDDY_FILE="/etc/caddy/conf.d/${DY_UNAME%%.*}.conf"
+DY_CANDDY(){
+    if ! grep -q "^[^#]*$DY_UNAME" "$DY_HOST"; then
+SYN_KEY_GET
+echo $SYN_KEY_X | sudo -S sh -c "cat >> $DY_HOST" <<EOD
+127.0.0.1 ${DY_UNAME}
+EOD
+    fi
+    if [ ! -e $DY_CANDDY_FILE ]; then
+echo $SYN_KEY_X | sudo -S touch $DY_CANDDY_FILE
+echo $SYN_KEY_X | sudo -S sh -c "cat > $DY_CANDDY_FILE" <<EOC
+$DY_UNAME {
+    tls internal
+    reverse_proxy localhost:4000
+}
+EOC
+    fi
+}
+DY_SERVE_SWITCH(){
+    if [[ $1 == "--user" ]]; then
+        DY_LOAD_STATE=$(systemctl $1 show -p LoadState --value "$3" 2>/dev/null)
+        DY_ENABLE_STATE=$(systemctl $1  show -p UnitFileState --value "$3" 2>/dev/null)
+        DY_ACTIVE_STATE=$(systemctl $1 show -p ActiveState --value "$3" 2>/dev/null)
+    else
+        DY_LOAD_STATE=$(systemctl show -p LoadState --value "$3" 2>/dev/null)
+        DY_ENABLE_STATE=$(systemctl show -p UnitFileState --value "$3" 2>/dev/null)
+        DY_ACTIVE_STATE=$(systemctl show -p ActiveState --value "$3" 2>/dev/null)
+    fi
+    if [[ "$DY_LOAD_STATE" != "loaded" ]]; then
+        case "$3" in
+            "blog")
+                DY_SERVE
+                ;;
+            "diary-sync")
+                DY_SYNC
+                ;;
+            "caddy")
+                DY_CANDDY
+                ;;
+        esac
+    fi
+    if [[ $1 == "--user" ]]; then
+        if [[ "$DY_ACTIVE_STATE" != "activating" && $2 == "on" ]]; then
+                systemctl $1 start $3
+        fi
+        if [[ "$DY_ACTIVE_STATE" == "activating" && $2 == "off" ]]; then
+                systemctl $1 stop $3
+        fi
+        if [[ "$DY_ENABLE_STATE" != "enabled"  && $2 == "on" ]]; then
+                systemctl $1 enable $3
+        fi
+        if [[ "$DY_ENABLE_STATE" == "enabled"  && $2 == "off" ]]; then
+                systemctl $1 disable $3
+        fi
+    else
+        SYN_KEY_GET
+        if [[ "$DY_ACTIVE_STATE" != "activating" && $2 == "on" ]]; then
+                echo $SYN_KEY_X | sudo -S systemctl start $3
+        fi
+        if [[ "$DY_ACTIVE_STATE" == "activating" && $2 == "off" ]]; then
+                echo $SYN_KEY_X | sudo -S systemctl stop $3
+        fi
+        if [[ "$DY_ENABLE_STATE" != "enabled"  && $2 == "on" ]]; then
+                echo $SYN_KEY_X | sudo -S systemctl enable $3
+        fi
+        if [[ "$DY_ENABLE_STATE" == "enabled"  && $2 == "off" ]]; then
+                echo $SYN_KEY_X | sudo -S systemctl disable $3
+        fi
+    fi
+    if [[ $2 == "off" && $3 == "caddy" && -e "$DY_HOST" ]]; then
+        if grep -q "^[^#]*$DY_UNAME" "$DY_HOST"; then
+            echo $SYN_KEY_X | sudo -S sed -i "/127.0.0.1 ${DY_UNAME}/d" "$DY_HOST"
+        fi
+    fi
+}
 #=========================预先配置=========================
 # 获取私人信息, 立刻获取各种变量
 DY_GET_INF
+# 不同模式下的服务处理
+if [[ $DY_MODEL = 0 ]]; then
+   DY_SERVE_SWITCH --root on blog
+   DY_SERVE_SWITCH --user on diary-sync
+   DY_SERVE_SWITCH --root on caddy
+elif [[ $DY_MODEL = 1 ]]; then
+   DY_SERVE_SWITCH --root off blog
+   DY_SERVE_SWITCH --user off diary-sync
+   DY_SERVE_SWITCH --root off caddy
+elif [[ $DY_MODEL = 2 ]]; then
+   DY_SERVE_SWITCH --root off blog
+   DY_SERVE_SWITCH --user on diary-sync
+   DY_SERVE_SWITCH --root off caddy
+fi
+# 检测目录并下载
+DY_CLONE
+# 获取日记配置位置
+DY_ART="$DY_PATH/source/_posts"
+DY_SOC="$DY_PATH/source"
+DY_FILES=($(ls $DY_ART))
+DY_SOURC=($(ls $DY_SOC))
+DY_DEL=(404 PDF Picture _posts tags)
+for DEL_LS in ${DY_DEL[*]} ; do
+    DY_SOURC=(${DY_SOURC[*]/$DEL_LS})
+done
 # 探测博客网址是否可达以及博客设置
 case ${1:-} in
     "--Setsym"|"--SetSym")
@@ -233,30 +443,8 @@ else
     unset DY_DATAX
     DY_DATAX=($(cat $DY_CFG))
     # COMMENT=${DY_DATAX[0]}
-    DY_DEF=${DY_DATAX[1]}
+    DY_DEF=${DY_DATAX[-1]}
 fi
-# 检测目录是否下载
-if [ ! -e $DY_SOURCE ]; then
-    mkdir -p $DY_SOURCE
-fi
-if [ ! -e $DY_PATH ]; then
-    mkdir -p $DY_PATH
-    DY_CLONE
-else
-    if [ ! -s $DY_PATH ];  then
-        rm -rf $DY_PATH
-        DY_CLONE
-    fi
-fi
-# 获取日记配置位置
-DY_ART="$DY_PATH/source/_posts"
-DY_SOC="$DY_PATH/source"
-DY_FILES=($(ls $DY_ART))
-DY_SOURC=($(ls $DY_SOC))
-DY_DEL=(404 PDF Picture _posts tags)
-for DEL_LS in ${DY_DEL[*]} ; do
-    DY_SOURC=(${DY_SOURC[*]/$DEL_LS})
-done
 #=========================管理博客=========================
 case ${1:-} in
     "")
@@ -295,7 +483,12 @@ case ${1:-} in
         NEO_THEME_SET "NEO_FORMAT"
         ;;
     "-S"|"-s")
-        hexo s
+        if [[ ${DY_MODEL} == 1 ]]; then
+            hexo s
+        else
+            echo "本地模式正在运行，请直接访问 http://localhost:4000"
+            exit
+        fi
         ;;
     "-D"|"-d")
         DY_PUSHX
@@ -321,6 +514,10 @@ case ${1:-} in
             printf "\033[${NEO_LINENO};1H\u274E退出: \033[${NEO_WARNING}m《${EDFILE%.*}》\033[0m"
             exit
         fi
+        ;;
+    "--autostart")
+        cd $DY_PATH || exit 1
+        git pull
         ;;
     *)
         DY_DEF="$DY_ART/${1:-}.md"
