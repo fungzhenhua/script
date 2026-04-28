@@ -78,10 +78,6 @@ DY_GET_INF(){
         SOURCE_SIT=${DY_INFO[7]}
     fi
 }
-DY_GET_INF
-echo $DY_PATH_BAK
-echo $DY_PCLONESITE_BAK
-exit
 #=========================下载博客=========================
 DY_CLONE_X(){
     if [ ! -e $2 ]; then
