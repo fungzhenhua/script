@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-04-26 00:06
+# Date     : 2026-04-28 09:07
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V17.8"
+DY_VERSION="${DY_ARGS[0]##*/}-V17.9"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -355,10 +355,10 @@ DY_SERVE_SWITCH(){
         esac
     fi
     if [[ $1 == "--user" ]]; then
-        if [[ "$DY_ACTIVE_STATE" != "activating" && $2 == "on" ]]; then
+        if [[ "$DY_ACTIVE_STATE" != "active" && "$DY_ACTIVE_STATE" != "activating" && $2 == "on" ]]; then
                 systemctl $1 start $3
         fi
-        if [[ "$DY_ACTIVE_STATE" == "activating" && $2 == "off" ]]; then
+        if [[ ("$DY_ACTIVE_STATE" == "active" || "$DY_ACTIVE_STATE" == "activating") && $2 == "off" ]]; then
                 systemctl $1 stop $3
         fi
         if [[ "$DY_ENABLE_STATE" != "enabled"  && $2 == "on" ]]; then
@@ -369,10 +369,10 @@ DY_SERVE_SWITCH(){
         fi
     else
         SYN_KEY_GET
-        if [[ "$DY_ACTIVE_STATE" != "activating" && $2 == "on" ]]; then
+        if [[ "$DY_ACTIVE_STATE" != "active" && "$DY_ACTIVE_STATE" != "activating" && $2 == "on" ]]; then
                 echo $SYN_KEY_X | sudo -S systemctl start $3
         fi
-        if [[ "$DY_ACTIVE_STATE" == "activating" && $2 == "off" ]]; then
+        if [[ ("$DY_ACTIVE_STATE" == "active" || "$DY_ACTIVE_STATE" == "activating") && $2 == "off" ]]; then
                 echo $SYN_KEY_X | sudo -S systemctl stop $3
         fi
         if [[ "$DY_ENABLE_STATE" != "enabled"  && $2 == "on" ]]; then
