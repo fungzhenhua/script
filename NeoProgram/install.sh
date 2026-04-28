@@ -1,10 +1,10 @@
 #! /bin/bash
 #
 # Program  : install.sh
-# Version  : V2.4
+# Version  : V2.6
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2025-11-19 09:11
+# Date     : 2026-04-28 09:58
 # CopyRight: Copyright (C) 2022-2030 FengZhenhua(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -39,7 +39,7 @@ SYN_INS_Diary(){
     INS_NAME=diary
     INS_EXEPATH=/usr/local/bin
     INS_EXE="$INS_EXEPATH/$INS_NAME"
-    GIT_DEPEND github-cli unzip curl nodejs-lts-jod npm git pandoc gawk sed unzip curl openssh neovim vim
+    GIT_DEPEND github-cli unzip curl nodejs-lts-jod npm git pandoc gawk sed unzip curl openssh neovim vim unison caddy python
     SYN_KEY_GET
     if ! command -v yarn &>/dev/null; then
         echo $SYN_KEY_X |sudo -S npm install yarn -g

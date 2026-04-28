@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-04-28 09:07
+# Date     : 2026-04-28 09:54
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V17.9"
+DY_VERSION="${DY_ARGS[0]##*/}-V18.0"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -78,6 +78,10 @@ DY_GET_INF(){
         SOURCE_SIT=${DY_INFO[7]}
     fi
 }
+DY_GET_INF
+echo $DY_PATH_BAK
+echo $DY_PCLONESITE_BAK
+exit
 #=========================下载博客=========================
 DY_CLONE_X(){
     if [ ! -e $2 ]; then
@@ -190,7 +194,7 @@ DY_PUSHX(){
         gh auth switch -u fungzhenhua
     fi
     if [[ ${DY_MODEL} == 2 ]]; then
-        rsync -a --update $DY_PATH/ $DY_PATH_BAK/
+        unison -batch -prefer newer $DY_PATH/ $DY_PATH_BAK/
         cd $DY_PATH_BAK
         git add .  &> /dev/null
         git commit  -m  "$COMMENT" &> /dev/null
