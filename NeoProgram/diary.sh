@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-04-28 09:54
+# Date     : 2026-06-11 10:33
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V18.0"
+DY_VERSION="${DY_ARGS[0]##*/}-V18.1"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -214,10 +214,10 @@ DY_PUSH(){
             ;;
         1|s|S)
             echo -e "\r\e[${NEO_FORMAT}m${DY_PU_INF[1]}\e[0m\033[K"
-            if [[ ${DY_MODEL} == 1 ]]; then
-                hexo s
+            if systemctl is-active --quiet caddy ; then
+                echo "请访问 http://localhost:4000"
             else
-                $DY_EDIT "$DY_ED_FILE"
+                hexo s
             fi
             DY_PUSH "$DY_ED_FILE" "$DY_ED_INFO"
             ;;
