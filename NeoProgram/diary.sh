@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-06-11 10:33
+# Date     : 2026-06-23 16:57
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V18.1"
+DY_VERSION="${DY_ARGS[0]##*/}-V18.2"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -42,8 +42,8 @@ DY_SURL="https://gitee.com"
 # 定义博客分类
 DY_TAGS=( 电脑技术 科研笔记 心情随笔 )
 unset USB_UPDATE_URLS
-USB_UPDATE_URLS[0]=https://gitee.com/fengzhenhua/script/raw/$USB_REMORT_SH\?inline\=false      # 默认升级地址
-# USB_UPDATE_URLS[1]=https://gitlab.com/fengzhenhua/script/-/raw/$USB_REMORT_SH\?inline\=false # 备用升级地址
+USB_UPDATE_URLS[0]=https://raw.githubusercontent.com/fungzhenhua/script/main/NeoProgram/diary.sh        # 默认升级地址
+USB_UPDATE_URLS[1]=https://gitee.com/fengzhenhua/script/raw/usbmain/NeoProgram/diary.sh\?inline\=false  # 备用升级地址
 #
 # 私人信息设置
 DY_GET_INF(){
@@ -144,14 +144,16 @@ USB_DETECT_URL(){
 #=========================脚本更新=========================
 SelfUpdate(){
     if mirror_available "${USB_UPDATE_URLS[0]}"; then
+        echo "从原始地址Github升级"
         USB_UPDATE_URL=${USB_UPDATE_URLS[0]}
     else
+        echo "从备用地址Gitee升级"
         USB_UPDATE_URL=${USB_UPDATE_URLS[1]}
     fi
     if mirror_available "${USB_UPDATE_URL}"; then
         SYN_KEY_GET
         echo "Diary is updating, please wait ......"
-        echo $SYN_KEY_X |sudo -S curl -o $DY_EXE $USB_UPDATE_URL
+        echo $SYN_KEY_X |sudo -S curl -Lo $DY_EXE $USB_UPDATE_URL
         echo "Update completed, please run diary again"
         exit
     else
