@@ -6,9 +6,10 @@
 # Date     : 2026-10-30 01:01
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
-# Version  : V1.0
+# Version  : V1.1
 # History  :
 #           V1.0 2026-10-30 01:05 初步完成ArchLinux系统下pacman的离线升级, 相互校检需要增强
+#           V1.1 2026-10-30 01:12 增加版本显示
 #
 # 调入私有函数库
 source ~/.Share_Fun/Share_Fun_Menu.sh
@@ -16,6 +17,7 @@ source ~/.Share_Fun/Share_Fun_KeySudo.sh
 source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 脚本变量
+ASY_VERSION="archsync V1.1"
 ASY_PACMAN_PKG="/var/cache/pacman/pkg"
 ASY_PACMAN_SYNC="/var/lib/pacman/sync"
 ASY_MACHINE_ID="$(cat /etc/machine-id)@$(LC_ALL=C date +"%Y-%m-%d")"
@@ -28,11 +30,14 @@ if [ -e $USB_REMORT ]; then
     USB_ARR=($(lsblk -o UUID,MOUNTPOINT | grep "/run/media/"|awk '{print $2}'))
 fi
 if [[ "${#USB_ARR[*]}" -eq 0 ]]; then
-    echo "${USB_VERSION} 未检测到U盘， 请插入U盘后重试!"
+    echo "${ASY_VERSION} 未检测到U盘， 请插入U盘后重试!"
     exit
 fi
 # 执行任务
 case ${1:-} in
+    "-v"|"-V"|"--version")
+        echo $ASY_VERSION
+        ;;
     "-b"|"-B"|"-build")
         # 创建升级源：用本地软件库创建升级源
         NEO_LIST "${USB_ARR[*]}" 1
