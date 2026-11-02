@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-06-23 16:57
+# Date     : 2026-11-03 00:56
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,17 +15,18 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V18.2"
+DY_VERSION="${DY_ARGS[0]##*/}-V18.3"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
 DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
 DY_REMOTE=origin
 DY_BRANCH=main
-DY_SOURCE=~/.DY_SCE
-DY_CFG=~/.DY_DATA
-DY_KEY_CFG=~/.DY_KEY
-DY_EXEPATH=/usr/local/bin
+DY_SOURCE="$HOME/.DY_SCE"
+DY_CFG="$HOME/.DY_DATA"
+# DY_KEY_CFG=~/.DY_KEY
+DY_KEY_CFG="$HOME/.diary_config.sh"
+DY_EXEPATH="/usr/local/bin"
 DY_DATE=$(date +"%Y年%m月%d日 %A")
 DY_EXE="$DY_EXEPATH/$DY_NAME"
 DY_TAG="\u258B"
@@ -35,47 +36,47 @@ NEO_ESC=`echo -ne "\033"`
 DY_NEXT_COLOR=#9400D3
 USB_TIMEOUT=1
 NEO_WARNING="7"
-DY_EDIT="nvim" # 默认编辑器 nvim/vim
+DY_EDIT="nvim"                      # 默认编辑器 nvim/vim
 COMMENT="${USER}@$(hostname -i)"
 DY_HOST="/etc/hosts"
-DY_SURL="https://gitee.com"
-# 定义博客分类
-DY_TAGS=( 电脑技术 科研笔记 心情随笔 )
-unset USB_UPDATE_URLS
-USB_UPDATE_URLS[0]=https://raw.githubusercontent.com/fungzhenhua/script/main/NeoProgram/diary.sh        # 默认升级地址
-USB_UPDATE_URLS[1]=https://gitee.com/fengzhenhua/script/raw/usbmain/NeoProgram/diary.sh\?inline\=false  # 备用升级地址
 #
 # 私人信息设置
 DY_GET_INF(){
     if [ ! -e $DY_KEY_CFG ]; then
         touch $DY_KEY_CFG
         chmod +w $DY_KEY_CFG
-        echo "个人信息配置：注意下面直接按示例填写配置信息，去掉第1行之外的所有中文!!" > $DY_KEY_CFG
-        echo "博客的模式，仅本地：0 ,  仅远程：1, 本地+远程备份：2" >> $DY_KEY_CFG
-        echo "博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_KEY_CFG
-        echo "博客的本地名称，如xiaoming.github.io" >> $DY_KEY_CFG
-        echo "Gitlab博客仓库Token，如glpat-t3T_ZzJkcqp45kuiaNiP" >> $DY_KEY_CFG
-        echo "gitlab-runner的Token，如GR1248741HKoaT483PhaqA1N894AY" >> $DY_KEY_CFG
-        echo "博客发布地址，如https://gitlab.com/" >> $DY_KEY_CFG
-        echo "配置文件已经生成在$DY_KEY_CFG, 请打开此文件按说明填写信息!"
+        echo "# diary.sh的配置文件"                                           >  $DY_KEY_CFG
+        echo "博客的模式，仅本地：0 ,  仅远程：1, 本地+远程备份：2"           >> $DY_KEY_CFG
+        echo "DY_MODEL="                                                      >> $DY_KEY_CFG
+        echo "# 博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_KEY_CFG
+        echo "DY_PCLONESITE="                                                 >> $DY_KEY_CFG
+        echo "DY_PCLONESITE_BAK="                                             >> $DY_KEY_CFG
+        echo "# 博客的本地名称，如xiaoming.github.io"                         >> $DY_KEY_CFG
+        echo "DY_UNAME="                                                      >> $DY_KEY_CFG
+        echo "# Gitlab博客仓库Token"                                          >> $DY_KEY_CFG
+        echo "DY_TOKEN="                                                      >> $DY_KEY_CFG
+        echo "# gitlab-runner的Token"                                         >> $DY_KEY_CFG
+        echo "REGISTRATION_TOKEN="                                            >> $DY_KEY_CFG
+        echo "# 博客源存放地址"                                               >> $DY_KEY_CFG
+        echo "SOURCE_SIT="                                                    >> $DY_KEY_CFG
+        echo "# 定义博客分类"                                                 >> $DY_KEY_CFG
+        echo "DY_TAGS=( 电脑技术 科研笔记 心情随笔 )"                         >> $DY_KEY_CFG
+        echo "# 默认升级地址"                                                 >> $DY_KEY_CFG
+        echo "USB_UPDATE_URLS[0]="                                            >> $DY_KEY_CFG
+        echo "# 备用升级地址"                                                 >> $DY_KEY_CFG
+        echo "USB_UPDATE_URLS[1]="                                            >> $DY_KEY_CFG
+        echo "请填写配置文件：$DY_KEY_CFG"
         exit
     else
-        DY_INFO=($(cat $DY_KEY_CFG))
-        DY_MODEL=${DY_INFO[1]}
-        DY_PCLONESITE=${DY_INFO[2]}
-        DY_PCLONESITE_BAK=${DY_INFO[3]}
-        DY_UNAME="${DY_INFO[4]}"
+        unset USB_UPDATE_URLS
+        source $DY_KEY_CFG
         DY_PATH_BAK="$DY_SOURCE/${DY_UNAME}"
         DY_PATH="${DY_PATH_BAK}.local"
         if [[ ${DY_MODEL} == 1 ]]; then
             DY_PCLONESITE=${DY_PCLONESITE_BAK}
             DY_PATH=${DY_PATH_BAK}
         fi
-        # DY_IGNORE="$DY_PATH/.gitignore"
         DY_URL="https://${DY_UNAME}"
-        DY_TOKEN=${DY_INFO[5]}
-        REGISTRATION_TOKEN=${DY_INFO[6]}
-        SOURCE_SIT=${DY_INFO[7]}
     fi
 }
 #=========================下载博客=========================
@@ -433,19 +434,14 @@ case ${1:-} in
         ;;
 esac
 # 检测默认文章
-if [ ! -e $DY_CFG ]; then 
+if [ -z "${DY_DEF+x}" ]; then
     echo "默认文章未设置，设置默认文章启动 ... ..."
     sleep 2
     NEO_LIST "${DY_FILES[*]}" 1
-    echo "$COMMENT" > $DY_CFG
-    echo "$DY_ART/$EDFILE" >> $DY_CFG
+    echo "# 默认文章"                   >> $DY_KEY_CFG
+    echo "DY_DEF=\"$DY_ART/$EDFILE\""   >> $DY_KEY_CFG
     echo "默认文章已经设置为:$EDFILE !"
     exit
-else
-    unset DY_DATAX
-    DY_DATAX=($(cat $DY_CFG))
-    # COMMENT=${DY_DATAX[0]}
-    DY_DEF=${DY_DATAX[-1]}
 fi
 #=========================管理博客=========================
 case ${1:-} in
@@ -456,8 +452,12 @@ case ${1:-} in
             $DY_EDIT +%s/"<++>"//g $DY_DEF
             DY_PUSH   $DY_DEF
         else
-            mv  -t ~/.local/share/Trash/files --backup=t ${DY_CFG}
-            echo "${DY_DEF} 不存在，无效配置${DY_CFG} 己移除到回收站，重新设置默认文章请运行：diary !"
+            echo "默认文章《$DY_DEF》查询失败，重新设置默认文章启动 ... ..."
+            sleep 2
+            NEO_LIST "${DY_FILES[*]}" 1
+            sed -i "s#^DY_DEF=.*#DY_DEF=\"$DY_ART/$EDFILE\"#"   $DY_KEY_CFG
+            echo "默认文章已经设置为:$EDFILE !"
+            exit
         fi
         ;;
     "-U"|"-u"|"--update")
