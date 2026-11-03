@@ -84,8 +84,6 @@ DY_GET_INF(){
         DY_URL="https://${DY_UNAME}"
     fi
 }
-# 获取各种私人定制变量
-DY_GET_INF
 #=========================下载博客=========================
 DY_CLONE_X(){
     if [ ! -e $2 ]; then
