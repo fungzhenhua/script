@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-11-03 00:56
+# Date     : 2026-11-03 10:29
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V18.3"
+DY_VERSION="${DY_ARGS[0]##*/}-V18.4"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -24,7 +24,6 @@ DY_REMOTE=origin
 DY_BRANCH=main
 DY_SOURCE="$HOME/.DY_SCE"
 DY_CFG="$HOME/.DY_DATA"
-# DY_KEY_CFG=~/.DY_KEY
 DY_KEY_CFG="$HOME/.diary_config.sh"
 DY_EXEPATH="/usr/local/bin"
 DY_DATE=$(date +"%Y年%m月%d日 %A")
@@ -46,13 +45,19 @@ DY_GET_INF(){
         touch $DY_KEY_CFG
         chmod +w $DY_KEY_CFG
         echo "# diary.sh的配置文件"                                           >  $DY_KEY_CFG
-        echo "博客的模式，仅本地：0 ,  仅远程：1, 本地+远程备份：2"           >> $DY_KEY_CFG
+        echo "# 博客的模式，仅本地：0 ,  仅远程：1, 本地+远程备份：2"           >> $DY_KEY_CFG
         echo "DY_MODEL="                                                      >> $DY_KEY_CFG
         echo "# 博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_KEY_CFG
         echo "DY_PCLONESITE="                                                 >> $DY_KEY_CFG
         echo "DY_PCLONESITE_BAK="                                             >> $DY_KEY_CFG
+        echo "# 博客在github上的帐户名"                         >> $DY_KEY_CFG
+        echo "DY_UAUTH="                                                      >> $DY_KEY_CFG
         echo "# 博客的本地名称，如xiaoming.github.io"                         >> $DY_KEY_CFG
         echo "DY_UNAME="                                                      >> $DY_KEY_CFG
+        echo "# 同步博客在github上的帐户名"                         >> $DY_KEY_CFG
+        echo "DY_SUAUTH="                                                      >> $DY_KEY_CFG
+        echo "# 同步博客的本地名称，如daming.github.io"                         >> $DY_KEY_CFG
+        echo "DY_SUNAME="                                                      >> $DY_KEY_CFG
         echo "# Gitlab博客仓库Token"                                          >> $DY_KEY_CFG
         echo "DY_TOKEN="                                                      >> $DY_KEY_CFG
         echo "# gitlab-runner的Token"                                         >> $DY_KEY_CFG
@@ -79,6 +84,8 @@ DY_GET_INF(){
         DY_URL="https://${DY_UNAME}"
     fi
 }
+# 获取各种私人定制变量
+DY_GET_INF
 #=========================下载博客=========================
 DY_CLONE_X(){
     if [ ! -e $2 ]; then
@@ -188,9 +195,9 @@ DY_PUSHX(){
     git push &> /dev/null
     if [[ ${DY_MODEL} != 0 ]]; then
         hexo d --skip-generator
-        gh auth switch -u fongzhenhua
-        gh repo sync --force fongzhenhua/fongzhenhua.github.io --source fungzhenhua/fungzhenhua.github.io
-        gh auth switch -u fungzhenhua
+        gh auth switch -u $DY_SUNAME
+        gh repo sync --force $DY_SUAUTH/$DY_SUNAME --source $DY_UAUTH/$DY_UNAME
+        gh auth switch -u $DY_UNAME
     fi
     if [[ ${DY_MODEL} == 2 ]]; then
         unison -batch -prefer newer $DY_PATH/ $DY_PATH_BAK/
@@ -238,7 +245,7 @@ DY_PUSH(){
 }
 DY_INIT(){
     cd $DY_PATH
-    rm -rf .git 
+    rm -rf .git
     git init  &> /dev/null
     git branch -m $DY_BRANCH
     git add .
@@ -392,8 +399,8 @@ DY_SERVE_SWITCH(){
     fi
 }
 #=========================预先配置=========================
-# 获取私人信息, 立刻获取各种变量
-DY_GET_INF
+# # 获取私人信息, 立刻获取各种变量
+# DY_GET_INF
 # 不同模式下的服务处理
 if [[ $DY_MODEL = 0 ]]; then
    DY_SERVE_SWITCH --root on blog
