@@ -45,19 +45,19 @@ DY_GET_INF(){
         touch $DY_KEY_CFG
         chmod +w $DY_KEY_CFG
         echo "# diary.sh的配置文件"                                           >  $DY_KEY_CFG
-        echo "# 博客的模式，仅本地：0 ,  仅远程：1, 本地+远程备份：2"           >> $DY_KEY_CFG
+        echo "# 博客的模式，仅本地：0 ,  仅远程：1, 本地+远程备份：2"         >> $DY_KEY_CFG
         echo "DY_MODEL="                                                      >> $DY_KEY_CFG
         echo "# 博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_KEY_CFG
         echo "DY_PCLONESITE="                                                 >> $DY_KEY_CFG
         echo "DY_PCLONESITE_BAK="                                             >> $DY_KEY_CFG
-        echo "# 博客在github上的帐户名"                         >> $DY_KEY_CFG
+        echo "# 博客在github上的帐户名"                                       >> $DY_KEY_CFG
         echo "DY_UAUTH="                                                      >> $DY_KEY_CFG
         echo "# 博客的本地名称，如xiaoming.github.io"                         >> $DY_KEY_CFG
         echo "DY_UNAME="                                                      >> $DY_KEY_CFG
-        echo "# 同步博客在github上的帐户名"                         >> $DY_KEY_CFG
-        echo "DY_SUAUTH="                                                      >> $DY_KEY_CFG
-        echo "# 同步博客的本地名称，如daming.github.io"                         >> $DY_KEY_CFG
-        echo "DY_SUNAME="                                                      >> $DY_KEY_CFG
+        echo "# 同步博客在github上的帐户名"                                   >> $DY_KEY_CFG
+        echo "DY_SUAUTH="                                                     >> $DY_KEY_CFG
+        echo "# 同步博客的本地名称，如daming.github.io"                       >> $DY_KEY_CFG
+        echo "DY_SUNAME="                                                     >> $DY_KEY_CFG
         echo "# Gitlab博客仓库Token"                                          >> $DY_KEY_CFG
         echo "DY_TOKEN="                                                      >> $DY_KEY_CFG
         echo "# gitlab-runner的Token"                                         >> $DY_KEY_CFG
