@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-11-03 10:29
+# Date     : 2026-11-03 23:14
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V18.4"
+DY_VERSION="${DY_ARGS[0]##*/}-V18.5"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -84,6 +84,8 @@ DY_GET_INF(){
         DY_URL="https://${DY_UNAME}"
     fi
 }
+# 获取私人信息, 立刻获取各种变量
+DY_GET_INF
 #=========================下载博客=========================
 DY_CLONE_X(){
     if [ ! -e $2 ]; then
@@ -397,8 +399,6 @@ DY_SERVE_SWITCH(){
     fi
 }
 #=========================预先配置=========================
-# # 获取私人信息, 立刻获取各种变量
-# DY_GET_INF
 # 不同模式下的服务处理
 if [[ $DY_MODEL = 0 ]]; then
    DY_SERVE_SWITCH --root on blog
