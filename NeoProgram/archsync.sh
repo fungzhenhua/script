@@ -3,7 +3,7 @@
 # Program  : archsync.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-10-30 01:01
+# Date     : 2026-11-04 21:01
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 # History  :
@@ -16,6 +16,7 @@
 #           V1.6 2026-10-30 20:37 增加升级前是否更新过的检测
 #           V1.7 2026-10-30 20:43 增强cp健壮性
 #           V1.8 2026-10-30 20:50 增加脚本安装程序
+#           V1.9 2026-11-04 21:02 去掉对sig文件的检测
 #
 # 调入私有函数库
 source ~/.Share_Fun/Share_Fun_Menu.sh
@@ -23,7 +24,7 @@ source ~/.Share_Fun/Share_Fun_KeySudo.sh
 source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 脚本版本号
-ASY_VERSION="V1.8"
+ASY_VERSION="V1.9"
 # 保存脚本变量
 ASY_ARGS=( "$0" "$@" )
 DY_VERSION="${ASY_ARGS[0]##*/}-$ASY_VERSION"
@@ -57,26 +58,26 @@ case ${1:-} in
         ;;
     "-b"|"-B"|"-build")
         # 检测 sync 数据库签名是否完整
-        if ! compgen -G "$ASY_PACMAN_SYNC/*.db.sig" >/dev/null; then
-            echo "检测到 sync 数据库缺少签名文件，将执行 sudo pacman -Syu 强制同步..."
-            SYN_KEY_GET
-            echo $SYN_KEY_X | sudo pacman -Syu
-            rc=$?
-            unset SYN_KEY_X
-            if [ $rc -ne 0 ]; then
-                echo "pacman -Syu 失败，请检查网络后重试"
-                exit 1
-            fi
-            # 复查：sync 后仍无 .db.sig 说明是 SigLevel = Never 的仓库
-            if ! compgen -G "$ASY_PACMAN_SYNC/*.db.sig" >/dev/null; then
-                echo "警告：同步后仍无 .db.sig，可能是 SigLevel = Never 的自定义仓库"
-                echo "继续将只复制 .db 文件，B 机若要求数据库签名将无法使用"
-                printf "是否继续 Y/N "; read YES_NO
-                [[ "$YES_NO" =~ ^[yY]$ ]] || exit 0
-            fi
-        else
-            echo "重要提醒！建议创建离线升级源前执行更新：sudo pacman -Syu"
-        fi
+        # if ! compgen -G "$ASY_PACMAN_SYNC/*.db.sig" >/dev/null; then
+        #     echo "检测到 sync 数据库缺少签名文件，将执行 sudo pacman -Syu 强制同步..."
+        #     SYN_KEY_GET
+        #     echo $SYN_KEY_X | sudo pacman -Syu
+        #     rc=$?
+        #     unset SYN_KEY_X
+        #     if [ $rc -ne 0 ]; then
+        #         echo "pacman -Syu 失败，请检查网络后重试"
+        #         exit 1
+        #     fi
+        #     # 复查：sync 后仍无 .db.sig 说明是 SigLevel = Never 的仓库
+        #     if ! compgen -G "$ASY_PACMAN_SYNC/*.db.sig" >/dev/null; then
+        #         echo "警告：同步后仍无 .db.sig，可能是 SigLevel = Never 的自定义仓库"
+        #         echo "继续将只复制 .db 文件，B 机若要求数据库签名将无法使用"
+        #         printf "是否继续 Y/N "; read YES_NO
+        #         [[ "$YES_NO" =~ ^[yY]$ ]] || exit 0
+        #     fi
+        # else
+        #     echo "重要提醒！建议创建离线升级源前执行更新：sudo pacman -Syu"
+        # fi
         # 创建升级源：用本地软件库创建升级源
         NEO_LIST "${USB_ARR[@]}" 1
         ASY_SOURCE="$EDFILE/$ASY_LOCAL/$(cat /etc/machine-id)_SOURCE"
@@ -95,8 +96,8 @@ case ${1:-} in
         SYN_KEY_GET
         echo $SYN_KEY_X |sudo cp "$ASY_PACMAN_PKG"/*.pkg.tar.zst "$ASY_SOURCE"/
         echo $SYN_KEY_X |sudo cp "$ASY_PACMAN_SYNC"/*.db  "$ASY_SOURCE"/
-        compgen -G "$ASY_PACMAN_SYNC/*.db.sig" >/dev/null && \
-            echo $SYN_KEY_X |sudo cp  "$ASY_PACMAN_SYNC"/*.db.sig "$ASY_SOURCE"/
+        # compgen -G "$ASY_PACMAN_SYNC/*.db.sig" >/dev/null && \
+        #     echo $SYN_KEY_X |sudo cp  "$ASY_PACMAN_SYNC"/*.db.sig "$ASY_SOURCE"/
         unset SYN_KEY_X
         echo "本地Pacman缓存创建成功!"
         ;;
@@ -133,16 +134,16 @@ case ${1:-} in
                         SYN_KEY_GET
                         echo $SYN_KEY_X |sudo cp "$ASY_PACMAN_PKG"/*.pkg.tar.zst "$ASY_PACMAN_BAK"/
                         echo $SYN_KEY_X |sudo cp "$ASY_PACMAN_SYNC"/*.db "$ASY_PACMAN_BAK"/
-                        compgen -G "$ASY_PACMAN_SYNC/*.db.sig" >/dev/null && \
-                            echo $SYN_KEY_X |sudo cp "$ASY_PACMAN_SYNC"/*.db.sig "$ASY_PACMAN_BAK"/
+                        # compgen -G "$ASY_PACMAN_SYNC/*.db.sig" >/dev/null && \
+                        #     echo $SYN_KEY_X |sudo cp "$ASY_PACMAN_SYNC"/*.db.sig "$ASY_PACMAN_BAK"/
                         unset SYN_KEY_X
                         echo "本地Pacman缓存备份完毕!"
                     fi
                     SYN_KEY_GET
                     echo $SYN_KEY_X |sudo cp "$ASY_SOURCE"/*.pkg.tar.zst "$ASY_PACMAN_PKG"/
                     echo $SYN_KEY_X |sudo cp "$ASY_SOURCE"/*.db "$ASY_PACMAN_SYNC"/
-                    compgen -G "$ASY_SOURCE/*.db.sig" >/dev/null && \
-                        echo $SYN_KEY_X |sudo cp "$ASY_SOURCE"/*.db.sig "$ASY_PACMAN_SYNC"/
+                    # compgen -G "$ASY_SOURCE/*.db.sig" >/dev/null && \
+                    #     echo $SYN_KEY_X |sudo cp "$ASY_SOURCE"/*.db.sig "$ASY_PACMAN_SYNC"/
                     echo $SYN_KEY_X |sudo pacman -Su
                     unset SYN_KEY_X
                     break
