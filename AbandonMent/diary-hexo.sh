@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-11-07 17:43
+# Date     : 2026-11-03 23:14
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V18.6"
+DY_VERSION="${DY_ARGS[0]##*/}-V18.5"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -47,8 +47,6 @@ DY_GET_INF(){
         echo "# diary.sh的配置文件"                                           >  $DY_KEY_CFG
         echo "# 博客的模式，仅本地：0 ,  仅远程：1, 本地+远程备份：2"         >> $DY_KEY_CFG
         echo "DY_MODEL="                                                      >> $DY_KEY_CFG
-        echo "# 博客生成器, 目前支持 hexo 和 hugo" >> $DY_KEY_CFG
-        echo "DY_GENERATOR="                                                      >> $DY_KEY_CFG
         echo "# 博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_KEY_CFG
         echo "DY_PCLONESITE="                                                 >> $DY_KEY_CFG
         echo "DY_PCLONESITE_BAK="                                             >> $DY_KEY_CFG
@@ -77,15 +75,13 @@ DY_GET_INF(){
     else
         unset USB_UPDATE_URLS
         source $DY_KEY_CFG
-        DY_URL="https://${DY_UNAME}"
-# 这部分存在一个备份远程仓库的问题，主要在于gitee国内，github国外
         DY_PATH_BAK="$DY_SOURCE/${DY_UNAME}"
         DY_PATH="${DY_PATH_BAK}.local"
         if [[ ${DY_MODEL} == 1 ]]; then
             DY_PCLONESITE=${DY_PCLONESITE_BAK}
             DY_PATH=${DY_PATH_BAK}
         fi
-# 2026-11-07 18:18
+        DY_URL="https://${DY_UNAME}"
     fi
 }
 # 获取私人信息, 立刻获取各种变量

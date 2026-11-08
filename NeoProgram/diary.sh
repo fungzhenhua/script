@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-11-03 23:14
+# Date     : 2026-11-08 19:02
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V18.5"
+DY_VERSION="${DY_ARGS[0]##*/}-V19.2"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -23,8 +23,7 @@ DY_NAME=diary ; DY_NAME_SH="diary.sh" ; DY_BNAME=main
 DY_REMOTE=origin
 DY_BRANCH=main
 DY_SOURCE="$HOME/.DY_SCE"
-DY_CFG="$HOME/.DY_DATA"
-DY_KEY_CFG="$HOME/.diary_config.sh"
+DY_CFG="$HOME/.diary_config.sh"
 DY_EXEPATH="/usr/local/bin"
 DY_DATE=$(date +"%Y年%m月%d日 %A")
 DY_EXE="$DY_EXEPATH/$DY_NAME"
@@ -41,59 +40,80 @@ DY_HOST="/etc/hosts"
 #
 # 私人信息设置
 DY_GET_INF(){
-    if [ ! -e $DY_KEY_CFG ]; then
-        touch $DY_KEY_CFG
-        chmod +w $DY_KEY_CFG
-        echo "# diary.sh的配置文件"                                           >  $DY_KEY_CFG
-        echo "# 博客的模式，仅本地：0 ,  仅远程：1, 本地+远程备份：2"         >> $DY_KEY_CFG
-        echo "DY_MODEL="                                                      >> $DY_KEY_CFG
-        echo "# 博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_KEY_CFG
-        echo "DY_PCLONESITE="                                                 >> $DY_KEY_CFG
-        echo "DY_PCLONESITE_BAK="                                             >> $DY_KEY_CFG
-        echo "# 博客在github上的帐户名"                                       >> $DY_KEY_CFG
-        echo "DY_UAUTH="                                                      >> $DY_KEY_CFG
-        echo "# 博客的本地名称，如xiaoming.github.io"                         >> $DY_KEY_CFG
-        echo "DY_UNAME="                                                      >> $DY_KEY_CFG
-        echo "# 同步博客在github上的帐户名"                                   >> $DY_KEY_CFG
-        echo "DY_SUAUTH="                                                     >> $DY_KEY_CFG
-        echo "# 同步博客的本地名称，如daming.github.io"                       >> $DY_KEY_CFG
-        echo "DY_SUNAME="                                                     >> $DY_KEY_CFG
-        echo "# Gitlab博客仓库Token"                                          >> $DY_KEY_CFG
-        echo "DY_TOKEN="                                                      >> $DY_KEY_CFG
-        echo "# gitlab-runner的Token"                                         >> $DY_KEY_CFG
-        echo "REGISTRATION_TOKEN="                                            >> $DY_KEY_CFG
-        echo "# 博客源存放地址"                                               >> $DY_KEY_CFG
-        echo "SOURCE_SIT="                                                    >> $DY_KEY_CFG
-        echo "# 定义博客分类"                                                 >> $DY_KEY_CFG
-        echo "DY_TAGS=( 电脑技术 科研笔记 心情随笔 )"                         >> $DY_KEY_CFG
-        echo "# 默认升级地址"                                                 >> $DY_KEY_CFG
-        echo "USB_UPDATE_URLS[0]="                                            >> $DY_KEY_CFG
-        echo "# 备用升级地址"                                                 >> $DY_KEY_CFG
-        echo "USB_UPDATE_URLS[1]="                                            >> $DY_KEY_CFG
-        echo "请填写配置文件：$DY_KEY_CFG"
+    if [ ! -e $DY_CFG ]; then
+        touch $DY_CFG
+        chmod +w $DY_CFG
+        echo "# diary.sh的配置文件"                                           >  $DY_CFG
+        echo "# 本地模式：local,  远程模式：remote"                           >> $DY_CFG
+        echo "DY_MODEL=\"remote\""                                            >> $DY_CFG
+        echo "# 博客生成器, 目前支持 hexo 和 hugo"                            >> $DY_CFG
+        echo "DY_GENERATOR=\"hugo\""                                          >> $DY_CFG
+        echo "# 博客的远程地址，如git@github.com:xiaoming/xiaoming.github.io" >> $DY_CFG
+        echo "DY_PCLONESITE="                                                 >> $DY_CFG
+        echo "# 博客在github上的帐户名"                                       >> $DY_CFG
+        echo "DY_UAUTH="                                                      >> $DY_CFG
+        echo "# 同步博客在github上的帐户名"                                   >> $DY_CFG
+        echo "DY_SUAUTH="                                                     >> $DY_CFG
+        echo "# 定义博客分类"                                                 >> $DY_CFG
+        echo "DY_TAGS=( 电脑技术 科研笔记 心情随笔 )"                         >> $DY_CFG
+        echo "# 默认升级地址"                                                 >> $DY_CFG
+        echo "USB_UPDATE_URLS[0]="                                            >> $DY_CFG
+        echo "# 备用升级地址"                                                 >> $DY_CFG
+        echo "USB_UPDATE_URLS[1]="                                            >> $DY_CFG
+        echo "请填写配置文件：$DY_CFG"
         exit
     else
         unset USB_UPDATE_URLS
-        source $DY_KEY_CFG
-        DY_PATH_BAK="$DY_SOURCE/${DY_UNAME}"
-        DY_PATH="${DY_PATH_BAK}.local"
-        if [[ ${DY_MODEL} == 1 ]]; then
-            DY_PCLONESITE=${DY_PCLONESITE_BAK}
-            DY_PATH=${DY_PATH_BAK}
-        fi
+        source $DY_CFG
+        DY_UNAME="${DY_UAUTH}.github.io"
+        DY_SUNAME="${DY_SUAUTH}.github.io"
         DY_URL="https://${DY_UNAME}"
+        DY_PATH="$DY_SOURCE/${DY_UNAME}"
+        case "$DY_GENERATOR" in
+            hexo)
+                DY_SOC="$DY_PATH/source"
+                DY_ART="$DY_SOC/_posts"
+                DY_STATION_CFG="$DY_PATH/_config.yml"
+                DY_NEXT_CFG="$DY_PATH/_config.next.yml"
+                DY_GEN_CMD="hexo g"
+                DY_SERVE_CMD="hexo s"
+                ;;
+            hugo)
+                DY_SOC="$DY_PATH/content"
+                DY_ART="$DY_SOC/post"
+                DY_STATION_CFG="$DY_PATH/hugo.yml"
+                DY_NEXT_CFG="$DY_PATH/hugo.yml"
+                DY_GEN_CMD="hugo"
+                DY_SERVE_CMD="hugo server -D"
+                ;;
+            *)
+                echo "${DY_GENERATOR} 目前只支持 hugo 或 hexo, 请在 $DY_CFG 中修改！"
+                ;;
+        esac
+# 获取日记配置位置
+        shopt -s nullglob
+        DY_FILES=("$DY_ART"/*)
+        DY_SOURC=("$DY_SOC"/*/)
+        DY_FILES=("${DY_FILES[@]##*/}")
+        DY_SOURC=("${DY_SOURC[@]%/*}")
+        DY_SOURC=("${DY_SOURC[@]##*/}")
+        shopt -u nullglob
+        DY_DEL=(404 PDF Picture _posts tags archives flinks post)
+        for DEL_LS in ${DY_DEL[*]} ; do
+            DY_SOURC=(${DY_SOURC[*]/$DEL_LS})
+        done
     fi
 }
 # 获取私人信息, 立刻获取各种变量
 DY_GET_INF
 #=========================下载博客=========================
 DY_CLONE_X(){
-    if [ ! -e $2 ]; then
+    if [ ! -e "$2" ]; then
         mkdir -p $2
         git clone $1 $2
         echo "博客源文档目录$1 已经下载成功，Happy diarying ！"
     else
-        if [ ! -s $2 ]; then
+        if [ ! -s "$2" ]; then
             rm -rf $2
             git clone $1 $2
             echo "博客源文档目录$1 已经下载成功，Happy diarying ！"
@@ -102,73 +122,40 @@ DY_CLONE_X(){
     DY_IGNORE="$2/.gitignore"
     if [[ ! -e $DY_IGNORE ]]; then
         touch $DY_IGNORE
-        echo ".deploy_git/" > $DY_IGNORE
-        echo "public/" >> $DY_IGNORE
-        echo "db.json" >> $DY_IGNORE
+        echo ".deploy_git/"      >  $DY_IGNORE
+        echo "/public/"          >> $DY_IGNORE
+        echo "/resources/"       >> $DY_IGNORE
+        echo ".hugo_build.lock"  >> $DY_IGNORE
+        echo "hugo_stats.json"   >> $DY_IGNORE
+        echo "db.json"           >> $DY_IGNORE
     fi
 }
 DY_CLONE(){
     if [ ! -e $DY_SOURCE ]; then
         mkdir -p $DY_SOURCE
     fi
-    if [[ ${DY_MODEL} == 2 ]]; then
-        DY_CLONE_X $DY_PCLONESITE_BAK  $DY_PATH_BAK
-    fi
-    DY_CLONE_X $DY_PCLONESITE $DY_PATH
+    DY_CLONE_X "$DY_PCLONESITE"  "$DY_PATH"
 }
+# 删除了博客模式的复杂结构
 USB_DETECT_URL(){
-    if [[ ${DY_MODEL} == 1 ]]; then
-        if mirror_available "${DY_URL}"; then
-            echo "网络畅通，$DY_VERSION 启动成功!"
-            echo "源更新: ${DY_PCLONESITE}"
-            cd $DY_PATH
-            git pull &> /dev/null
-            echo "源更新: 成功! "
-        else
-            DY_DNS_GITHUA=$(dig @4.2.2.1 +short github.com)
-            SYN_KEY_GET
-            echo $SYN_KEY_X |sudo -S sed -ie "s/"${DY_DNS_GITHUB}" * github.com/"${DY_DNS_GITHUA}" github.com /g" "$DY_HOST"
-            unset SYN_KEY_X
-            echo "网络探测完成，请重新运行程序!"
-            exit
-        fi
+    if mirror_available "${DY_URL}"; then
+        echo "网络畅通，$DY_VERSION 启动成功!"
+        echo "源更新: ${DY_PCLONESITE}"
+        cd $DY_PATH
+        git pull &> /dev/null
+        echo "源更新: 成功! "
     else
-        if [[ ${DY_MODEL} == 0 ]]; then
-            echo "本地模式，$DY_VERSION 启动成功!"
-        elif [[ ${DY_MODEL} == 2 ]]; then
-            echo "备份模式，$DY_VERSION 启动成功!"
-        fi
-        if mirror_available "${SOURCE_SIT}"; then
-            echo "源更新: ${DY_PCLONESITE}"
-            cd $DY_PATH
-            git pull &> /dev/null
-            echo "源更新: 成功! "
-        else
-            echo "源不可达，请检查网络连接，确保网络畅通!"
-            exit
-        fi
+        DY_DNS_GITHUA=$(dig @4.2.2.1 +short github.com)
+        SYN_KEY_GET
+        echo $SYN_KEY_X |sudo -S sed -ie "s/"${DY_DNS_GITHUB}" * github.com/"${DY_DNS_GITHUA}" github.com /g" "$DY_HOST"
+        unset SYN_KEY_X
+        echo "网络探测完成，请重新运行程序!"
+        exit
     fi
 }
 #=========================脚本更新=========================
-SelfUpdate(){
-    if mirror_available "${USB_UPDATE_URLS[0]}"; then
-        echo "从原始地址Github升级"
-        USB_UPDATE_URL=${USB_UPDATE_URLS[0]}
-    else
-        echo "从备用地址Gitee升级"
-        USB_UPDATE_URL=${USB_UPDATE_URLS[1]}
-    fi
-    if mirror_available "${USB_UPDATE_URL}"; then
-        SYN_KEY_GET
-        echo "Diary is updating, please wait ......"
-        echo $SYN_KEY_X |sudo -S curl -Lo $DY_EXE $USB_UPDATE_URL
-        echo "Update completed, please run diary again"
-        exit
-    else
-        echo "无法连接到升级仓库，请确保网络畅通后重试！"
-    fi
-}
 ThemeUpdate(){
+# hexo-next 主题升级, TODO hugo-next
     rm -rf $DY_PATH/themes/next
     git clone https://github.com/next-theme/hexo-theme-next.git $DY_PATH/themes/next
     cd $DY_PATH/themes/next
@@ -185,28 +172,27 @@ ThemeUpdate(){
     echo "The next theme of hexo has been updated, happy diary !!"
 }
 #=========================定义函数=========================
-# 此处应当在电脑上配置好帐号 fongzhenhua 和 fungzhenhua 的github-cli 登录, 因为时间关系暂不写成通用程序
+# 此处应当在电脑上配置好帐号 DY_UNAME 和 DY_SUNAME 的github-cli 登录, 因为时间关系暂不写成通用程序
 DY_PUSHX(){
-    cd $DY_PATH
-    hexo g
-    git add .  &> /dev/null
-    git commit  -m  "$COMMENT" &> /dev/null
-    # git push "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
+    cd "$DY_PATH"
+    rm -rf "$DY_PATH"/public
+    $DY_GEN_CMD
+    cd "$DY_PATH"/public
+    git init  &> /dev/null
+    git branch -m $DY_BRANCH
+    git add .
+    git commit -m "$COMMENT" &> /dev/null
+    git remote add "$DY_REMOTE" "${DY_PCLONESITE%/*}/$DY_UNAME" &> /dev/null
+    git push -f "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
+    # 同步到第二个github帐号
+    gh auth switch -u $DY_SUNAME
+    gh repo sync --force $DY_SUAUTH/$DY_SUNAME --source $DY_UAUTH/$DY_UNAME
+    gh auth switch -u $DY_UNAME
+    # 返回源目录,并推送源码
+    cd "$DY_PATH"
+    git add .
+    git commit -m "$COMMENT" &> /dev/null
     git push &> /dev/null
-    if [[ ${DY_MODEL} != 0 ]]; then
-        hexo d --skip-generator
-        gh auth switch -u $DY_SUNAME
-        gh repo sync --force $DY_SUAUTH/$DY_SUNAME --source $DY_UAUTH/$DY_UNAME
-        gh auth switch -u $DY_UNAME
-    fi
-    if [[ ${DY_MODEL} == 2 ]]; then
-        unison -batch -prefer newer $DY_PATH/ $DY_PATH_BAK/
-        cd $DY_PATH_BAK
-        git add .  &> /dev/null
-        git commit  -m  "$COMMENT" &> /dev/null
-        # git push "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
-        git push  &> /dev/null
-    fi
     echo -e "文章发布成功，期待您的下一篇文章!"
 }
 DY_PUSH(){
@@ -227,7 +213,7 @@ DY_PUSH(){
             if systemctl is-active --quiet caddy ; then
                 echo "请访问 http://localhost:4000"
             else
-                hexo s
+                $DY_SERVE_CMD
             fi
             DY_PUSH "$DY_ED_FILE" "$DY_ED_INFO"
             ;;
@@ -243,16 +229,6 @@ DY_PUSH(){
             ;;
     esac
 }
-DY_INIT(){
-    cd $DY_PATH
-    rm -rf .git
-    git init  &> /dev/null
-    git branch -m $DY_BRANCH
-    git add .
-    git commit -m "Clean"
-    git remote add "$DY_REMOTE" "$DY_PCLONESITE"
-    git push -f "$DY_REMOTE" "$DY_BRANCH"
-}
 #=========================帮助菜单=========================
 DY_HELP(){
 cat << EOF
@@ -265,7 +241,6 @@ cat << EOF
     -h --help              帮助
     -i --install           重新安装
     -l --list              列出所有文章
-    -o                     清理Commit
     -r                     删除博客文章
     -s                     预览博客
     --theme                选择主题
@@ -300,29 +275,6 @@ echo $SYN_KEY_X | sudo -S systemctl daemon-reload
 unset SYN_KEY_X
 fi
 }
-DY_SYNC_FILE="$HOME/.config/systemd/user/diary-sync.service"
-DY_SYNC(){
-    if [ ! -e ${DY_SYNC_FILE%/*} ]; then
-        mkdir -p ${DY_SYNC_FILE%/*}
-    fi
-    if [ ! -e $DY_SYNC_FILE ]; then
-        touch $DY_SYNC_FILE
-cat > $DY_SYNC_FILE << EOB
-[Unit]
-Description=Sync diary repository after network is ready
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-Type=oneshot
-ExecStart=$DY_EXE --autostart
-
-[Install]
-WantedBy=default.target
-EOB
-systemctl --user daemon-reload
-    fi
-}
 DY_CANDDY_FILE="/etc/caddy/conf.d/${DY_UNAME%%.*}.conf"
 DY_CANDDY(){
     if ! grep -q "^[^#]*$DY_UNAME" "$DY_HOST"; then
@@ -355,9 +307,6 @@ DY_SERVE_SWITCH(){
         case "$3" in
             "blog")
                 DY_SERVE
-                ;;
-            "diary-sync")
-                DY_SYNC
                 ;;
             "caddy")
                 DY_CANDDY
@@ -399,32 +348,17 @@ DY_SERVE_SWITCH(){
     fi
 }
 #=========================预先配置=========================
-# 不同模式下的服务处理
-if [[ $DY_MODEL = 0 ]]; then
-   DY_SERVE_SWITCH --root on blog
-   DY_SERVE_SWITCH --user on diary-sync
-   DY_SERVE_SWITCH --root on caddy
-elif [[ $DY_MODEL = 1 ]]; then
-   DY_SERVE_SWITCH --root off blog
-   DY_SERVE_SWITCH --user off diary-sync
-   DY_SERVE_SWITCH --root off caddy
-elif [[ $DY_MODEL = 2 ]]; then
-   DY_SERVE_SWITCH --root off blog
-   DY_SERVE_SWITCH --user on diary-sync
-   DY_SERVE_SWITCH --root off caddy
+# 处理本地模式和远程模式
+if [[ $DY_MODEL = "local" ]]; then
+    DY_SERVE_SWITCH --root on blog
+    DY_SERVE_SWITCH --root on caddy
+else
+    DY_SERVE_SWITCH --root off blog
+    DY_SERVE_SWITCH --root off caddy
 fi
 # 检测目录并下载
 DY_CLONE
-# 获取日记配置位置
-DY_ART="$DY_PATH/source/_posts"
-DY_SOC="$DY_PATH/source"
-DY_FILES=($(ls $DY_ART))
-DY_SOURC=($(ls $DY_SOC))
-DY_DEL=(404 PDF Picture _posts tags)
-for DEL_LS in ${DY_DEL[*]} ; do
-    DY_SOURC=(${DY_SOURC[*]/$DEL_LS})
-done
-# 探测博客网址是否可达以及博客设置
+# 探测博客网址畅通及同步远程源
 case ${1:-} in
     "--Setsym"|"--SetSym")
         echo $SYN_KEY_X |sudo -S sed -i "s/^DY_LINE.*$/DY_LINE=\"$2\"/g"  $0
@@ -443,8 +377,8 @@ if [ -z "${DY_DEF+x}" ]; then
     echo "默认文章未设置，设置默认文章启动 ... ..."
     sleep 2
     NEO_LIST "${DY_FILES[*]}" 1
-    echo "# 默认文章"                   >> $DY_KEY_CFG
-    echo "DY_DEF=\"$DY_ART/$EDFILE\""   >> $DY_KEY_CFG
+    echo "# 默认文章"                   >> $DY_CFG
+    echo "DY_DEF=\"$DY_ART/$EDFILE\""   >> $DY_CFG
     echo "默认文章已经设置为:$EDFILE !"
     exit
 fi
@@ -460,16 +394,14 @@ case ${1:-} in
             echo "默认文章《$DY_DEF》查询失败，重新设置默认文章启动 ... ..."
             sleep 2
             NEO_LIST "${DY_FILES[*]}" 1
-            sed -i "s#^DY_DEF=.*#DY_DEF=\"$DY_ART/$EDFILE\"#"   $DY_KEY_CFG
+            sed -i "s#^DY_DEF=.*#DY_DEF=\"$DY_ART/$EDFILE\"#"   $DY_CFG
             echo "默认文章已经设置为:$EDFILE !"
             exit
         fi
         ;;
-    "-U"|"-u"|"--update")
-        SelfUpdate
-        ;;
     "-TU"|"-tu"|"--ThemeUpdate")
-        ThemeUpdate
+        # ThemeUpdate
+        echo "$DY_VERSION 初步切换到hugo构建引擎，暂时不支持hugo-next主题修改，若升级请手动执行升级！"
         ;;
     "-XL"|"-xl")
         NEO_LIST "${DY_SOURC[*]}" 1
@@ -477,31 +409,26 @@ case ${1:-} in
         DY_PUSH "$DY_SOC/$EDFILE/index.md" "$EDFILE"
         ;;
     "-C"|"-c"|"--config")
-        $DY_EDIT  $DY_PATH/_config.yml
+        $DY_EDIT  $DY_STATION_CFG
         echo "主站配置文件修改完毕，请手动执行推送任务：diary -d"
         ;;
     "-C-Next"|"-c-next"|"--config--next")
-        $DY_EDIT  $DY_PATH/_config.next.yml
-        hexo clean
-        hexo g
+        $DY_EDIT  $DY_NEXT_CFG
         echo "Next主题配置文件修改完毕，请手动执行推送任务：diary -d"
         ;;
     "--theme"|"--THEME")
         NEO_THEME_SET "NEO_FORMAT"
         ;;
     "-S"|"-s")
-        if [[ ${DY_MODEL} == 1 ]]; then
-            hexo s
-        else
+        if [[ ${DY_MODEL} == "local" ]]; then
             echo "本地模式正在运行，请直接访问 http://localhost:4000"
             exit
+        else
+            $DY_SERVE_CMD
         fi
         ;;
     "-D"|"-d")
         DY_PUSHX
-        ;;
-    "-O"|"-o")
-        DY_INIT
         ;;
     "-L"|"-l"|"--list")
         NEO_LIST "${DY_FILES[*]}" 1
@@ -522,10 +449,6 @@ case ${1:-} in
             exit
         fi
         ;;
-    "--autostart")
-        cd $DY_PATH || exit 1
-        git pull
-        ;;
     *)
         DY_DEF="$DY_ART/${1:-}.md"
         if [[ "${DY_FILES[*]}" =~ "${1:-}.md" ]]; then
@@ -537,9 +460,17 @@ case ${1:-} in
                 exit
             fi
         else
-            hexo n ${1:-}  &> /dev/null
             NEO_LIST "${DY_TAGS[*]}" 1
-            sed -i "s/^tags:$/tags: $EDFILE/g" $DY_DEF
+            case "$DY_GENERATOR" in
+                hugo)
+                    hugo new content content/post/${1:-}.md &> /dev/null
+                    sed -i "s/^categories:$/categories: [ \"$EDFILE\" ]/g" $DY_DEF
+                    ;;
+                hexo)
+                    hexo n ${1:-}  &> /dev/null
+                    sed -i "s/^tags:$/tags: $EDFILE/g" $DY_DEF
+                    ;;
+            esac
             sed -i "2,/---/{s/---/---\n\n <++>/}"  $DY_DEF
             $DY_EDIT +%s/"<++>"//g "$DY_DEF"
             DY_PUSH  "$DY_DEF"

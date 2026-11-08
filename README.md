@@ -2,7 +2,7 @@
 
 ## 积极开发中--NeoProgram ##
 
-![Static Badge](https://img.shields.io/badge/diary.sh-V18.3-purple)
+![Static Badge](https://img.shields.io/badge/diary.sh-V19.0-purple)
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
 ![Static Badge](https://img.shields.io/badge/Paria.sh-V2.2-purple)
 ![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.2-purple)
@@ -140,6 +140,8 @@
 - 2025年03月25日, 增强依赖处理时的密码自动获取，使用gnome 密钥环加密保存和调用sudo密码.升级版本号`V14.7`
 - 2026年06月11日, 修复`V18.0`中本地模式中预览直接跳转到编辑的`bug`。
 - 2026年11月03日, 规范化私有变量，删除配置文件~/.DY_DATA, 弃用~/.DY_KEY, 统一为文件~/.diary_config.sh 。使用source命令直接引入变量，且配置文件更清晰规范。升级版本号`V18.3` .
+- 2026年11月08日, 支持 hugo, 默认构建引擎切换为 hugo, 删除了脚本自升级模块和备份模式，直接分为远程模式（默认）和本地模式.  直接升级为 `V19.0`.
+- 2026年11月08日, 修复`bug`, 升级为`V19.1`
 
 ## xugit.sh增强版 ##
 
