@@ -188,6 +188,7 @@ DY_PUSHX(){
         git push -f "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
     else
         $DY_GEN_CMD
+        cd "$DY_PATH"/public
         git add .
         git commit -m "$COMMENT" &> /dev/null
         git push &> /dev/null
