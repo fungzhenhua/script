@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-11-08 19:02
+# Date     : 2026-11-08 21:02
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V19.3"
+DY_VERSION="${DY_ARGS[0]##*/}-V19.4"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -176,15 +176,22 @@ ThemeUpdate(){
 # 此处应当在电脑上配置好帐号 DY_UNAME 和 DY_SUNAME 的github-cli 登录, 因为时间关系暂不写成通用程序
 DY_PUSHX(){
     cd "$DY_PATH"
-    rm -rf "$DY_PATH"/public
-    $DY_GEN_CMD
-    cd "$DY_PATH"/public
-    git init  &> /dev/null
-    git branch -m $DY_BRANCH
-    git add .
-    git commit -m "$COMMENT" &> /dev/null
-    git remote add "$DY_REMOTE" "${DY_PCLONESITE%/*}/$DY_UNAME" &> /dev/null
-    git push -f "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
+    if [[ $1 = r ]]; then
+        rm -rf "$DY_PATH"/public
+        $DY_GEN_CMD
+        cd "$DY_PATH"/public
+        git init  &> /dev/null
+        git branch -m $DY_BRANCH
+        git add .
+        git commit -m "$COMMENT" &> /dev/null
+        git remote add "$DY_REMOTE" "${DY_PCLONESITE%/*}/$DY_UNAME" &> /dev/null
+        git push -f "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
+    else
+        $DY_GEN_CMD
+        git add .
+        git commit -m "$COMMENT" &> /dev/null
+        git push &> /dev/null
+    fi
     # 同步到第二个github帐号
     gh auth switch -u $DY_SUAUTH
     gh repo sync --force $DY_SUAUTH/$DY_SUNAME --source $DY_UAUTH/$DY_UNAME
@@ -207,7 +214,7 @@ DY_PUSH(){
     case "$QueRen" in
         0|d|D)
             echo -e "\r\e[${NEO_FORMAT}m${DY_PU_INF[0]}\e[0m\033[K"
-            DY_PUSHX
+            DY_PUSHX 0
             ;;
         1|s|S)
             echo -e "\r\e[${NEO_FORMAT}m${DY_PU_INF[1]}\e[0m\033[K"
@@ -429,7 +436,7 @@ case ${1:-} in
         fi
         ;;
     "-D"|"-d")
-        DY_PUSHX
+        DY_PUSHX r
         ;;
     "-L"|"-l"|"--list")
         NEO_LIST "${DY_FILES[*]}" 1
@@ -445,6 +452,7 @@ case ${1:-} in
             rm "$DY_ART/$EDFILE"
             rm -rf .deploy_git
             printf "\033[${NEO_LINENO};1H\u2705删除: \033[${NEO_WARNING}m《${EDFILE%.*}》\033[0m"
+            DY_PUSHX r
         else
             printf "\033[${NEO_LINENO};1H\u274E退出: \033[${NEO_WARNING}m《${EDFILE%.*}》\033[0m"
             exit
