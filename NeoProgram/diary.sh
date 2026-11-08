@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V19.2"
+DY_VERSION="${DY_ARGS[0]##*/}-V19.3"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -119,22 +119,23 @@ DY_CLONE_X(){
             echo "博客源文档目录$1 已经下载成功，Happy diarying ！"
         fi
     fi
-    DY_IGNORE="$2/.gitignore"
-    if [[ ! -e $DY_IGNORE ]]; then
-        touch $DY_IGNORE
-        echo ".deploy_git/"      >  $DY_IGNORE
-        echo "/public/"          >> $DY_IGNORE
-        echo "/resources/"       >> $DY_IGNORE
-        echo ".hugo_build.lock"  >> $DY_IGNORE
-        echo "hugo_stats.json"   >> $DY_IGNORE
-        echo "db.json"           >> $DY_IGNORE
-    fi
+    touch $DY_IGNORE
+    echo "/.deploy_git/"      >  $DY_IGNORE
+    echo "/public/"          >> $DY_IGNORE
+    echo "/resources/"       >> $DY_IGNORE
+    echo ".hugo_build.lock"  >> $DY_IGNORE
+    echo "hugo_stats.json"   >> $DY_IGNORE
+    echo "db.json"           >> $DY_IGNORE
 }
 DY_CLONE(){
     if [ ! -e $DY_SOURCE ]; then
         mkdir -p $DY_SOURCE
     fi
-    DY_CLONE_X "$DY_PCLONESITE"  "$DY_PATH"
+    DY_IGNORE="${DY_PATH}/.gitignore"
+    if [ ! -e "$DY_IGNORE" ]; then
+        DY_CLONE_X "$DY_PCLONESITE"  "$DY_PATH"
+        exit
+    fi
 }
 # 删除了博客模式的复杂结构
 USB_DETECT_URL(){
@@ -185,9 +186,9 @@ DY_PUSHX(){
     git remote add "$DY_REMOTE" "${DY_PCLONESITE%/*}/$DY_UNAME" &> /dev/null
     git push -f "$DY_REMOTE" "$DY_BRANCH" &> /dev/null
     # 同步到第二个github帐号
-    gh auth switch -u $DY_SUNAME
+    gh auth switch -u $DY_SUAUTH
     gh repo sync --force $DY_SUAUTH/$DY_SUNAME --source $DY_UAUTH/$DY_UNAME
-    gh auth switch -u $DY_UNAME
+    gh auth switch -u $DY_UAUTH
     # 返回源目录,并推送源码
     cd "$DY_PATH"
     git add .
