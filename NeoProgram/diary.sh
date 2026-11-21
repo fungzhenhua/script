@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-11-08 21:30
+# Date     : 2026-11-21 12:55
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V19.6"
+DY_VERSION="${DY_ARGS[0]##*/}-V19.7"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -248,6 +248,7 @@ cat << EOF
     -tu --ThemeUpdate      升级Next主题
     -u  --update           更新软件
     -xl                    修改目录后再列出
+    --reset                重置博客
 EOF
 }
 #=========================配置本地服务=========================
@@ -428,6 +429,10 @@ case ${1:-} in
         fi
         ;;
     "-D"|"-d")
+        DY_PUSHX
+        ;;
+    "--reset")
+        rm -rf "$DY_PATH"/public
         DY_PUSHX
         ;;
     "-L"|"-l"|"--list")

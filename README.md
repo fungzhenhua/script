@@ -2,7 +2,7 @@
 
 ## 积极开发中--NeoProgram ##
 
-![Static Badge](https://img.shields.io/badge/diary.sh-V19.0-purple)
+![Static Badge](https://img.shields.io/badge/diary.sh-V19.7-purple)
 ![Static Badge](https://img.shields.io/badge/syndns.sh-V4.6-purple)
 ![Static Badge](https://img.shields.io/badge/Paria.sh-V2.2-purple)
 ![Static Badge](https://img.shields.io/badge/makepkg.sh-V1.2-purple)
@@ -142,6 +142,7 @@
 - 2026年11月03日, 规范化私有变量，删除配置文件~/.DY_DATA, 弃用~/.DY_KEY, 统一为文件~/.diary_config.sh 。使用source命令直接引入变量，且配置文件更清晰规范。升级版本号`V18.3` .
 - 2026年11月08日, 支持 hugo, 默认构建引擎切换为 hugo, 删除了脚本自升级模块和备份模式，直接分为远程模式（默认）和本地模式.  直接升级为 `V19.0`.
 - 2026年11月08日, 修复`bug`, 升级为`V19.1`
+- 2026年11月21日, 增加博客重置功能，升级为`V19.7`
 
 ## xugit.sh增强版 ##
 
