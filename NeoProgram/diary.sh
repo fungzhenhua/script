@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-11-24 14:18
+# Date     : 2026-11-26 20:09
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V19.8"
+DY_VERSION="${DY_ARGS[0]##*/}-V20.1"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -75,16 +75,18 @@ DY_GET_INF(){
                 DY_ART="$DY_SOC/_posts"
                 DY_STATION_CFG="$DY_PATH/_config.yml"
                 DY_NEXT_CFG="$DY_PATH/_config.next.yml"
-                DY_GEN_CMD="hexo g"
-                DY_SERVE_CMD="hexo s"
+                DY_GEN_CMD="hexo g --silent"
+                DY_SERVE_CMD="hexo s --silent"
+                DY_SERVE_WEB="http://localhost:4000/"
                 ;;
             hugo)
                 DY_SOC="$DY_PATH/content"
                 DY_ART="$DY_SOC/post"
                 DY_STATION_CFG="$DY_PATH/hugo.yml"
                 DY_NEXT_CFG="$DY_PATH/hugo.yml"
-                DY_GEN_CMD="hugo"
-                DY_SERVE_CMD="hugo server -D"
+                DY_GEN_CMD="hugo --quiet"
+                DY_SERVE_CMD="hugo server -D --quiet"
+                DY_SERVE_WEB="http://localhost:1313/"
                 ;;
             *)
                 echo "${DY_GENERATOR} 目前只支持 hugo 或 hexo, 请在 $DY_CFG 中修改！"
@@ -177,6 +179,7 @@ ThemeUpdate(){
 DY_PUSHX(){
     cd "$DY_PATH"
     $DY_GEN_CMD
+    echo "博客构建完毕！"
     cd "$DY_PATH"/public
     git init  &> /dev/null
     git branch -m $DY_BRANCH
@@ -210,9 +213,8 @@ DY_PUSH(){
             ;;
         1|s|S)
             echo -e "\r\e[${NEO_FORMAT}m${DY_PU_INF[1]}\e[0m\033[K"
-            if systemctl is-active --quiet caddy ; then
-                echo "请访问 http://localhost:4000"
-            else
+            printf '预览请按按住 Ctrl 点击 \033]8;;%s\033\\ %s\033]8;;\033\\\n' "$DY_SERVE_WEB" "$DY_SERVE_WEB"
+            if ! systemctl is-active --quiet caddy ; then
                 $DY_SERVE_CMD
             fi
             DY_PUSH "$DY_ED_FILE" "$DY_ED_INFO"
@@ -423,9 +425,10 @@ case ${1:-} in
         ;;
     "-S"|"-s")
         if [[ ${DY_MODEL} == "local" ]]; then
-            echo "本地模式正在运行，请直接访问 http://localhost:4000"
+            echo "本地模式正在运行，请直接访问 $DY_SERVE_WEB"
             exit
         else
+            printf '预览请按按住 Ctrl 点击 \033]8;;%s\033\\ %s\033]8;;\033\\\n' "$DY_SERVE_WEB" "$DY_SERVE_WEB"
             $DY_SERVE_CMD
         fi
         ;;
