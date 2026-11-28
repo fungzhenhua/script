@@ -3,7 +3,7 @@
 # Program  : diary.sh
 # Author   : fengzhenhua
 # Email    : fengzhenhua@outlook.com
-# Date     : 2026-11-26 20:09
+# Date     : 2026-11-28 14:33
 # CopyRight: Copyright (C) 2022-2030 Zhen-Hua Feng(冯振华)
 # License  : Distributed under terms of the MIT license.
 #
@@ -15,7 +15,7 @@ source ~/.Share_Fun/Share_Fun_Install.sh
 #
 # 保存脚本变量
 DY_ARGS=( "$0" "$@" )
-DY_VERSION="${DY_ARGS[0]##*/}-V20.1"
+DY_VERSION="${DY_ARGS[0]##*/}-V20.2"
 #=========================安装脚本=========================
 SFI_INSTALL ${DY_ARGS[1]} ${DY_ARGS[0]} $DY_VERSION
 # 变量配置
@@ -84,8 +84,8 @@ DY_GET_INF(){
                 DY_ART="$DY_SOC/post"
                 DY_STATION_CFG="$DY_PATH/hugo.yml"
                 DY_NEXT_CFG="$DY_PATH/hugo.yml"
-                DY_GEN_CMD="hugo --quiet"
-                DY_SERVE_CMD="hugo server -D --quiet"
+                DY_GEN_CMD="hugo"
+                DY_SERVE_CMD="hugo server -D"
                 DY_SERVE_WEB="http://localhost:1313/"
                 ;;
             *)
